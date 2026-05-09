@@ -1,0 +1,170 @@
+
+<style>
+h2.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.fase-nav{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.fase-dot{width:28px;height:28px;border-radius:50%;border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);font-size:11px;font-weight:500;color:var(--color-text-secondary);cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center}
+.fase-dot.active{border-width:1.5px;color:#fff}
+.fase-dot.lab{background:#EEEDFE;color:#534AB7;border-color:#534AB7}
+.fase-dot.ip{background:#E6F1FB;color:#185FA5;border-color:#185FA5}
+.fase-dot.ea{background:#E1F5EE;color:#0F6E56;border-color:#0F6E56}
+.fase-dot.active.lab{background:#534AB7}
+.fase-dot.active.ip{background:#185FA5}
+.fase-dot.active.ea{background:#0F6E56}
+.panel{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:16px 20px}
+.actor-pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;padding:3px 10px;border-radius:20px;margin-bottom:12px}
+.actor-lab{background:#EEEDFE;color:#3C3489}
+.actor-ip{background:#E6F1FB;color:#0C447C}
+.actor-ea{background:#E1F5EE;color:#085041}
+.plazo-box{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 14px;margin:12px 0;font-size:13px;color:var(--color-text-secondary)}
+.plazo-label{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.5px;color:var(--color-text-tertiary);margin-bottom:3px}
+.consecuencia{border-left:2px solid var(--color-border-danger);background:var(--color-background-danger);border-radius:0 var(--border-radius-md) var(--border-radius-md) 0;padding:9px 13px;margin-top:12px;font-size:12px;color:var(--color-text-danger)}
+.ap-nota{border-left:2px solid var(--color-border-success);background:var(--color-background-success);border-radius:0 var(--border-radius-md) var(--border-radius-md) 0;padding:9px 13px;margin-top:10px;font-size:12px;color:var(--color-text-success)}
+.paso-titulo{font-size:16px;font-weight:500;color:var(--color-text-primary);margin:0 0 4px}
+.paso-sub{font-size:13px;color:var(--color-text-secondary);margin:0 0 12px}
+.nav-btns{display:flex;justify-content:space-between;margin-top:14px;gap:10px}
+.nav-btns button{flex:1}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:14px;font-size:12px;color:var(--color-text-secondary)}
+.leg-item{display:flex;align-items:center;gap:5px}
+.leg-dot{width:10px;height:10px;border-radius:50%}
+</style>
+
+<h2 class="sr-only">Ciclo de acreditación: 10 etapas con plazos y actores responsables</h2>
+
+<div class="legend">
+  <span class="leg-item"><span class="leg-dot" style="background:#534AB7"></span>Laboratorio</span>
+  <span class="leg-item"><span class="leg-dot" style="background:#185FA5"></span>Intendencia de Prestadores</span>
+  <span class="leg-item"><span class="leg-dot" style="background:#0F6E56"></span>Entidad Acreditadora</span>
+</div>
+
+<div class="fase-nav" id="nav"></div>
+<div class="panel" id="panel"></div>
+
+<script>
+const fases = [
+  {
+    num:1, actor:"lab", actorLabel:"Laboratorio",
+    titulo:"Autoevaluación interna",
+    sub:"El laboratorio evalúa su propio cumplimiento de los estándares APA",
+    plazo:"Concluida en los 12 meses anteriores a la solicitud (DS 15, Art. 16)",
+    consecuencia:"Si el informe tiene más de 12 meses, la solicitud no procede. Se debe iniciar una nueva autoevaluación.",
+    nota:"En anatomía patológica esto implica revisar todos los ámbitos: DP, CAL, GP, AOC, RH, REG, EQ, INS y APA. No es un trámite rápido: puede tomar semanas o meses si se hace correctamente."
+  },
+  {
+    num:2, actor:"lab", actorLabel:"Laboratorio",
+    titulo:"Solicitud a la Intendencia de Prestadores",
+    sub:"El representante legal presenta la solicitud formal con documentos adjuntos",
+    plazo:"Sin plazo máximo: el laboratorio decide cuándo está listo para postular",
+    consecuencia:"Solicitud incompleta → la Intendencia no la admite a trámite. Se requiere presentar nuevamente con todos los antecedentes.",
+    nota:"Documentos obligatorios: autorización sanitaria vigente + informe de autoevaluación (con menos de 12 meses). También debe declararse el domicilio para notificaciones y las prestaciones que se someten a evaluación."
+  },
+  {
+    num:3, actor:"ip", actorLabel:"Intendencia de Prestadores",
+    titulo:"Revisión y resolución de admisibilidad",
+    sub:"La Intendencia verifica que la solicitud cumpla los requisitos y fija el arancel",
+    plazo:"Sin plazo máximo fijado en el reglamento para este paso",
+    consecuencia:"Si faltan antecedentes, la Intendencia los solicita. El plazo del proceso comienza desde que se completa la solicitud.",
+    nota:"La resolución de admisibilidad fija: el estándar a evaluar (Manual APA), el monto del arancel en UTM, y la fecha del sorteo de designación aleatoria de la Entidad Acreditadora."
+  },
+  {
+    num:4, actor:"ip", actorLabel:"Intendencia de Prestadores",
+    titulo:"Sorteo — designación aleatoria de la Entidad Acreditadora",
+    sub:"Audiencia pública con tómbola. El laboratorio no elige ni puede rechazar sin causa",
+    plazo:"Los sorteos se realizan los días lunes (o primer día hábil si el lunes es inhábil)",
+    consecuencia:"La Entidad Acreditadora sorteada que rechace sin causa fundada puede ser sancionada. El laboratorio no puede rechazar la EA designada.",
+    nota:"Para laboratorios de anatomía patológica, la fiscalización del proceso la ejerce el ISP, no la Intendencia directamente. Esto es clave: el informe va al ISP. Además, la misma EA no puede evaluar al mismo laboratorio dos veces consecutivas."
+  },
+  {
+    num:5, actor:"ea", actorLabel:"Entidad Acreditadora",
+    titulo:"Aceptación o rechazo de la designación",
+    sub:"La EA notifica a la Intendencia si acepta el proceso o lo rechaza con causa fundada",
+    plazo:"5 días hábiles desde la notificación del acta de designación aleatoria",
+    consecuencia:"Si la EA no responde en plazo, se entiende que rechaza. Si rechaza sin causa fundada, puede ser sancionada. Se realiza un nuevo sorteo.",
+    nota:"La única causa válida de rechazo es el conflicto de interés (ej: si la EA asesoró a tu laboratorio en los últimos 12 meses, no puede evaluarlo). Esta incompatibilidad protege la objetividad del proceso."
+  },
+  {
+    num:6, actor:"lab", actorLabel:"Laboratorio",
+    titulo:"Pago de la primera cuota del arancel",
+    sub:"El laboratorio paga el 50% del arancel a la Entidad Acreditadora",
+    plazo:"10 días hábiles desde la notificación de la aceptación de la EA",
+    consecuencia:"Si no se paga en plazo → el laboratorio se entiende desistido de su solicitud. El proceso termina y debe iniciarse desde el principio.",
+    nota:"Este pago activa todo el ciclo posterior. Sin él, la EA no puede comenzar y el proceso queda sin efecto. Presupuesta este gasto con anticipación, ya que el plazo de 10 días hábiles es corto."
+  },
+  {
+    num:7, actor:"ea", actorLabel:"Entidad Acreditadora",
+    titulo:"Comunicación de la fecha de inicio de la evaluación",
+    sub:"La EA informa al laboratorio y a la Intendencia el día en que comenzará la evaluación en terreno",
+    plazo:"Dentro de los 5 días hábiles desde el pago. La fecha de inicio debe estar dentro de los 40 días hábiles desde el pago.",
+    consecuencia:"Si el laboratorio no está de acuerdo con la fecha, tiene 5 días hábiles para reclamar a la Intendencia. Si la EA no fija fecha en plazo, el proceso puede declararse desierto.",
+    nota:"40 días hábiles son aproximadamente 8 semanas calendario. Usa ese tiempo para ordenar evidencias, asegurarte de que los documentos estén disponibles y que el personal sepa que habrá una visita. El cronograma debe ser aprobado por la Intendencia/ISP 20 días hábiles antes de la visita."
+  },
+  {
+    num:8, actor:"ea", actorLabel:"Entidad Acreditadora",
+    titulo:"Evaluación en terreno",
+    sub:"Los evaluadores contrastan las condiciones reales del laboratorio con los estándares APA",
+    plazo:"Máximo 30 días hábiles desde el inicio (prorrogable una sola vez por igual período, con causa justificada y solicitud previa al día 29)",
+    consecuencia:"Si se excede el plazo sin prórroga aprobada → el proceso se declara desierto. La EA pierde el arancel y debe devolverlo en 5 días hábiles, más las sanciones que correspondan.",
+    nota:"En un laboratorio de anatomía patológica, los evaluadores revisarán: procesos de recepción, rotulado y trazabilidad de muestras; los bloques y láminas; los informes anatomopatológicos; el sistema de resultados críticos; las competencias del personal; y la infraestructura. Todo debe estar operativo y disponible ese día."
+  },
+  {
+    num:9, actor:"ea", actorLabel:"Entidad Acreditadora",
+    titulo:"Emisión y envío del informe de acreditación",
+    sub:"La EA redacta el informe con hallazgos, porcentajes de cumplimiento y resultado, y lo envía al ISP",
+    plazo:"Dentro de los 5 días hábiles siguientes al término de la evaluación — y siempre dentro del plazo total de 30 días hábiles",
+    consecuencia:"Informe fuera de plazo → puede iniciar sumario sancionatorio contra la EA. La Intendencia/ISP puede instruir correcciones; la EA tiene plazo acotado para subsanarlas.",
+    nota:"Para laboratorios de anatomía patológica, el informe se envía al ISP (fiscalización.acreditacion@ispch.cl), no a la Intendencia directamente. El informe está firmado con Firma Electrónica Avanzada del representante legal de la EA."
+  },
+  {
+    num:10, actor:"ip", actorLabel:"Intendencia de Prestadores",
+    titulo:"Resolución exenta e inscripción en el Registro",
+    sub:"La Intendencia dicta la resolución: acreditado, acreditado con observaciones, o no acreditado",
+    plazo:"Pago de la 2ª cuota: 5 días hábiles desde la notificación de la resolución exenta",
+    consecuencia:"Si el laboratorio no paga la 2ª cuota → no se inscribe en el Registro de Prestadores Acreditados. Si queda 'con observaciones': tiene plazo para presentar plan de corrección.",
+    nota:"La acreditación tiene vigencia de 3 años desde la resolución. Para la 1ª acreditación el umbral es 100% de características obligatorias + ≥70% del total. La inscripción en el Registro es pública: los pacientes y derivantes pueden verificar si tu laboratorio está acreditado."
+  }
+];
+
+let actual = 0;
+
+function render() {
+  const f = fases[actual];
+  const nav = document.getElementById('nav');
+  nav.innerHTML = fases.map((x,i) => 
+    `<div class="fase-dot ${x.actor}${i===actual?' active':''}" onclick="ir(${i})" title="Etapa ${x.num}: ${x.titulo}">${x.num}</div>`
+  ).join('');
+
+  const actorClass = {lab:'actor-lab',ip:'actor-ip',ea:'actor-ea'}[f.actor];
+  document.getElementById('panel').innerHTML = `
+    <div>
+      <span class="actor-pill ${actorClass}">
+        <i class="ti ti-${f.actor==='lab'?'building-hospital':f.actor==='ip'?'scale':'clipboard-check'}" style="font-size:13px" aria-hidden="true"></i>
+        ${f.actorLabel}
+      </span>
+    </div>
+    <div class="paso-titulo">Etapa ${f.num} — ${f.titulo}</div>
+    <div class="paso-sub">${f.sub}</div>
+    <div class="plazo-box">
+      <div class="plazo-label">Plazo</div>
+      ${f.plazo}
+    </div>
+    <div class="consecuencia">
+      <strong>Si no se cumple:</strong> ${f.consecuencia}
+    </div>
+    <div class="ap-nota">
+      <strong>En tu laboratorio de anatomía patológica:</strong> ${f.nota}
+    </div>
+    <div class="nav-btns">
+      <button onclick="ir(${actual-1})" ${actual===0?'disabled':''} style="opacity:${actual===0?'.4':'1'}">← Anterior</button>
+      <span style="font-size:12px;color:var(--color-text-tertiary);align-self:center">${actual+1} / ${fases.length}</span>
+      <button onclick="ir(${actual+1})" ${actual===fases.length-1?'disabled':''} style="opacity:${actual===fases.length-1?'.4':'1'}">Siguiente →</button>
+    </div>
+  `;
+}
+
+function ir(i) {
+  if(i<0||i>=fases.length) return;
+  actual=i;
+  render();
+}
+
+render();
+</script>
