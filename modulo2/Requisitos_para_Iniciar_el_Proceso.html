@@ -1,174 +1,391 @@
 <!DOCTYPE html>
 <html lang="es">
-<head><meta charset="UTF-8"><title>2.2 Requisitos para iniciar el proceso</title>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2.2 · Requisitos para Iniciar el Proceso de Acreditación</title>
 <style>
-body{font-family:sans-serif;max-width:700px;margin:0 auto;padding:16px;background:#fff;color:#1a1a1a}
-.req-card{background:#fff;border:0.5px solid #ccc;border-radius:12px;padding:16px 20px;cursor:pointer;margin-bottom:10px;transition:border-color .15s}
-.req-card.open.azul{border:1.5px solid #185FA5}
-.req-card.open.verde{border:1.5px solid #0F6E56}
-.req-header{display:flex;align-items:center;gap:12px}
-.req-num{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:500;flex-shrink:0}
-.num-azul{background:#E6F1FB;color:#0C447C}
-.num-verde{background:#E1F5EE;color:#085041}
-.req-title{font-size:15px;font-weight:500;flex:1}
-.req-sub{font-size:12px;color:#666;margin-top:2px}
-.body{display:none;margin-top:14px;border-top:0.5px solid #e0e0e0;padding-top:14px}
-.body.vis{display:block}
-.tab-row{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
-.tab{font-size:12px;padding:4px 12px;border-radius:20px;border:0.5px solid #ccc;background:#f5f5f5;color:#555;cursor:pointer}
-.tab.act-azul{background:#E6F1FB;color:#0C447C;border-color:#185FA5}
-.tab.act-verde{background:#E1F5EE;color:#085041;border-color:#0F6E56}
-.tab-panel{display:none;font-size:13px;color:#444;line-height:1.65}
-.tab-panel.vis{display:block}
-.chk-item{display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:0.5px solid #eee}
-.chk-item:last-child{border-bottom:none}
-.ap-badge{display:inline-flex;align-items:center;gap:4px;background:#FAEEDA;color:#633806;font-size:11px;padding:2px 8px;border-radius:20px;margin-left:6px}
-.alerta{background:#FCEBEB;border-left:2px solid #E24B4A;border-radius:0 8px 8px 0;padding:8px 12px;margin-top:10px;font-size:12px;color:#791F1F}
-.nota-verde{background:#E1F5EE;border-left:2px solid #0F6E56;border-radius:0 8px 8px 0;padding:8px 12px;margin-top:10px;font-size:12px;color:#085041}
-.norma-tag{font-size:11px;color:#888;font-style:italic}
-.intro{font-size:13px;color:#555;margin-bottom:14px;padding:10px 14px;background:#f5f5f5;border-radius:8px}
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #F5F4EF; color: #1C1C1A; padding: 24px 16px; min-height: 100vh; }
+  .container { max-width: 780px; margin: 0 auto; }
+
+  .header {
+    background: #fff;
+    border: 0.5px solid #D3D1C7;
+    border-radius: 12px;
+    padding: 18px 22px;
+    margin-bottom: 16px;
+  }
+  .header .kicker { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #888780; margin-bottom: 6px; }
+  .header h1 { font-size: 18px; font-weight: 600; color: #1C1C1A; margin-bottom: 4px; }
+  .header .desc { font-size: 13px; color: #5F5E5A; line-height: 1.5; }
+
+  .norma-banner {
+    background: #E6F1FB;
+    border: 0.5px solid #B5D4F4;
+    border-radius: 10px;
+    padding: 12px 18px;
+    margin-bottom: 16px;
+    font-size: 13px;
+    color: #0C447C;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .norma-banner .icon { font-size: 20px; flex-shrink: 0; }
+
+  /* REQUISITO CARD */
+  .req-card {
+    background: #fff;
+    border: 1px solid #D3D1C7;
+    border-radius: 12px;
+    margin-bottom: 14px;
+    overflow: hidden;
+    transition: border-color 0.15s;
+  }
+  .req-card.open-azul { border-color: #185FA5; }
+  .req-card.open-verde { border-color: #0F6E56; }
+
+  .req-trigger {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 20px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.1s;
+  }
+  .req-trigger:hover { background: #FAFAF8; }
+
+  .req-num {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .num-azul { background: #E6F1FB; color: #0C447C; }
+  .num-verde { background: #E1F5EE; color: #085041; }
+
+  .req-meta { flex: 1; }
+  .req-title { font-size: 15px; font-weight: 600; color: #1C1C1A; margin-bottom: 3px; }
+  .req-sub { font-size: 12px; color: #888780; }
+
+  .chevron { font-size: 18px; color: #B4B2A9; transition: transform 0.2s; flex-shrink: 0; }
+  .chevron.rotated { transform: rotate(180deg); }
+
+  /* BODY */
+  .req-body { display: none; border-top: 0.5px solid #ECEAE3; }
+  .req-body.visible { display: block; }
+
+  /* TABS */
+  .tabs { display: flex; gap: 6px; padding: 14px 20px 0; flex-wrap: wrap; }
+  .tab {
+    font-size: 12px; font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 0.5px solid #D3D1C7;
+    background: #F5F4EF;
+    color: #5F5E5A;
+    cursor: pointer;
+    transition: all 0.12s;
+  }
+  .tab:hover { background: #ECEAE3; }
+  .tab.act-azul { background: #E6F1FB; color: #0C447C; border-color: #185FA5; font-weight: 600; }
+  .tab.act-verde { background: #E1F5EE; color: #085041; border-color: #0F6E56; font-weight: 600; }
+
+  .tab-panel { display: none; padding: 16px 20px 20px; }
+  .tab-panel.visible { display: block; }
+
+  /* CHECKLIST */
+  .chk { display: flex; gap: 10px; padding: 8px 0; border-bottom: 0.5px solid #F0EEE8; font-size: 13px; color: #333331; line-height: 1.55; }
+  .chk:last-child { border-bottom: none; }
+  .chk-ico { flex-shrink: 0; margin-top: 2px; font-size: 16px; }
+
+  /* BADGES */
+  .badge-ap { display: inline-block; background: #FAEEDA; color: #633806; font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 20px; margin-left: 6px; vertical-align: middle; }
+  .norma-ref { font-size: 11px; color: #888780; font-style: italic; display: block; margin-top: 2px; }
+
+  /* ALERT / NOTE BOXES */
+  .alerta {
+    background: #FEF2F2;
+    border-left: 3px solid #E24B4A;
+    border-radius: 0 8px 8px 0;
+    padding: 10px 14px;
+    margin-top: 14px;
+    font-size: 12.5px;
+    color: #791F1F;
+    line-height: 1.6;
+  }
+  .nota-verde {
+    background: #E1F5EE;
+    border-left: 3px solid #0F6E56;
+    border-radius: 0 8px 8px 0;
+    padding: 10px 14px;
+    margin-top: 14px;
+    font-size: 12.5px;
+    color: #085041;
+    line-height: 1.6;
+  }
+  .nota-azul {
+    background: #E6F1FB;
+    border-left: 3px solid #185FA5;
+    border-radius: 0 8px 8px 0;
+    padding: 10px 14px;
+    margin-top: 14px;
+    font-size: 12.5px;
+    color: #0C447C;
+    line-height: 1.6;
+  }
+
+  /* SUMMARY FOOTER */
+  .summary {
+    background: #fff;
+    border: 0.5px solid #D3D1C7;
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-top: 16px;
+  }
+  .summary h3 { font-size: 13px; font-weight: 600; color: #1C1C1A; margin-bottom: 12px; }
+  .chk-grid { display: grid; gap: 6px; }
+  .chk-row { display: flex; gap: 8px; font-size: 12.5px; color: #444441; align-items: flex-start; }
+  .chk-row .tick { color: #3B6D11; flex-shrink: 0; font-weight: 700; margin-top: 1px; }
+  .section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: #888780; margin: 12px 0 6px; }
 </style>
 </head>
 <body>
-<div class="intro">El Art. 16 del DS 15/2007 exige dos documentos para admitir a trámite una solicitud de acreditación. Haz clic en cada requisito para ver qué implica.</div>
+<div class="container">
 
-<div class="req-card azul" id="c1" onclick="tog(1)">
-  <div class="req-header">
-    <div class="req-num num-azul">01</div>
-    <div style="flex:1">
-      <div class="req-title">Autorización sanitaria vigente</div>
-      <div class="req-sub">Emitida por la SEREMI de Salud · DS 20/2011 · DS 58/2008</div>
-    </div>
-    <span id="ch1">▾</span>
+  <div class="header">
+    <div class="kicker">Módulo 2 · Punto 2.2</div>
+    <h1>Requisitos para Iniciar el Proceso de Acreditación</h1>
+    <div class="desc">El Art. 16 del DS 15/2007 exige dos documentos obligatorios. Haz clic en cada requisito para explorar qué implica específicamente para un laboratorio de anatomía patológica.</div>
   </div>
-  <div class="body" id="b1">
-    <div class="tab-row">
-      <div class="tab act-azul" id="t1a" onclick="tab(event,1,'a')">¿Qué es?</div>
-      <div class="tab" id="t1b" onclick="tab(event,1,'b')">Organización</div>
-      <div class="tab" id="t1c" onclick="tab(event,1,'c')">Recurso humano</div>
-      <div class="tab" id="t1d" onclick="tab(event,1,'d')">Infraestructura</div>
-      <div class="tab" id="t1e" onclick="tab(event,1,'e')">Lo que la caduca</div>
-    </div>
-    <div class="tab-panel vis" id="p1a">
-      El permiso otorgado por la SEREMI de Salud que autoriza al laboratorio a funcionar como prestador institucional. <strong>Sin ella no existe el prestador ante la ley</strong>.<br><br>
-      No confundir con la acreditación: la autorización sanitaria es el <em>piso</em> (habilitación para funcionar); la acreditación es el <em>techo</em> (demostrar calidad). Un laboratorio puede tener autorización sanitaria sin estar acreditado, pero jamás puede acreditarse sin autorización sanitaria vigente.
-      <div class="nota-verde"><strong>Trámite ante:</strong> SEREMI de Salud de la región correspondiente · DS 20/2011 y DS 58/2008</div>
-    </div>
-    <div class="tab-panel" id="p1b">
-      Documentos de organización exigidos por el DS 20/2011 (Art. 5°):
-      <div style="margin-top:8px">
-        <div class="chk-item">✅ Nombre, domicilio, teléfono y correo del laboratorio</div>
-        <div class="chk-item">✅ Plano o croquis de la planta física y flujograma de operación</div>
-        <div class="chk-item">✅ Documentos que acrediten derecho de uso del inmueble (dominio, arriendo o comodato)</div>
-        <div class="chk-item">✅ Identificación del propietario o persona jurídica y personería del representante legal</div>
-        <div class="chk-item">✅ Listado de exámenes que realizará y los que efectuará mediante convenio</div>
-        <div class="chk-item">✅ Nómina de equipamiento y título que acredite su posesión</div>
-        <div class="chk-item">✅ Manual de procedimientos técnicos, de organización y de toma de muestras</div>
-        <div class="chk-item">✅ Manual de bioseguridad</div>
-        <div class="chk-item">✅ Certificación de instalación y mantención de equipos</div>
-        <div class="chk-item">✅ Plan de evacuación de emergencia (prevencionista o Bomberos)</div>
-        <div class="chk-item">✅ Manual de prevención y control de infecciones asociadas a la atención de salud</div>
+
+  <div class="norma-banner">
+    <span class="icon">⚖️</span>
+    <span>Fuente normativa: <strong>DS 15/2007, Art. 16</strong> · <strong>DS 20/2011</strong> (laboratorios clínicos) · <strong>DS 58/2008</strong> (infraestructura)</span>
+  </div>
+
+  <!-- REQUISITO 01 -->
+  <div class="req-card" id="card1">
+    <div class="req-trigger" onclick="toggleCard(1)">
+      <div class="req-num num-azul">01</div>
+      <div class="req-meta">
+        <div class="req-title">Autorización sanitaria vigente</div>
+        <div class="req-sub">Emitida por la SEREMI de Salud · DS 20/2011 · DS 58/2008</div>
       </div>
-      <div class="alerta">Cualquier modificación en los elementos de las letras c), d), e), g), h) e i) del Art. 5° debe ser comunicada a la SEREMI. Las modificaciones de b) y f) deben comunicarse <em>previamente</em>.</div>
+      <span class="chevron" id="ch1">▾</span>
     </div>
-    <div class="tab-panel" id="p1c">
-      <div style="margin-top:8px">
-        <div class="chk-item">✅ <span><strong>Director técnico</strong> <span class="ap-badge">clave para anatomía patológica</span><br><span class="norma-tag">Art. 19 DS 20/2011</span><br>Médico cirujano con especialización en Laboratorios Clínicos o Anatomía Patológica (mín. 1 año de experiencia), <strong>o</strong> tecnólogo médico con mención en lab. clínico, morfocitopatología y citodiagnóstico (mín. 1 año de experiencia). Sus funciones deben estar definidas en documento formal.</span></div>
-        <div class="chk-item">✅ Personal profesional habilitado: médico, QF, bioquímico o TM con mención en lab. clínico / morfocitopatología</div>
-        <div class="chk-item">✅ Técnicos de nivel superior o auxiliares paramédicos de laboratorio</div>
-        <div class="chk-item">✅ Personal administrativo</div>
-        <div class="chk-item">✅ Nómina con títulos, autorizaciones sanitarias y cédulas de identidad</div>
+    <div class="req-body" id="body1">
+      <div class="tabs" id="tabs1">
+        <span class="tab act-azul" onclick="switchTab(event,1,'a')">¿Qué es?</span>
+        <span class="tab" onclick="switchTab(event,1,'b')">Documentos</span>
+        <span class="tab" onclick="switchTab(event,1,'c')">Recurso humano</span>
+        <span class="tab" onclick="switchTab(event,1,'d')">Infraestructura</span>
+        <span class="tab" onclick="switchTab(event,1,'e')">Cuándo caduca</span>
       </div>
-      <div class="nota-verde">En ausencia del director técnico debe designarse un subrogante (mismo perfil) y comunicarlo a la SEREMI. <strong>No se pueden procesar muestras sin un profesional habilitado presente.</strong></div>
-    </div>
-    <div class="tab-panel" id="p1d">
-      <div style="margin-top:8px">
-        <div class="chk-item">✅ Sector para recepción de muestras</div>
-        <div class="chk-item">✅ Sala(s) de procesamiento con almacenamiento separado de reactivos y muestras</div>
-        <div class="chk-item">✅ Separación física de áreas con riesgo de contaminación cruzada</div>
-        <div class="chk-item">✅ Área de descontaminación y lavado (flujo unidireccional)</div>
-        <div class="chk-item">✅ Área de preparación de reactivos y materiales</div>
-        <div class="chk-item">✅ <span><strong>Área de almacenamiento de bloques de inclusión y placas</strong> <span class="ap-badge">exclusivo anatomía patológica</span><br><span class="norma-tag">Art. 9°, inciso 2°, DS 20/2011 — Ítem 44 pauta de chequeo</span></span></div>
-        <div class="chk-item">✅ Oficinas administrativas separadas de las áreas de procesamiento</div>
-        <div class="chk-item">✅ Servicios higiénicos separados para público y personal</div>
+
+      <div class="tab-panel visible" id="p1a">
+        <p style="font-size:13px;color:#333331;line-height:1.7">El permiso otorgado por la <strong>SEREMI de Salud</strong> que autoriza al laboratorio a funcionar como prestador institucional. Sin ella, el laboratorio no existe como prestador ante la ley y no puede iniciar el proceso de acreditación.</p>
+        <p style="font-size:13px;color:#333331;line-height:1.7;margin-top:10px">No confundir los dos conceptos:</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
+          <div style="background:#E6F1FB;border-radius:8px;padding:12px 14px">
+            <div style="font-size:11px;font-weight:700;color:#185FA5;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">Autorización sanitaria</div>
+            <div style="font-size:12.5px;color:#0C447C;line-height:1.55">El <strong>piso</strong>: habilitación para funcionar. La otorga la SEREMI. Sin ella no hay prestador.</div>
+          </div>
+          <div style="background:#EAF3DE;border-radius:8px;padding:12px 14px">
+            <div style="font-size:11px;font-weight:700;color:#3B6D11;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">Acreditación</div>
+            <div style="font-size:12.5px;color:#27500A;line-height:1.55">El <strong>techo</strong>: demostración de calidad. La otorga la Intendencia. Requiere tener el piso primero.</div>
+          </div>
+        </div>
+        <div class="nota-azul"><strong>Trámite ante:</strong> SEREMI de Salud de la región correspondiente · Regulada por DS 20/2011 y DS 58/2008</div>
       </div>
-      <div class="nota-verde"><strong>Sistemas adicionales (Art. 11 DS 20/2011):</strong> sistema eléctrico (Cert. TE1 SEC), eliminación de gases (Cert. TC6 SEC), REAS, protección contra incendios, pisos/muros/puertas lavables en áreas clínicas y continuidad eléctrica.</div>
-    </div>
-    <div class="tab-panel" id="p1e">
-      <div style="margin-top:8px">
-        <div class="chk-item">⚠️ No comunicar cambios de director técnico, personal, inmueble o cartera de exámenes a la SEREMI</div>
-        <div class="chk-item">⚠️ Cierre temporal superior a 60 días sin comunicar a la SEREMI → visita de inspección obligatoria</div>
-        <div class="chk-item">⚠️ Transcurre 1 año desde el aviso de cierre temporal sin comunicar reapertura → la SEREMI puede revocarla</div>
-        <div class="chk-item">⚠️ Incumplimientos graves detectados en visita de fiscalización</div>
+
+      <div class="tab-panel" id="p1b">
+        <div style="font-size:12px;color:#888780;margin-bottom:10px">Documentos exigidos por DS 20/2011, Art. 5° para obtener la autorización sanitaria:</div>
+        <div class="chk"><span class="chk-ico">✅</span><span>Nombre, domicilio, teléfono y correo del laboratorio</span></div>
+        <div class="chk"><span class="chk-ico">✅</span><span>Plano o croquis de la planta física y flujograma de operación</span></div>
+        <div class="chk"><span class="chk-ico">✅</span><span>Documentos que acrediten derecho de uso del inmueble (dominio, arriendo o comodato)</span></div>
+        <div class="chk"><span class="chk-ico">✅</span><span>Identificación del propietario o persona jurídica y personería del representante legal</span></div>
+        <div class="chk"><span class="chk-ico">✅</span><span>Listado de exámenes a realizar y los que efectuará mediante convenio</span></div>
+        <div class="chk"><span class="chk-ico">✅</span><span>Nómina de equipamiento y título que acredite su posesión</span></div>
+        <div class="chk"><span class="chk-ico">✅</span><span>Manual de procedimientos técnicos, de organización y de toma de muestras</span></div>
+        <div class="chk"><span class="chk-ico">✅</span><span>Manual de bioseguridad</span></div>
+        <div class="chk"><span class="chk-ico">✅</span><span>Certificación de instalación y mantención de equipos (por técnico autorizado)</span></div>
+        <div class="chk"><span class="chk-ico">✅</span><span>Plan de evacuación de emergencia (prevencionista de riesgos o Bomberos)</span></div>
+        <div class="chk"><span class="chk-ico">✅</span><span>Manual de prevención y control de infecciones asociadas a la atención de salud</span></div>
+        <div class="alerta">⚠️ Cualquier modificación posterior en inmueble, director técnico, personal o cartera de exámenes debe comunicarse a la SEREMI. Las modificaciones en planta física o cartera deben comunicarse <em>antes</em> de realizarse.</div>
       </div>
-      <div class="alerta">Si la autorización sanitaria está revocada o vencida al momento de solicitar la acreditación, el proceso no puede iniciarse. Es el primer documento que se debe verificar.</div>
+
+      <div class="tab-panel" id="p1c">
+        <div class="chk">
+          <span class="chk-ico">✅</span>
+          <span>
+            <strong>Director técnico</strong> <span class="badge-ap">⭐ clave para anatomía patológica</span>
+            <span class="norma-ref">Art. 19, DS 20/2011</span>
+            Médico cirujano con especialización en Laboratorios Clínicos o Anatomía Patológica (mín. 1 año de experiencia), <strong>o</strong> tecnólogo médico con mención en laboratorio clínico, morfocitopatología y citodiagnóstico (mín. 1 año de experiencia). Sus funciones deben estar definidas en documento formal.
+          </span>
+        </div>
+        <div class="chk"><span class="chk-ico">✅</span><span>Personal profesional habilitado: médico, QF, bioquímico o TM con mención en lab. clínico / morfocitopatología y citodiagnóstico</span></div>
+        <div class="chk"><span class="chk-ico">✅</span><span>Técnicos de nivel superior o auxiliares paramédicos de laboratorio</span></div>
+        <div class="chk"><span class="chk-ico">✅</span><span>Personal administrativo necesario para el funcionamiento</span></div>
+        <div class="chk"><span class="chk-ico">✅</span><span>Nómina de todo el personal con títulos, autorizaciones sanitarias y cédulas de identidad</span></div>
+        <div class="nota-verde">En ausencia del director técnico debe designarse un subrogante del mismo perfil profesional y comunicarlo previamente a la SEREMI. <strong>No se pueden procesar muestras sin un profesional habilitado presente en el laboratorio</strong> (Art. 20, DS 20/2011).</div>
+      </div>
+
+      <div class="tab-panel" id="p1d">
+        <div style="font-size:12px;color:#888780;margin-bottom:10px">Áreas exigidas por DS 20/2011 Art. 9° y DS 58/2008:</div>
+        <div class="chk"><span class="chk-ico">✅</span><span>Sector para recepción de muestras (separado físicamente)</span></div>
+        <div class="chk"><span class="chk-ico">✅</span><span>Sala(s) de procesamiento con almacenamiento separado de reactivos y muestras</span></div>
+        <div class="chk"><span class="chk-ico">✅</span><span>Separación física de áreas con riesgo de contaminación cruzada</span></div>
+        <div class="chk"><span class="chk-ico">✅</span><span>Área de descontaminación y lavado (flujo unidireccional)</span></div>
+        <div class="chk"><span class="chk-ico">✅</span><span>Área de preparación de reactivos y materiales</span></div>
+        <div class="chk">
+          <span class="chk-ico">⭐</span>
+          <span>
+            <strong>Área de almacenamiento de bloques de inclusión y placas</strong> <span class="badge-ap">exclusivo anatomía patológica</span>
+            <span class="norma-ref">Art. 9°, inciso 2°, DS 20/2011 — Ítem 44 de la Pauta de Chequeo SEREMI</span>
+            Exigido solo para laboratorios que realizan exámenes citológicos e histopatológicos. Es un requisito de la autorización sanitaria, no solo de la acreditación.
+          </span>
+        </div>
+        <div class="chk"><span class="chk-ico">✅</span><span>Oficinas administrativas separadas de las áreas de procesamiento</span></div>
+        <div class="chk"><span class="chk-ico">✅</span><span>Servicios higiénicos separados para público y personal</span></div>
+        <div class="chk"><span class="chk-ico">✅</span><span>Sector para útiles de aseo y área de vestuario de personal</span></div>
+        <div class="nota-azul"><strong>Sistemas adicionales obligatorios (Art. 11, DS 20/2011):</strong> sistema eléctrico (Cert. TE1 SEC) · eliminación de gases (Cert. TC6 SEC) · REAS · protección contra incendios · iluminación y ventilación adecuadas · pisos, muros y puertas lavables en áreas clínicas · continuidad eléctrica.</div>
+      </div>
+
+      <div class="tab-panel" id="p1e">
+        <div style="font-size:12px;color:#888780;margin-bottom:10px">La autorización sanitaria puede perder vigencia en los siguientes casos:</div>
+        <div class="chk"><span class="chk-ico">⚠️</span><span>El laboratorio no comunica a la SEREMI cambios en el director técnico, personal, inmueble o cartera de exámenes</span></div>
+        <div class="chk"><span class="chk-ico">⚠️</span><span>Cierre temporal de más de 60 días sin comunicarlo → obliga a visita de inspección</span></div>
+        <div class="chk"><span class="chk-ico">⚠️</span><span>Transcurre 1 año desde el aviso de cierre temporal sin comunicar reapertura → la SEREMI puede revocarla</span></div>
+        <div class="chk"><span class="chk-ico">⚠️</span><span>Una visita de fiscalización detecta incumplimientos graves no subsanados</span></div>
+        <div class="alerta">⛔ Si la autorización sanitaria está revocada o vencida al momento de presentar la solicitud de acreditación, el proceso no puede iniciarse. Verificar su vigencia es el <strong>primer paso</strong> de cualquier planificación.</div>
+      </div>
     </div>
   </div>
+
+  <!-- REQUISITO 02 -->
+  <div class="req-card" id="card2">
+    <div class="req-trigger" onclick="toggleCard(2)">
+      <div class="req-num num-verde">02</div>
+      <div class="req-meta">
+        <div class="req-title">Informe de autoevaluación</div>
+        <div class="req-sub">Ejecutado y concluido en los 12 meses anteriores a la solicitud · DS 15/2007, Art. 16</div>
+      </div>
+      <span class="chevron" id="ch2">▾</span>
+    </div>
+    <div class="req-body" id="body2">
+      <div class="tabs" id="tabs2">
+        <span class="tab act-verde" onclick="switchTab(event,2,'a')">¿Qué debe contener?</span>
+        <span class="tab" onclick="switchTab(event,2,'b')">Vigencia y caducidad</span>
+        <span class="tab" onclick="switchTab(event,2,'c')">Declaraciones adicionales</span>
+      </div>
+
+      <div class="tab-panel visible" id="p2a">
+        <div style="font-size:12px;color:#888780;margin-bottom:10px">Secciones mínimas del formulario oficial MINSAL (Circular IP/N°09, 03-09-2010):</div>
+        <div class="chk"><span class="chk-ico">✅</span><span><strong>Identificación del prestador:</strong> nombre, RUT, tipo, dirección, director técnico, representante legal</span></div>
+        <div class="chk"><span class="chk-ico">✅</span><span><strong>Cronología:</strong> fecha de inicio de preparación, fecha de inicio y término de la autoevaluación, fecha de confección del informe</span></div>
+        <div class="chk"><span class="chk-ico">✅</span><span><strong>Plan de trabajo ejecutado:</strong> incorporación de la gestión de calidad, metodología utilizada, equipo participante</span></div>
+        <div class="chk"><span class="chk-ico">✅</span><span><strong>Tabla de cumplimiento:</strong> % por cada una de las 27 características, metodología de evaluación usada y medidas de mejora adoptadas</span></div>
+        <div class="chk"><span class="chk-ico">✅</span><span><strong>Indicadores monitoreados:</strong> para GP 1.2, GP 1.3(a y b), GP 1.4, GP 1.5, GP 2.1 y GP 2.2 — con fórmula, umbral, periodicidad y período</span></div>
+        <div class="chk"><span class="chk-ico">✅</span><span><strong>Puntos de verificación "no aplican":</strong> con fundamento escrito para cada uno</span></div>
+        <div class="chk"><span class="chk-ico">✅</span><span><strong>Entidades asesoras externas (Sección 4):</strong> nombre, RUT y período si se contrató asesoría en los últimos 12 meses — esa entidad quedará inhabilitada para evaluarte</span></div>
+        <div class="chk"><span class="chk-ico">✅</span><span><strong>Identificación del equipo participante (Sección 3):</strong> nombre, RUT, profesión y cargo de todos los que participaron</span></div>
+      </div>
+
+      <div class="tab-panel" id="p2b">
+        <p style="font-size:13px;color:#333331;line-height:1.7;margin-bottom:12px">El informe debe haber sido <strong>ejecutado y concluido</strong> en los 12 meses anteriores a la fecha de presentación de la solicitud:</p>
+        <div class="chk"><span class="chk-ico">📅</span><span>La <em>fecha de conclusión</em> del proceso de autoevaluación es la que determina la vigencia — no la fecha de inicio</span></div>
+        <div class="chk"><span class="chk-ico">📅</span><span>Si entre la conclusión y la presentación de la solicitud pasan más de 12 meses por cualquier causa, el informe caduca</span></div>
+        <div class="chk"><span class="chk-ico">📅</span><span>No existe prórroga para este plazo: es un requisito de admisibilidad, no un hito del proceso</span></div>
+        <div class="chk"><span class="chk-ico">📅</span><span>Si caduca, debe ejecutarse una nueva autoevaluación completa antes de volver a solicitar</span></div>
+        <div class="alerta">⛔ Un informe de autoevaluación de 13 meses de antigüedad equivale legalmente a no tener informe. La solicitud será rechazada sin posibilidad de subsanar.</div>
+        <div class="nota-verde" style="margin-top:12px"><strong>Recomendación práctica:</strong> planificar el inicio de la autoevaluación con al menos 14 a 16 meses de anticipación respecto al momento en que se desea presentar la solicitud, para absorber el tiempo de corrección de brechas y los trámites administrativos internos.</div>
+      </div>
+
+      <div class="tab-panel" id="p2c">
+        <p style="font-size:13px;color:#333331;line-height:1.7;margin-bottom:12px">Junto con los dos documentos obligatorios, la solicitud también debe declarar:</p>
+        <div class="chk">
+          <span class="chk-ico">✅</span>
+          <span>
+            <strong>Prestaciones que se someten a evaluación:</strong>
+            <span class="norma-ref">En un laboratorio de anatomía patológica: biopsias, citologías (PAP, líquidos corporales, esputo, orina), inmunohistoquímica, autopsias clínicas — según la cartera real de prestaciones</span>
+          </span>
+        </div>
+        <div class="chk">
+          <span class="chk-ico">✅</span>
+          <span>
+            <strong>Domicilio para notificaciones</strong>
+            <span class="norma-ref">Todas las resoluciones del proceso se notifican aquí: sorteo, fecha de evaluación, resolución final. Un domicilio desactualizado puede llevar a perder notificaciones críticas y quedar desistido del proceso por inacción.</span>
+          </span>
+        </div>
+        <div class="chk">
+          <span class="chk-ico">✅</span>
+          <span>
+            <strong>Representante legal con poder vigente</strong>
+            <span class="norma-ref">Si hubo cambio reciente de representante legal, los poderes deben estar actualizados antes de firmar la solicitud.</span>
+          </span>
+        </div>
+        <div class="nota-azul">El domicilio para notificaciones es un detalle que se subestima. Si el plazo para pagar la primera cuota (10 días hábiles) corre desde la notificación del sorteo, y esa notificación llega a un domicilio desactualizado, el laboratorio puede quedar desistido sin haberse enterado.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUMMARY CHECKLIST -->
+  <div class="summary">
+    <h3>✓ &nbsp;Checklist previo a la solicitud — ¿todo en regla?</h3>
+    <div class="section-label">Autorización sanitaria</div>
+    <div class="chk-grid">
+      <div class="chk-row"><span class="tick">☐</span><span>¿Está vigente?</span></div>
+      <div class="chk-row"><span class="tick">☐</span><span>¿El director técnico cumple el perfil del Art. 19 DS 20/2011 y sus funciones están en documento formal?</span></div>
+      <div class="chk-row"><span class="tick">☐</span><span>¿Existe subrogante comunicado a la SEREMI?</span></div>
+      <div class="chk-row"><span class="tick">☐</span><span>¿El laboratorio tiene área específica de almacenamiento de bloques e histoplaquetas? (ítem 44)</span></div>
+      <div class="chk-row"><span class="tick">☐</span><span>¿Se han comunicado todos los cambios relevantes a la SEREMI?</span></div>
+    </div>
+    <div class="section-label">Informe de autoevaluación</div>
+    <div class="chk-grid">
+      <div class="chk-row"><span class="tick">☐</span><span>¿Tiene menos de 12 meses desde su conclusión?</span></div>
+      <div class="chk-row"><span class="tick">☐</span><span>¿Cubre los 9 ámbitos del estándar APA y las 27 características?</span></div>
+      <div class="chk-row"><span class="tick">☐</span><span>¿Incluye los indicadores requeridos para las 6 características GP con indicador?</span></div>
+      <div class="chk-row"><span class="tick">☐</span><span>¿Los puntos "no aplican" están fundamentados por escrito?</span></div>
+      <div class="chk-row"><span class="tick">☐</span><span>¿Se declararon las entidades asesoras externas de los últimos 12 meses?</span></div>
+    </div>
+    <div class="section-label">Solicitud</div>
+    <div class="chk-grid">
+      <div class="chk-row"><span class="tick">☐</span><span>¿Están declaradas todas las prestaciones que se someten a evaluación?</span></div>
+      <div class="chk-row"><span class="tick">☐</span><span>¿El domicilio para notificaciones está actualizado?</span></div>
+      <div class="chk-row"><span class="tick">☐</span><span>¿El representante legal tiene poderes vigentes?</span></div>
+    </div>
+  </div>
+
 </div>
-
-<div class="req-card verde" id="c2" onclick="tog(2)">
-  <div class="req-header">
-    <div class="req-num num-verde">02</div>
-    <div style="flex:1">
-      <div class="req-title">Informe de autoevaluación</div>
-      <div class="req-sub">Ejecutado y concluido en los 12 meses anteriores a la solicitud · DS 15/2007, Art. 16</div>
-    </div>
-    <span id="ch2">▾</span>
-  </div>
-  <div class="body" id="b2">
-    <div class="tab-row">
-      <div class="tab act-verde" id="t2a" onclick="tab(event,2,'a')">¿Qué debe contener?</div>
-      <div class="tab" id="t2b" onclick="tab(event,2,'b')">Vigencia y caducidad</div>
-      <div class="tab" id="t2c" onclick="tab(event,2,'c')">Lo que no puede faltar</div>
-    </div>
-    <div class="tab-panel vis" id="p2a">
-      <div style="margin-top:4px">
-        <div class="chk-item">✅ <strong>Identificación del prestador:</strong> nombre, RUT, tipo, dirección, director técnico, representante legal</div>
-        <div class="chk-item">✅ <strong>Cronología:</strong> fechas de inicio de preparación, inicio/término de la autoevaluación y confección del informe</div>
-        <div class="chk-item">✅ <strong>Plan de trabajo ejecutado:</strong> incorporación de la gestión de calidad, metodología y equipo participante</div>
-        <div class="chk-item">✅ <strong>Tabla de cumplimiento:</strong> % por característica, metodología de evaluación usada y medidas de mejora adoptadas</div>
-        <div class="chk-item">✅ <strong>Indicadores monitoreados:</strong> GP 1.2, GP 1.3a/b, GP 1.4, GP 1.5, GP 2.1 y GP 2.2</div>
-        <div class="chk-item">✅ <strong>Puntos de verificación "no aplican":</strong> con fundamento escrito para cada uno</div>
-        <div class="chk-item">✅ <strong>Entidades asesoras externas (Sección 4):</strong> declarar nombre, RUT y período si se contrató asesoría en los últimos 12 meses</div>
-      </div>
-    </div>
-    <div class="tab-panel" id="p2b">
-      El informe debe haber sido ejecutado y concluido en los <strong>12 meses anteriores a la fecha de presentación de la solicitud</strong>.<br><br>
-      <div class="chk-item">📅 La <em>fecha de conclusión</em> del proceso de autoevaluación es la que cuenta, no la de inicio</div>
-      <div class="chk-item">📅 Si entre la autoevaluación y la solicitud pasan más de 12 meses por cualquier causa, el informe caduca y debe ejecutarse uno nuevo</div>
-      <div class="chk-item">📅 No existe prórroga: es un requisito de admisibilidad, no un plazo del proceso</div>
-      <div class="alerta">Un informe de autoevaluación de 13 meses de antigüedad equivale a no tener informe. La solicitud será rechazada.</div>
-    </div>
-    <div class="tab-panel" id="p2c">
-      Junto con los dos documentos obligatorios, la solicitud también debe declarar:
-      <div style="margin-top:8px">
-        <div class="chk-item">✅ <strong>Prestaciones que se someten a evaluación:</strong> biopsias, citologías (PAP, líquidos, etc.), inmunohistoquímica, autopsias clínicas, según corresponda</div>
-        <div class="chk-item">✅ <strong>Domicilio para notificaciones:</strong> todas las resoluciones del proceso se notifican aquí. Un domicilio desactualizado puede llevar a perder notificaciones críticas</div>
-        <div class="chk-item">✅ <strong>Representante legal con poder vigente:</strong> si hubo cambio reciente, los poderes deben estar actualizados antes de firmar la solicitud</div>
-      </div>
-    </div>
-  </div>
-</div>
-
 <script>
-function tog(n){
-  const b=document.getElementById('b'+n);
-  const card=document.getElementById('c'+n);
-  const isOpen=b.classList.contains('vis');
-  b.classList.toggle('vis',!isOpen);
-  card.classList.toggle('open',!isOpen);
-  document.getElementById('ch'+n).textContent=isOpen?'▾':'▴';
-}
-function tab(e,n,l){
-  e.stopPropagation();
-  const color=n===1?'azul':'verde';
-  ['a','b','c','d','e'].forEach(x=>{
-    const t=document.getElementById('t'+n+x);
-    const p=document.getElementById('p'+n+x);
-    if(t)t.className='tab'+(x===l?' act-'+color:'');
-    if(p)p.classList.toggle('vis',x===l);
-  });
-}
+  function toggleCard(n) {
+    const body = document.getElementById('body' + n);
+    const ch = document.getElementById('ch' + n);
+    const card = document.getElementById('card' + n);
+    const color = n === 1 ? 'azul' : 'verde';
+    const isOpen = body.classList.contains('visible');
+    body.classList.toggle('visible', !isOpen);
+    ch.classList.toggle('rotated', !isOpen);
+    card.className = 'req-card' + (!isOpen ? ' open-' + color : '');
+  }
+
+  function switchTab(e, n, l) {
+    e.stopPropagation();
+    const color = n === 1 ? 'azul' : 'verde';
+    const letters = ['a','b','c','d','e'];
+    letters.forEach(x => {
+      const t = document.getElementById('p' + n + x);
+      if (t) t.classList.toggle('visible', x === l);
+    });
+    const tabs = document.querySelectorAll('#tabs' + n + ' .tab');
+    tabs.forEach((t, i) => {
+      t.className = 'tab' + (letters[i] === l ? ' act-' + color : '');
+    });
+  }
 </script>
 </body>
 </html>
