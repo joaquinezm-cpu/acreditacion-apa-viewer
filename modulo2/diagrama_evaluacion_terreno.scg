@@ -1,0 +1,125 @@
+<svg width="100%" viewBox="0 0 680 500" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Fases de la evaluación en terreno: antes, durante y cierre</title>
+  <desc>Diagrama que muestra las tres fases de la evaluación en terreno y las actividades clave en cada una, incluyendo el cronograma, la reunión de inicio, el desarrollo y la reunión de cierre</desc>
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#888780" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="340" y="28" font-family="sans-serif" font-size="13" font-weight="500" fill="#2C2C2A" text-anchor="middle">Estructura de la evaluación en terreno — laboratorio de anatomía patológica</text>
+
+  <!-- === PHASE 1: ANTES === -->
+  <rect x="20" y="44" width="195" height="26" rx="6" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+  <text x="117" y="62" font-family="sans-serif" font-size="12" font-weight="500" fill="#0C447C" text-anchor="middle">Fase 1 — Antes de la visita</text>
+
+  <rect x="20" y="78" width="195" height="36" rx="6" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
+  <text x="117" y="93" font-family="sans-serif" font-size="11" fill="#444441" text-anchor="middle" font-weight="500">EA confecciona cronograma</text>
+  <text x="117" y="107" font-family="sans-serif" font-size="10" fill="#5F5E5A" text-anchor="middle">20 días hábiles antes del inicio</text>
+
+  <line x1="117" y1="114" x2="117" y2="126" stroke="#B5D4F4" stroke-width="1" marker-end="url(#arr)"/>
+
+  <rect x="20" y="130" width="195" height="36" rx="6" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
+  <text x="117" y="145" font-family="sans-serif" font-size="11" fill="#444441" text-anchor="middle" font-weight="500">ISP/Intendencia aprueba</text>
+  <text x="117" y="159" font-family="sans-serif" font-size="10" fill="#5F5E5A" text-anchor="middle">cronograma → EA lo envía al prestador</text>
+
+  <line x1="117" y1="166" x2="117" y2="178" stroke="#B5D4F4" stroke-width="1" marker-end="url(#arr)"/>
+
+  <rect x="20" y="182" width="195" height="36" rx="6" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
+  <text x="117" y="197" font-family="sans-serif" font-size="11" fill="#444441" text-anchor="middle" font-weight="500">EA puede solicitar documentos</text>
+  <text x="117" y="211" font-family="sans-serif" font-size="10" fill="#5F5E5A" text-anchor="middle">no antes de 15 días hábiles previos</text>
+
+  <line x1="117" y1="218" x2="117" y2="230" stroke="#B5D4F4" stroke-width="1" marker-end="url(#arr)"/>
+
+  <rect x="20" y="234" width="195" height="36" rx="6" fill="#EAF3DE" stroke="#3B6D11" stroke-width="0.5"/>
+  <text x="117" y="249" font-family="sans-serif" font-size="11" fill="#27500A" text-anchor="middle" font-weight="500">Prestador identifica referentes</text>
+  <text x="117" y="263" font-family="sans-serif" font-size="10" fill="#3B6D11" text-anchor="middle">para cada punto de verificación</text>
+
+  <!-- === PHASE 2: DURANTE === -->
+  <rect x="243" y="44" width="195" height="26" rx="6" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.5"/>
+  <text x="340" y="62" font-family="sans-serif" font-size="12" font-weight="500" fill="#633806" text-anchor="middle">Fase 2 — Durante la visita</text>
+
+  <rect x="243" y="78" width="195" height="46" rx="6" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
+  <text x="340" y="96" font-family="sans-serif" font-size="11" fill="#444441" text-anchor="middle" font-weight="500">Reunión de inicio — día 1</text>
+  <text x="340" y="110" font-family="sans-serif" font-size="10" fill="#5F5E5A" text-anchor="middle">Objetivos, equipo, retrospectividad,</text>
+  <text x="340" y="122" font-family="sans-serif" font-size="10" fill="#5F5E5A" text-anchor="middle">metodología, interlocutores → acta</text>
+
+  <line x1="340" y1="124" x2="340" y2="136" stroke="#FAC775" stroke-width="1" marker-end="url(#arr)"/>
+
+  <rect x="243" y="140" width="195" height="56" rx="6" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
+  <text x="340" y="157" font-family="sans-serif" font-size="11" fill="#444441" text-anchor="middle" font-weight="500">Evaluaciones en cada PV</text>
+  <text x="340" y="171" font-family="sans-serif" font-size="10" fill="#5F5E5A" text-anchor="middle">Revisión documentos · registros · indicadores</text>
+  <text x="340" y="183" font-family="sans-serif" font-size="10" fill="#5F5E5A" text-anchor="middle">Entrevistas · observación directa</text>
+  <text x="340" y="195" font-family="sans-serif" font-size="10" fill="#854F0B" text-anchor="middle">Retrospectividad: 6 meses (1ª acred.)</text>
+
+  <line x1="340" y1="196" x2="340" y2="208" stroke="#FAC775" stroke-width="1" marker-end="url(#arr)"/>
+
+  <rect x="243" y="212" width="195" height="36" rx="6" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
+  <text x="340" y="227" font-family="sans-serif" font-size="11" fill="#444441" text-anchor="middle" font-weight="500">Reuniones de equipo diarias</text>
+  <text x="340" y="241" font-family="sans-serif" font-size="10" fill="#5F5E5A" text-anchor="middle">Director Técnico revisa hallazgos</text>
+
+  <line x1="340" y1="248" x2="340" y2="260" stroke="#FAC775" stroke-width="1" marker-end="url(#arr)"/>
+
+  <rect x="243" y="264" width="195" height="36" rx="6" fill="#EAF3DE" stroke="#3B6D11" stroke-width="0.5"/>
+  <text x="340" y="279" font-family="sans-serif" font-size="11" fill="#27500A" text-anchor="middle" font-weight="500">El prestador puede complementar</text>
+  <text x="340" y="293" font-family="sans-serif" font-size="10" fill="#3B6D11" text-anchor="middle">hasta el día 30° con nuevos documentos</text>
+
+  <!-- === PHASE 3: CIERRE === -->
+  <rect x="466" y="44" width="195" height="26" rx="6" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+  <text x="563" y="62" font-family="sans-serif" font-size="12" font-weight="500" fill="#3C3489" text-anchor="middle">Fase 3 — Reunión de cierre</text>
+
+  <rect x="466" y="78" width="195" height="36" rx="6" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
+  <text x="563" y="93" font-family="sans-serif" font-size="11" fill="#444441" text-anchor="middle" font-weight="500">EA da cuenta del proceso</text>
+  <text x="563" y="107" font-family="sans-serif" font-size="10" fill="#5F5E5A" text-anchor="middle">Desarrollo y cumplimiento del cronograma</text>
+
+  <line x1="563" y1="114" x2="563" y2="126" stroke="#AFA9EC" stroke-width="1" marker-end="url(#arr)"/>
+
+  <rect x="466" y="130" width="195" height="36" rx="6" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
+  <text x="563" y="145" font-family="sans-serif" font-size="11" fill="#444441" text-anchor="middle" font-weight="500">EA informa hallazgos relevantes</text>
+  <text x="563" y="159" font-family="sans-serif" font-size="10" fill="#5F5E5A" text-anchor="middle">Especialmente de características obligatorias</text>
+
+  <line x1="563" y1="166" x2="563" y2="178" stroke="#AFA9EC" stroke-width="1" marker-end="url(#arr)"/>
+
+  <rect x="466" y="182" width="195" height="36" rx="6" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
+  <text x="563" y="197" font-family="sans-serif" font-size="11" fill="#444441" text-anchor="middle" font-weight="500">Prestador puede aclarar</text>
+  <text x="563" y="211" font-family="sans-serif" font-size="10" fill="#5F5E5A" text-anchor="middle">Presenta nuevos documentos o aclara</text>
+
+  <line x1="563" y1="218" x2="563" y2="230" stroke="#AFA9EC" stroke-width="1" marker-end="url(#arr)"/>
+
+  <rect x="466" y="234" width="195" height="36" rx="6" fill="#EAF3DE" stroke="#3B6D11" stroke-width="0.5"/>
+  <text x="563" y="249" font-family="sans-serif" font-size="11" fill="#27500A" text-anchor="middle" font-weight="500">Acta firmada por ambas partes</text>
+  <text x="563" y="263" font-family="sans-serif" font-size="10" fill="#3B6D11" text-anchor="middle">Se consigna rechazo a firmar y motivos</text>
+
+  <!-- Horizontal connector line -->
+  <line x1="215" y1="150" x2="243" y2="150" stroke="#D3D1C7" stroke-width="0.5" stroke-dasharray="3 2" marker-end="url(#arr)"/>
+  <line x1="438" y1="150" x2="466" y2="150" stroke="#D3D1C7" stroke-width="0.5" stroke-dasharray="3 2" marker-end="url(#arr)"/>
+
+  <!-- Divider -->
+  <line x1="20" y1="316" x2="660" y2="316" stroke="#D3D1C7" stroke-width="0.5" stroke-dasharray="4 3"/>
+
+  <!-- Bottom section: roles and key obligations -->
+  <text x="340" y="334" font-family="sans-serif" font-size="11" fill="#888780" text-anchor="middle">Principios que rigen la evaluación (DS 15/2007, Art. 23)</text>
+
+  <rect x="20" y="344" width="195" height="52" rx="6" fill="#FCEBEB" stroke="#E24B4A" stroke-width="0.5"/>
+  <text x="117" y="363" font-family="sans-serif" font-size="11" font-weight="500" fill="#791F1F" text-anchor="middle">Confidencialidad absoluta</text>
+  <text x="117" y="378" font-family="sans-serif" font-size="10" fill="#A32D2D" text-anchor="middle">Evaluadores y funcionarios EA</text>
+  <text x="117" y="390" font-family="sans-serif" font-size="10" fill="#A32D2D" text-anchor="middle">Secreto profesional y estadístico</text>
+
+  <rect x="243" y="344" width="195" height="52" rx="6" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+  <text x="340" y="363" font-family="sans-serif" font-size="11" font-weight="500" fill="#0C447C" text-anchor="middle">Criterios objetivos e imparciales</text>
+  <text x="340" y="378" font-family="sans-serif" font-size="10" fill="#185FA5" text-anchor="middle">No discriminatorios · científicamente</text>
+  <text x="340" y="390" font-family="sans-serif" font-size="10" fill="#185FA5" text-anchor="middle">fundados · expediente individual</text>
+
+  <rect x="466" y="344" width="195" height="52" rx="6" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.5"/>
+  <text x="563" y="363" font-family="sans-serif" font-size="11" font-weight="500" fill="#633806" text-anchor="middle">Obligación del prestador</text>
+  <text x="563" y="378" font-family="sans-serif" font-size="10" fill="#854F0B" text-anchor="middle">Proporcionar todas las facilidades</text>
+  <text x="563" y="390" font-family="sans-serif" font-size="10" fill="#854F0B" text-anchor="middle">Art. 25 DS 15 · obstrucción = riesgo</text>
+
+  <!-- Footer -->
+  <rect x="20" y="410" width="640" height="72" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
+  <text x="340" y="428" font-family="sans-serif" font-size="11" font-weight="500" fill="#444441" text-anchor="middle">Para laboratorios de anatomía patológica: el ISP fiscaliza las Entidades Acreditadoras</text>
+  <text x="340" y="446" font-family="sans-serif" font-size="10" fill="#5F5E5A" text-anchor="middle">El evaluador revisará en terreno: trazabilidad de muestras (frasco→cassette→bloque→lámina→informe), sistema de resultados críticos,</text>
+  <text x="340" y="460" font-family="sans-serif" font-size="10" fill="#5F5E5A" text-anchor="middle">competencias y títulos del personal, condiciones de almacenamiento de bloques e histoplaquetas,</text>
+  <text x="340" y="474" font-family="sans-serif" font-size="10" fill="#5F5E5A" text-anchor="middle">indicadores monitoreados (datos históricos con periodicidad declarada) y manuales de procedimientos disponibles en los PV.</text>
+</svg>
