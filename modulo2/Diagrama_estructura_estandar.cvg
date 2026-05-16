@@ -1,0 +1,64 @@
+<svg width="100%" viewBox="0 0 680 520" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Jerarquía del estándar APA: ámbito, componente, característica, verificador, elemento medible</title>
+  <desc>Diagrama de 5 niveles jerárquicos del estándar de acreditación para laboratorios de anatomía patológica, con ejemplo del ámbito Gestión de Procesos</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#888780" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <!-- Level labels column -->
+  <text x="14" y="62" font-family="sans-serif" font-size="11" fill="#888780" text-anchor="start">Nivel 1</text>
+  <text x="14" y="158" font-family="sans-serif" font-size="11" fill="#888780" text-anchor="start">Nivel 2</text>
+  <text x="14" y="254" font-family="sans-serif" font-size="11" fill="#888780" text-anchor="start">Nivel 3</text>
+  <text x="14" y="350" font-family="sans-serif" font-size="11" fill="#888780" text-anchor="start">Nivel 4</text>
+  <text x="14" y="446" font-family="sans-serif" font-size="11" fill="#888780" text-anchor="start">Nivel 5</text>
+
+  <!-- Divider line -->
+  <line x1="64" y1="30" x2="64" y2="490" stroke="#D3D1C7" stroke-width="0.5" stroke-dasharray="3 3"/>
+
+  <!-- === LEVEL 1: ÁMBITO === -->
+  <rect x="80" y="30" width="540" height="52" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+  <text x="350" y="51" font-family="sans-serif" font-size="13" font-weight="500" fill="#0C447C" text-anchor="middle">Ámbito</text>
+  <text x="350" y="69" font-family="sans-serif" font-size="11" fill="#185FA5" text-anchor="middle">Define el objetivo de política pública que se busca cumplir</text>
+  <text x="510" y="51" font-family="sans-serif" font-size="11" fill="#185FA5" text-anchor="middle" font-style="italic">Ej: Gestión de Procesos (GP)</text>
+
+  <!-- Arrow 1→2 -->
+  <line x1="350" y1="82" x2="350" y2="116" stroke="#B5D4F4" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- === LEVEL 2: COMPONENTE === -->
+  <rect x="80" y="120" width="540" height="52" rx="8" fill="#EAF3DE" stroke="#3B6D11" stroke-width="0.5"/>
+  <text x="350" y="141" font-family="sans-serif" font-size="13" font-weight="500" fill="#27500A" text-anchor="middle">Componente</text>
+  <text x="350" y="159" font-family="sans-serif" font-size="11" fill="#3B6D11" text-anchor="middle">Primer nivel de desagregación. Define aspectos operacionales del ámbito.</text>
+  <text x="490" y="141" font-family="sans-serif" font-size="11" fill="#3B6D11" text-anchor="middle" font-style="italic">Ej: GP-1 · GP-2</text>
+
+  <!-- Arrow 2→3 -->
+  <line x1="350" y1="172" x2="350" y2="210" stroke="#C0DD97" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- === LEVEL 3: CARACTERÍSTICA === -->
+  <rect x="80" y="214" width="540" height="52" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.5"/>
+  <text x="350" y="235" font-family="sans-serif" font-size="13" font-weight="500" fill="#633806" text-anchor="middle">Característica</text>
+  <text x="350" y="253" font-family="sans-serif" font-size="11" fill="#854F0B" text-anchor="middle">Requerimiento específico de gestión sanitaria a evaluar en cada componente</text>
+  <text x="480" y="235" font-family="sans-serif" font-size="11" fill="#854F0B" text-anchor="middle" font-style="italic">Ej: GP 1.2 · Umbral ≥80%</text>
+
+  <!-- Arrow 3→4 -->
+  <line x1="350" y1="266" x2="350" y2="304" stroke="#FAC775" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- === LEVEL 4: VERIFICADOR (punto de verificación) === -->
+  <rect x="80" y="308" width="540" height="52" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+  <text x="350" y="329" font-family="sans-serif" font-size="13" font-weight="500" fill="#3C3489" text-anchor="middle">Verificador (punto de verificación)</text>
+  <text x="350" y="347" font-family="sans-serif" font-size="11" fill="#534AB7" text-anchor="middle">Lugar o instancia donde se constata el cumplimiento</text>
+  <text x="500" y="329" font-family="sans-serif" font-size="11" fill="#534AB7" text-anchor="middle" font-style="italic">Ej: Dirección · Recepción</text>
+
+  <!-- Arrow 4→5 -->
+  <line x1="350" y1="360" x2="350" y2="398" stroke="#AFA9EC" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- === LEVEL 5: ELEMENTO MEDIBLE === -->
+  <rect x="80" y="402" width="540" height="52" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="0.5"/>
+  <text x="350" y="423" font-family="sans-serif" font-size="13" font-weight="500" fill="#712B13" text-anchor="middle">Elemento medible</text>
+  <text x="350" y="441" font-family="sans-serif" font-size="11" fill="#993C1D" text-anchor="middle">Requisito concreto que el evaluador constata. Valor 0 (no cumple), 1 (cumple) o NA</text>
+
+  <!-- Bottom note -->
+  <rect x="80" y="468" width="540" height="32" rx="6" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
+  <text x="350" y="488" font-family="sans-serif" font-size="11" fill="#5F5E5A" text-anchor="middle">El estándar APA cuenta con 27 características, 83 verificadores y 120 elementos medibles en total</text>
+</svg>
