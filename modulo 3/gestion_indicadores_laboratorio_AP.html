@@ -1,0 +1,599 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.root{font-family:var(--font-sans);padding:8px 0 20px}
+.nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.nbtn{padding:7px 14px;border:0.5px solid var(--color-border-secondary);border-radius:99px;background:var(--color-background-primary);color:var(--color-text-secondary);font-size:12px;font-weight:500;cursor:pointer;transition:all .18s;white-space:nowrap}
+.nbtn:hover{background:var(--color-background-secondary)}
+.nbtn.active{background:var(--color-background-secondary);color:var(--color-text-primary);border-color:var(--color-border-primary)}
+.panel{display:none}.panel.active{display:block}
+
+.hdr{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:var(--border-radius-lg);border:0.5px solid var(--color-border-tertiary);background:var(--color-background-secondary);margin-bottom:14px}
+.hdr-icon{width:46px;height:46px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px}
+.hdr-title{font-size:15px;font-weight:500;color:var(--color-text-primary);margin-bottom:2px}
+.hdr-sub{font-size:12px;color:var(--color-text-secondary);line-height:1.5}
+
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px}
+@media(max-width:520px){.g2,.g3{grid-template-columns:1fr}}
+
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:12px 14px}
+.card .lbl{font-size:11px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
+.card p,.card li{font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+.card ul{padding-left:16px}.card li{margin-bottom:2px}
+.hl{color:var(--color-text-primary);font-weight:500}
+
+.ap-box{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-left:3px solid #0F6E56;border-radius:var(--border-radius-md);padding:11px 14px;margin-bottom:8px}
+.ap-box .al{font-size:11px;font-weight:500;color:#0F6E56;margin-bottom:4px}
+.ap-box p,.ap-box li{font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+.ap-box ul{padding-left:16px}.ap-box li{margin-bottom:2px}
+
+.warn-box{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-left:3px solid #BA7517;border-radius:var(--border-radius-md);padding:11px 14px;margin-bottom:8px}
+.warn-box .wl{font-size:11px;font-weight:500;color:#BA7517;margin-bottom:4px}
+.warn-box p,.warn-box li{font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+.warn-box ul{padding-left:16px}.warn-box li{margin-bottom:2px}
+
+.iso-box{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-left:3px solid #185FA5;border-radius:var(--border-radius-md);padding:11px 14px;margin-bottom:8px}
+.iso-box .il{font-size:11px;font-weight:500;color:#185FA5;margin-bottom:4px}
+.iso-box p{font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+
+.slbl{font-size:11px;font-weight:500;letter-spacing:.07em;color:var(--color-text-tertiary);text-transform:uppercase;margin:14px 0 8px}
+
+/* Ficha de indicador */
+.ficha{background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-lg);overflow:hidden;margin-bottom:12px}
+.ficha-header{background:var(--color-background-secondary);padding:10px 16px;border-bottom:0.5px solid var(--color-border-tertiary);display:flex;align-items:center;gap:10px}
+.ficha-badge{font-size:11px;padding:3px 10px;border-radius:99px;font-weight:500;flex-shrink:0}
+.ficha-title{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.ficha-body{padding:0}
+.ficha-row{display:flex;border-bottom:0.5px solid var(--color-border-tertiary)}
+.ficha-row:last-child{border-bottom:none}
+.ficha-key{
+  width:140px;flex-shrink:0;padding:9px 14px;
+  font-size:11px;font-weight:500;color:var(--color-text-secondary);
+  background:var(--color-background-secondary);
+  border-right:0.5px solid var(--color-border-tertiary);
+  display:flex;align-items:flex-start;padding-top:10px
+}
+.ficha-val{flex:1;padding:9px 14px;font-size:13px;color:var(--color-text-secondary);line-height:1.5}
+.ficha-val strong,.ficha-val .hl{color:var(--color-text-primary);font-weight:500}
+.ficha-val .formula{
+  font-family:var(--font-mono);font-size:12px;
+  background:var(--color-background-secondary);
+  border:0.5px solid var(--color-border-tertiary);
+  border-radius:var(--border-radius-md);
+  padding:8px 12px;margin-top:4px;display:block;line-height:1.6
+}
+.umbral-badge{
+  display:inline-block;font-size:13px;font-weight:500;
+  padding:4px 14px;border-radius:99px;
+  background:#E1F5EE;color:#085041;
+  border:0.5px solid #0F6E56
+}
+
+/* Type cards */
+.type-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:12px 14px;margin-bottom:8px}
+.type-card .tc-badge{font-size:11px;padding:2px 9px;border-radius:99px;font-weight:500;margin-bottom:6px;display:inline-block}
+.type-card .tc-title{font-size:14px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px}
+.type-card p,.type-card li{font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+.type-card ul{padding-left:16px}.type-card li{margin-bottom:2px}
+
+/* retro indicator */
+.retro-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+@media(max-width:480px){.retro-grid{grid-template-columns:1fr}}
+.retro-card{text-align:center;padding:14px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md)}
+.retro-num{font-size:28px;font-weight:500;margin-bottom:4px}
+.retro-lbl{font-size:12px;color:var(--color-text-secondary);line-height:1.4}
+
+/* Error cards */
+.err-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-left:3px solid #E24B4A;border-radius:var(--border-radius-md);padding:12px 14px;margin-bottom:8px}
+.err-card .etitle{font-size:13px;font-weight:500;color:#A32D2D;margin-bottom:5px}
+.err-card p{font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+.err-fix{font-size:12px;color:#0F6E56;margin-top:5px;font-style:italic}
+</style>
+
+<div class="root">
+<h2 class="sr-only">Punto 3.4 — Gestión de indicadores de calidad del laboratorio de anatomía patológica: ficha, tipos, ejemplos y requisitos del Manual APA</h2>
+
+<div class="nav">
+  <button class="nbtn active" onclick="show('concepto')">¿Qué es un indicador?</button>
+  <button class="nbtn" onclick="show('ficha')">La ficha del indicador</button>
+  <button class="nbtn" onclick="show('gp12')">Ejemplo GP 1.2 — Preanalítica</button>
+  <button class="nbtn" onclick="show('gp13')">Ejemplos GP 1.3 — Analítica/Post</button>
+  <button class="nbtn" onclick="show('gp21')">Ejemplo GP 2.1 — Eventos adversos</button>
+  <button class="nbtn" onclick="show('retro')">Retrospectividad y metodología</button>
+  <button class="nbtn" onclick="show('errores')">Errores frecuentes</button>
+</div>
+
+<!-- CONCEPTO -->
+<div class="panel active" id="panel-concepto">
+  <div class="hdr">
+    <div class="hdr-icon" style="background:#E6F1FB">📊</div>
+    <div>
+      <div class="hdr-title">¿Qué es un indicador de calidad y por qué lo exige el Manual APA?</div>
+      <div class="hdr-sub">Medida cuantitativa del desempeño de un proceso · La diferencia entre "decir que se cumple" y "demostrar con datos que se cumple"</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:10px">
+    <div class="lbl">Definición operativa</div>
+    <p>Un indicador de calidad es una <span class="hl">medida cuantitativa que permite evaluar el desempeño de un proceso o resultado a lo largo del tiempo</span>. No es una impresión subjetiva ni un registro aislado: es un dato calculado con una fórmula definida, comparado con un umbral preestablecido, medido con una periodicidad fija y registrado con evidencia trazable. Su propósito es detectar problemas antes de que se conviertan en no conformidades graves, y guiar las decisiones de mejora.</p>
+  </div>
+
+  <p class="slbl">Los 3 tipos de indicadores según lo que miden</p>
+  <div class="g3">
+    <div class="type-card">
+      <span class="tc-badge" style="background:#E6F1FB;color:#185FA5">Estructura</span>
+      <div class="tc-title">De estructura</div>
+      <p>Miden los recursos disponibles: personal, equipos, instalaciones, documentos. Responden a "¿tenemos lo necesario para hacer bien el trabajo?"</p>
+      <ul style="margin-top:6px">
+        <li>% de personal con competencia evaluada</li>
+        <li>% de equipos con mantención preventiva al día</li>
+        <li>% de documentos vigentes en puntos de uso</li>
+      </ul>
+    </div>
+    <div class="type-card">
+      <span class="tc-badge" style="background:#E1F5EE;color:#0F6E56">Proceso</span>
+      <div class="tc-title">De proceso</div>
+      <p>Miden cómo se ejecutan las actividades. Responden a "¿estamos haciendo correctamente lo que debemos hacer?" Son los más usados en acreditación AP.</p>
+      <ul style="margin-top:6px">
+        <li>% muestras rechazadas / total recibidas</li>
+        <li>% corridas de IHQ con control satisfactorio</li>
+        <li>% biopsias entregadas dentro del TAT</li>
+      </ul>
+    </div>
+    <div class="type-card">
+      <span class="tc-badge" style="background:#FAEEDA;color:#BA7517">Resultado</span>
+      <div class="tc-title">De resultado</div>
+      <p>Miden el impacto final en el paciente o en el sistema. Responden a "¿logramos el efecto esperado?" Son más difíciles de medir en AP, pero los más relevantes clínicamente.</p>
+      <ul style="margin-top:6px">
+        <li>% concordancia biopsia rápida vs. definitiva</li>
+        <li>% errores de identificación con impacto clínico</li>
+        <li>Tasa de informes corregidos post-emisión</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="slbl">Características obligatorias del Manual APA que exigen indicador</p>
+  <div class="g2">
+    <div class="card">
+      <div class="lbl">1 indicador requerido</div>
+      <ul>
+        <li><span class="hl">GP 1.2</span> — Etapa preanalítica (umbral ≥80%)</li>
+        <li><span class="hl">GP 2.1</span> — Prevención eventos adversos (umbral ≥80%)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="lbl">2 indicadores requeridos (al menos 1 de QC interno)</div>
+      <ul>
+        <li><span class="hl">GP 1.3</span> — Etapas analítica y postanalítica (umbral ≥80%)</li>
+        <li>Uno debe ser de control de calidad interno</li>
+        <li>El otro puede ser de TAT, trazabilidad o técnica</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="iso-box">
+    <div class="il">📌 ISO 15189:2012 — Sección 4.14.7 Indicadores de la calidad</div>
+    <p>La norma exige que el laboratorio establezca indicadores para monitorear y evaluar el desempeño de los procesos preanalíticos, analíticos y postanalíticos. Para cada indicador, debe planificarse: objetivos, metodología, interpretación, límites, plan de acción y duración de la medición. Los indicadores deben revisarse periódicamente para asegurar su continua adecuación.</p>
+  </div>
+</div>
+
+<!-- FICHA DEL INDICADOR -->
+<div class="panel" id="panel-ficha">
+  <div class="hdr">
+    <div class="hdr-icon" style="background:#EEEDFE">📋</div>
+    <div>
+      <div class="hdr-title">La ficha del indicador — estructura completa</div>
+      <div class="hdr-sub">Todos los campos que debe contener · Formato estándar de la Superintendencia de Salud</div>
+    </div>
+  </div>
+
+  <div class="ficha">
+    <div class="ficha-header">
+      <span class="ficha-badge" style="background:#EEEDFE;color:#534AB7">Estructura de la ficha</span>
+      <span class="ficha-title">Ficha tipo — todos los campos con su descripción</span>
+    </div>
+    <div class="ficha-body">
+      <div class="ficha-row">
+        <div class="ficha-key">Título</div>
+        <div class="ficha-val">Conciso pero <span class="hl">autoexplicativo</span>. Debe comenzar con "% de…" o "Tasa de…" o "N° de…". El evaluador debe entender qué mide solo con leer el título.</div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Propósito / sentido</div>
+        <div class="ficha-val">¿Por qué se mide esto? ¿Qué información aporta? ¿Qué se quiere mejorar o verificar? Dos o tres líneas máximo.</div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Tipo</div>
+        <div class="ficha-val">Estructura · Proceso · Resultado. Declara qué dimensión de la calidad evalúa.</div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Numerador</div>
+        <div class="ficha-val"><span class="hl">Casos o eventos que cumplen el atributo evaluado en el período.</span> Debe estar definido con criterios explícitos: qué cuenta como "cumple" y qué no. La fuente de datos del numerador debe estar identificada.</div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Denominador</div>
+        <div class="ficha-val"><span class="hl">Total de casos o eventos evaluados en el período.</span> Debe ser coherente con el numerador. Si el numerador son muestras rechazadas, el denominador son las muestras totales recibidas — no los informes emitidos.</div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Fórmula matemática</div>
+        <div class="ficha-val">
+          <span class="hl">Obligatoria</span> — el evaluador la verifica. Formato estándar:
+          <code class="formula">(Numerador / Denominador) × 100 = % resultado</code>
+          La fórmula y el título deben ser <span class="hl">consistentes entre sí</span>. Si el título dice "% de muestras rechazadas", la fórmula no puede dividir por "total de informes".
+        </div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Umbral de cumplimiento</div>
+        <div class="ficha-val">Porcentaje o valor que define si el resultado es <span class="hl">satisfactorio o no satisfactorio</span>. El prestador lo define — no hay un valor universal. Debe ser realista (basado en el desempeño actual + una mejora razonable) y justificable. Ejemplos: ≥95%, ≤5%, ≥90%.</div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Periodicidad de evaluación</div>
+        <div class="ficha-val">Frecuencia con que se calcula y analiza el indicador: <span class="hl">mensual, trimestral, semestral</span>. Para la acreditación, indicadores de proceso crítico deben ser al menos trimestrales.</div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Fuente de datos</div>
+        <div class="ficha-val"><span class="hl">Primaria:</span> registro original donde se toma el dato (libro de ingresos, hoja de control, LIS). <span class="hl">Secundaria:</span> informe o tabla construida a partir de la fuente primaria. Ambas deben estar identificadas.</div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Tamaño muestral</div>
+        <div class="ficha-val">¿Se evalúa el <span class="hl">universo completo</span> de casos del período, o una <span class="hl">muestra aleatoria</span>? Para indicadores de bajo volumen (como laboratorios pequeños), suele usarse el 100% de los casos. Para alto volumen, se calcula muestra representativa.</div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Criterios de exclusión</div>
+        <div class="ficha-val">Casos que no se incluyen en la evaluación y por qué. Ej: muestras de biopsias rápidas intraoperatorias se excluyen del indicador de TAT de biopsias rutinarias por tener un proceso diferente.</div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Definición de términos</div>
+        <div class="ficha-val">Explicación de los términos técnicos usados en el indicador para asegurar que todos miden lo mismo. Ej: definir qué es "rechazo justificado" vs. "rechazo injustificado".</div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Responsable</div>
+        <div class="ficha-val">Cargo (no nombre personal) del profesional que realiza la medición y del que es responsable del indicador. El evaluador verifica este punto en la entrevista.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="warn-box">
+    <div class="wl">⚠️ El error más frecuente: inconsistencia entre título y fórmula</div>
+    <p>Si el indicador se llama "% de corridas de IHQ con control satisfactorio" pero la fórmula divide por "total de anticuerpos utilizados", el evaluador marcará incumplimiento por inconsistencia. La prueba es simple: al leer el título, la fórmula debe ser la que instintivamente corresponde. Si hay duda, la fórmula está mal redactada.</p>
+  </div>
+</div>
+
+<!-- GP 1.2 -->
+<div class="panel" id="panel-gp12">
+  <div class="hdr">
+    <div class="hdr-icon" style="background:#E6F1FB">🧪</div>
+    <div>
+      <div class="hdr-title">GP 1.2 — Indicador de etapa preanalítica</div>
+      <div class="hdr-sub">1 indicador requerido · Umbral de cumplimiento ≥80% para la característica · El indicador mide el proceso de recepción y sus criterios de rechazo</div>
+    </div>
+  </div>
+
+  <div class="ficha">
+    <div class="ficha-header">
+      <span class="ficha-badge" style="background:#E6F1FB;color:#185FA5">GP 1.2 · Indicador 1</span>
+      <span class="ficha-title">Porcentaje de muestras rechazadas respecto del total de muestras recibidas</span>
+    </div>
+    <div class="ficha-body">
+      <div class="ficha-row">
+        <div class="ficha-key">Propósito</div>
+        <div class="ficha-val">Monitorear la frecuencia con que las muestras recibidas no cumplen los criterios de aceptación definidos en el procedimiento de recepción, permitiendo detectar problemas en la etapa de obtención, rotulación o transporte de muestras en los prestadores externos.</div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Tipo</div>
+        <div class="ficha-val">De proceso — etapa preanalítica</div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Numerador</div>
+        <div class="ficha-val"><span class="hl">N° de muestras rechazadas en el período</span> según criterios documentados (muestra sin identificación, sin solicitud, con fijador inadecuado, frasco abierto, muestra desecada). Fuente: Libro de ingresos / registro de rechazos del LAP.</div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Denominador</div>
+        <div class="ficha-val"><span class="hl">N° total de muestras recibidas en el período</span> (ingresadas + rechazadas). Fuente: Libro de ingresos del LAP.</div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Fórmula</div>
+        <div class="ficha-val"><code class="formula">(N° muestras rechazadas / N° total muestras recibidas) × 100</code></div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Umbral</div>
+        <div class="ficha-val"><span class="umbral-badge">≤ 3%</span> <span style="font-size:12px;color:var(--color-text-tertiary);margin-left:8px">→ El prestador define el umbral. Para un lab de baja complejidad, ≤5% es razonable como inicio.</span></div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Periodicidad</div>
+        <div class="ficha-val">Mensual (evaluación) · Informe trimestral para presentación a dirección</div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Tamaño muestral</div>
+        <div class="ficha-val">100% de las muestras recibidas en el período evaluado</div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Criterios de exclusión</div>
+        <div class="ficha-val">No se excluyen muestras. Toda muestra que llega al laboratorio se cuenta en el denominador.</div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Definición de términos</div>
+        <div class="ficha-val"><span class="hl">Muestra rechazada:</span> aquella que no cumple al menos uno de los criterios de aceptación definidos en el POE de recepción y que es devuelta al prestador o no procesada. Se registra la causal específica de cada rechazo.</div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Responsable</div>
+        <div class="ficha-val">Medición: TM a cargo de recepción · Responsable del indicador: TM Encargado/a de Calidad</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ap-box">
+    <div class="al">📌 Nota de acreditación — lo que verifica el evaluador en GP 1.2</div>
+    <p>El evaluador pedirá: (1) el documento que define los criterios de rechazo, (2) la ficha del indicador con su fórmula y umbral, y (3) el registro de evaluación periódica — que puede ser una tabla o planilla con los datos de los últimos 6 meses (primer proceso) o 3 años (reacreditación). Si el lab tiene baja tasa de rechazos, eso es buena señal, pero el indicador debe existir igual.</p>
+  </div>
+</div>
+
+<!-- GP 1.3 -->
+<div class="panel" id="panel-gp13">
+  <div class="hdr">
+    <div class="hdr-icon" style="background:#E1F5EE">🔬</div>
+    <div>
+      <div class="hdr-title">GP 1.3 — Dos indicadores: analítica y postanalítica</div>
+      <div class="hdr-sub">2 indicadores requeridos · Al menos 1 debe ser de control de calidad interno · El segundo puede ser de TAT, técnica o respaldo</div>
+    </div>
+  </div>
+
+  <p class="slbl">Indicador 1 — Control de calidad interno (obligatorio)</p>
+  <div class="ficha">
+    <div class="ficha-header">
+      <span class="ficha-badge" style="background:#E1F5EE;color:#0F6E56">GP 1.3 · Indicador 1 · QC interno</span>
+      <span class="ficha-title">Porcentaje de corridas de IHQ con resultado de control positivo satisfactorio</span>
+    </div>
+    <div class="ficha-body">
+      <div class="ficha-row">
+        <div class="ficha-key">Propósito</div>
+        <div class="ficha-val">Monitorear el desempeño del control de calidad interno de la inmunohistoquímica, verificando que las corridas de anticuerpos se realizan con controles positivos que cumplen los criterios de reactividad esperada antes de validar los resultados diagnósticos.</div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Tipo</div>
+        <div class="ficha-val">De proceso — etapa analítica · Control de calidad interno</div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Numerador</div>
+        <div class="ficha-val"><span class="hl">N° de corridas de IHQ en que el control positivo mostró reactividad esperada</span> (según criterio definido por anticuerpo en el protocolo de QC). Fuente: hoja de registro de control de calidad IHQ.</div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Denominador</div>
+        <div class="ficha-val"><span class="hl">N° total de corridas de IHQ realizadas en el período</span>. Fuente: hoja de registro de corridas del inmunoteñidor / registro manual.</div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Fórmula</div>
+        <div class="ficha-val"><code class="formula">(N° corridas con control positivo satisfactorio / N° total de corridas IHQ) × 100</code></div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Umbral</div>
+        <div class="ficha-val"><span class="umbral-badge">≥ 95%</span></div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Periodicidad</div>
+        <div class="ficha-val">Mensual. Análisis trimestral de tendencias.</div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Criterios de exclusión</div>
+        <div class="ficha-val">Corridas de validación de anticuerpos nuevos (tienen su propio registro de validación). Corridas de reactivos de investigación no diagnóstica.</div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Definición de términos</div>
+        <div class="ficha-val"><span class="hl">Control satisfactorio:</span> el tejido control positivo muestra reactividad en la localización subcelular esperada (membrana, citoplasma o núcleo según el anticuerpo) con la intensidad y distribución definida en el protocolo de cada anticuerpo. <span class="hl">Control insatisfactorio:</span> ausencia de reactividad, reactividad inespecífica o patrón atípico que invalida la corrida.</div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Responsable</div>
+        <div class="ficha-val">Medición: TM a cargo de IHQ · Responsable: TM Encargado/a de Calidad</div>
+      </div>
+    </div>
+  </div>
+
+  <p class="slbl">Indicador 2 — TAT (tiempo de entrega de resultados)</p>
+  <div class="ficha">
+    <div class="ficha-header">
+      <span class="ficha-badge" style="background:#E1F5EE;color:#0F6E56">GP 1.3 · Indicador 2 · Postanalítica</span>
+      <span class="ficha-title">Porcentaje de biopsias de rutina informadas dentro del plazo establecido</span>
+    </div>
+    <div class="ficha-body">
+      <div class="ficha-row">
+        <div class="ficha-key">Propósito</div>
+        <div class="ficha-val">Evaluar el cumplimiento del tiempo de entrega de resultados de biopsias de rutina, desde la recepción de la muestra hasta la emisión del informe, asegurando la oportunidad del diagnóstico para la toma de decisiones clínicas.</div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Numerador</div>
+        <div class="ficha-val"><span class="hl">N° de biopsias de rutina informadas dentro del plazo definido</span> (ej: ≤5 días hábiles desde recepción). Fuente: LIS o libro de ingresos con fecha de recepción y fecha de emisión del informe.</div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Denominador</div>
+        <div class="ficha-val"><span class="hl">N° total de biopsias de rutina recibidas en el período</span>. Excluir las que requirieron técnicas especiales adicionales con plazo diferente.</div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Fórmula</div>
+        <div class="ficha-val"><code class="formula">(N° biopsias informadas ≤ plazo definido / N° total biopsias rutina recibidas) × 100</code></div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Umbral</div>
+        <div class="ficha-val"><span class="umbral-badge">≥ 90%</span></div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Periodicidad</div>
+        <div class="ficha-val">Mensual · Informe trimestral</div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Criterios de exclusión</div>
+        <div class="ficha-val">Biopsias rápidas intraoperatorias (tienen indicador y plazo propio). Biopsias que requirieron IHQ adicional (se documenta la razón del mayor plazo). Casos con suspensión de diagnóstico por correlación clínica pendiente.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="warn-box">
+    <div class="wl">⚠️ GP 1.3: el indicador de QC interno no puede ser el de HE solamente si hacen IHQ</div>
+    <p>Si tu laboratorio realiza IHQ, el Manual APA espera que el indicador de QC interno cubra IHQ porque es el proceso analítico más crítico y más susceptible de fallo. El control de la tinción HE es necesario, pero puede complementar —no reemplazar— el de IHQ. Recuerda: "al menos uno relacionado con el procedimiento de control de calidad interno" significa el proceso más crítico, no solo el más fácil de medir.</p>
+  </div>
+</div>
+
+<!-- GP 2.1 -->
+<div class="panel" id="panel-gp21">
+  <div class="hdr">
+    <div class="hdr-icon" style="background:#FBEAF0">⚠️</div>
+    <div>
+      <div class="hdr-title">GP 2.1 — Indicador de prevención de eventos adversos</div>
+      <div class="hdr-sub">1 indicador requerido · Relacionado con las medidas de prevención de extravío/daño de muestra o error en el informe · Umbral de la característica ≥80%</div>
+    </div>
+  </div>
+
+  <div class="ficha">
+    <div class="ficha-header">
+      <span class="ficha-badge" style="background:#FBEAF0;color:#993556">GP 2.1 · Indicador de EA</span>
+      <span class="ficha-title">Porcentaje de casos con verificación de identidad completa en el traspaso macroscopía → laboratorio técnica</span>
+    </div>
+    <div class="ficha-body">
+      <div class="ficha-row">
+        <div class="ficha-key">Propósito</div>
+        <div class="ficha-val">Evaluar el cumplimiento del procedimiento de verificación de identidad de muestras en el punto de traspaso entre macroscopía y el laboratorio de técnicas, que es uno de los momentos de mayor riesgo de error de identificación o intercambio de muestras en AP.</div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Tipo</div>
+        <div class="ficha-val">De proceso — prevención de eventos adversos</div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Numerador</div>
+        <div class="ficha-val"><span class="hl">N° de casos en que se constató verificación de identidad completa</span> (código de caso en casete coincide con código en la solicitud y en el libro de macroscopía) según pauta de cotejo. Fuente: pauta de supervisión aplicada por muestra aleatoria.</div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Denominador</div>
+        <div class="ficha-val"><span class="hl">N° total de casos supervisados en el período</span> (muestra aleatoria del período evaluado). Fuente: registro de supervisión.</div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Fórmula</div>
+        <div class="ficha-val"><code class="formula">(N° casos con verificación completa / N° casos supervisados) × 100</code></div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Umbral</div>
+        <div class="ficha-val"><span class="umbral-badge">≥ 95%</span></div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Periodicidad</div>
+        <div class="ficha-val">Trimestral · Evaluación de muestra aleatoria de 30 casos por período</div>
+      </div>
+      <div class="ficha-row">
+        <div class="ficha-key">Metodología</div>
+        <div class="ficha-val">El TM Encargado de Calidad selecciona aleatoriamente 30 casos del período y verifica en retrospectivo la consistencia de identificación usando la pauta de cotejo estandarizada del procedimiento LAP-POE-PRE-001.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ap-box">
+    <div class="al">💡 Alternativa más simple para GP 2.1</div>
+    <p>Otro indicador válido y más directo para GP 2.1 es: <span class="hl">% de eventos adversos con análisis de causa raíz documentado / total de EA registrados en el período</span>. Este mide si el sistema de vigilancia realmente investiga los EA que detecta — no solo los registra. Umbral razonable: ≥80%. Es más fácil de obtener si tienes un registro de EA y funciona bien en laboratorios de bajo volumen.</p>
+  </div>
+</div>
+
+<!-- RETROSPECTIVIDAD -->
+<div class="panel" id="panel-retro">
+  <div class="hdr">
+    <div class="hdr-icon" style="background:#FAEEDA">📅</div>
+    <div>
+      <div class="hdr-title">Retrospectividad y metodología de medición</div>
+      <div class="hdr-sub">Cuántos meses de datos debe presentar el laboratorio · Cómo garantizar que el indicador mide lo que dice medir · Universo vs. muestra</div>
+    </div>
+  </div>
+
+  <div class="retro-grid">
+    <div class="retro-card">
+      <div class="retro-num" style="color:#185FA5">6</div>
+      <div class="retro-lbl">meses retrospectivos mínimos<br>para un <strong>primer proceso</strong> de acreditación</div>
+    </div>
+    <div class="retro-card">
+      <div class="retro-num" style="color:#0F6E56">36</div>
+      <div class="retro-lbl">meses retrospectivos mínimos<br>para un proceso de <strong>reacreditación</strong></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:10px">
+    <div class="lbl">¿Qué significa "evaluación periódica" con evidencia?</div>
+    <p>El elemento medible dice "existe constancia de que se ha realizado la evaluación periódica". Eso se traduce en un <span class="hl">documento o registro que muestre los datos del indicador mes a mes (o por el período definido)</span>, no solo el resultado final acumulado. El evaluador debe poder ver la evolución temporal: enero 94%, febrero 97%, marzo 92%, etc. Una sola cifra del período completo no es suficiente como evidencia de evaluación periódica.</p>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="lbl">Universo completo (100% de los casos)</div>
+      <p>Usar cuando el volumen es manejable. Para un laboratorio de 200 biopsias/mes, evaluar el 100% es factible. La ventaja es que el indicador es exacto — no hay error de muestreo. Adecuado para indicadores de QC interno (cada corrida se registra).</p>
+    </div>
+    <div class="card">
+      <div class="lbl">Muestra aleatoria</div>
+      <p>Usar cuando el volumen es alto o la evaluación requiere revisión activa (ej: supervisión de procedimientos). La muestra debe ser <span class="hl">representativa y aleatorizada</span>. La Superintendencia de Salud tiene una calculadora de tamaño muestral disponible en su sitio web. El proceso de aleatorización debe estar documentado.</p>
+    </div>
+  </div>
+
+  <div class="warn-box">
+    <div class="wl">⚠️ Los 6 atributos que el evaluador chequeará en cada indicador</div>
+    <p>Según las orientaciones técnicas de la Superintendencia de Salud:</p>
+    <ul>
+      <li><span class="hl">1.</span> Cuenta con el marco temporal de retrospectividad exigido (6 meses / 3 años)</li>
+      <li><span class="hl">2.</span> Es pertinente a la característica evaluada (no cualquier indicador, sino uno relacionado con lo que pide el EM)</li>
+      <li><span class="hl">3.</span> Existe consistencia entre el título y la fórmula matemática</li>
+      <li><span class="hl">4.</span> Existe consistencia entre numerador, denominador, umbral y fuentes de datos</li>
+      <li><span class="hl">5.</span> Está definida la periodicidad de evaluación</li>
+      <li><span class="hl">6.</span> La metodología aplicada permite interpretar los resultados como una aproximación válida a la realidad del laboratorio</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ERRORES -->
+<div class="panel" id="panel-errores">
+  <div class="hdr">
+    <div class="hdr-icon" style="background:#FAEEDA">🚫</div>
+    <div>
+      <div class="hdr-title">Errores frecuentes en gestión de indicadores</div>
+      <div class="hdr-sub">Los más recurrentes en laboratorios de AP chilenos en proceso de acreditación</div>
+    </div>
+  </div>
+
+  <div class="err-card">
+    <div class="etitle">Error 1 — El indicador existe pero no tiene evaluación periódica registrada</div>
+    <p>El laboratorio tiene la ficha del indicador perfectamente completada con fórmula y umbral, pero no hay ningún registro de que se haya aplicado. El evaluador busca los datos mensuales o trimestrales — si no existen, el elemento medible "existe constancia de evaluación periódica" no cumple.</p>
+    <p class="err-fix">✓ Solución: implementar una planilla simple (Excel o papel) donde se registren los datos del indicador por período. Retroalimentar 6 meses antes de la visita del evaluador si es primer proceso.</p>
+  </div>
+
+  <div class="err-card">
+    <div class="etitle">Error 2 — El umbral está definido pero nadie sabe qué pasa cuando no se cumple</div>
+    <p>El indicador marca 88% y el umbral es 90%. El laboratorio registra el dato pero no hay ninguna acción documentada ante el incumplimiento. El ciclo del indicador está incompleto: detecta → pero no activa mejora.</p>
+    <p class="err-fix">✓ Solución: definir en la ficha del indicador qué acción se toma cuando el resultado está bajo el umbral (revisión del proceso, reunión del equipo, plan de acción correctiva). Documentar esa acción cuando ocurra.</p>
+  </div>
+
+  <div class="err-card">
+    <div class="etitle">Error 3 — El indicador de GP 1.3 no es de QC interno</div>
+    <p>El laboratorio presenta dos indicadores para GP 1.3, pero ambos son de TAT (uno para biopsias de rutina y otro para citologías). GP 1.3 exige explícitamente que al menos uno esté relacionado con el control de calidad interno. Ningún indicador de tiempo cumple ese requisito.</p>
+    <p class="err-fix">✓ Solución: uno de los dos indicadores de GP 1.3 debe medir el desempeño del control interno de las técnicas analíticas (HE, IHQ, técnicas especiales). El segundo puede ser de TAT, trazabilidad u otro proceso analítico/postanalítico.</p>
+  </div>
+
+  <div class="err-card">
+    <div class="etitle">Error 4 — El indicador no es pertinente a la característica</div>
+    <p>El laboratorio presenta como indicador de GP 1.2 (preanalítica) el "% de biopsias informadas dentro del plazo", que corresponde a la etapa postanalítica. La pertinencia significa que el indicador debe medir algo que ocurra en la etapa o proceso que exige la característica.</p>
+    <p class="err-fix">✓ Solución: para GP 1.2, el indicador debe medir algo de la etapa preanalítica: rechazos, cumplimiento de criterios de solicitud, tiempo de recepción, verificación de identificación. Cualquier cosa que ocurra entre la solicitud médica y el registro de la muestra en el laboratorio.</p>
+  </div>
+
+  <div class="err-card">
+    <div class="etitle">Error 5 — El umbral es 100% para todo</div>
+    <p>Definir un umbral de 100% en indicadores de proceso es problemático porque cualquier resultado bajo el 100% genera automáticamente incumplimiento — y en procesos humanos complejos, el 100% es poco realista. Un umbral del 100% también dificulta demostrar mejora continua.</p>
+    <p class="err-fix">✓ Solución: los umbrales deben ser desafiantes pero alcanzables. Para procesos críticos de seguridad (como verificación de identidad) puede justificarse un umbral alto (≥95%). Para procesos más variables, umbrales del 85-90% son más razonables como punto de partida, con revisión anual al alza.</p>
+  </div>
+
+  <div class="err-card">
+    <div class="etitle">Error 6 — El indicador mide solo lo positivo, no lo que falla</div>
+    <p>Un indicador que siempre muestra 98–99% sin variación no está detectando problemas reales — puede ser que el proceso sea excelente, pero también puede ser que la metodología de medición no está capturando los fallos. Si un indicador nunca genera acciones de mejora, probablemente no está midiendo lo correcto o no está midiendo bien.</p>
+    <p class="err-fix">✓ Solución: elegir indicadores sensibles a los fallos reales del proceso. Si el proceso tiene errores conocidos, el indicador debe ser capaz de detectarlos. Un indicador de QC interno que nunca falla necesita ser revisado — o el proceso es perfecto (improbable) o el indicador no es sensible.</p>
+  </div>
+</div>
+
+</div>
+<script>
+function show(id){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nbtn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  const m={'concepto':0,'ficha':1,'gp12':2,'gp13':3,'gp21':4,'retro':5,'errores':6};
+  document.querySelectorAll('.nbtn')[m[id]].classList.add('active');
+}
+</script>
