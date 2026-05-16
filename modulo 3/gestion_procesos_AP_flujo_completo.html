@@ -1,0 +1,619 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.root{font-family:var(--font-sans);padding:8px 0 20px}
+.nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.nbtn{
+  padding:7px 14px;border:0.5px solid var(--color-border-secondary);
+  border-radius:99px;background:var(--color-background-primary);
+  color:var(--color-text-secondary);font-size:12px;font-weight:500;
+  cursor:pointer;transition:all .18s;white-space:nowrap
+}
+.nbtn:hover{background:var(--color-background-secondary)}
+.nbtn.active{background:var(--color-background-secondary);color:var(--color-text-primary);border-color:var(--color-border-primary)}
+.panel{display:none}.panel.active{display:block}
+
+.stage-header{
+  display:flex;align-items:center;gap:14px;
+  padding:14px 18px;border-radius:var(--border-radius-lg);
+  border:0.5px solid var(--color-border-tertiary);
+  background:var(--color-background-secondary);margin-bottom:14px
+}
+.stage-icon{
+  width:46px;height:46px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:20px
+}
+.stage-title{font-size:15px;font-weight:500;color:var(--color-text-primary);margin-bottom:2px}
+.stage-sub{font-size:12px;color:var(--color-text-secondary);line-height:1.5}
+
+.step-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+@media(max-width:480px){.step-grid{grid-template-columns:1fr}}
+
+.step-card{
+  background:var(--color-background-primary);
+  border:0.5px solid var(--color-border-tertiary);
+  border-radius:var(--border-radius-md);padding:12px 14px
+}
+.step-card .sc-label{
+  font-size:11px;font-weight:500;color:var(--color-text-secondary);
+  text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px
+}
+.step-card p,.step-card li{font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+.step-card ul{padding-left:16px}
+.step-card li{margin-bottom:2px}
+.hl{color:var(--color-text-primary);font-weight:500}
+
+.gp-box{
+  background:var(--color-background-secondary);
+  border:0.5px solid var(--color-border-tertiary);
+  border-left:3px solid #185FA5;
+  border-radius:var(--border-radius-md);padding:12px 14px;margin-bottom:8px
+}
+.gp-box .gp-label{font-size:11px;font-weight:500;color:#185FA5;margin-bottom:5px}
+.gp-box p,.gp-box li{font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+.gp-box ul{padding-left:16px}
+.gp-box li{margin-bottom:3px}
+
+.alert-box{
+  background:var(--color-background-secondary);
+  border:0.5px solid var(--color-border-tertiary);
+  border-left:3px solid #BA7517;
+  border-radius:var(--border-radius-md);padding:11px 14px;margin-bottom:8px
+}
+.alert-box .al-label{font-size:11px;font-weight:500;color:#BA7517;margin-bottom:4px}
+.alert-box p,.alert-box li{font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+.alert-box ul{padding-left:16px}
+
+.error-data{
+  display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:10px 0
+}
+@media(max-width:480px){.error-data{grid-template-columns:1fr}}
+.error-card{
+  text-align:center;padding:12px 8px;
+  background:var(--color-background-primary);
+  border:0.5px solid var(--color-border-tertiary);
+  border-radius:var(--border-radius-md)
+}
+.error-pct{font-size:22px;font-weight:500;margin-bottom:3px}
+.error-lbl{font-size:11px;color:var(--color-text-secondary);line-height:1.4}
+
+.section-lbl{
+  font-size:11px;font-weight:500;letter-spacing:.07em;
+  color:var(--color-text-tertiary);text-transform:uppercase;margin:14px 0 8px
+}
+</style>
+
+<div class="root">
+<h2 class="sr-only">Punto 3.2 — Gestión de procesos del laboratorio de anatomía patológica: flujo preanalítico, analítico y postanalítico</h2>
+
+<div class="nav">
+  <button class="nbtn active" onclick="show('mapa')">Mapa general</button>
+  <button class="nbtn" onclick="show('pre')">Preanalítica — GP1.1/1.2</button>
+  <button class="nbtn" onclick="show('analitica')">Analítica — GP1.3</button>
+  <button class="nbtn" onclick="show('post')">Postanalítica — GP1.3/1.5</button>
+  <button class="nbtn" onclick="show('peec')">QC externo — GP1.4</button>
+  <button class="nbtn" onclick="show('ea')">Eventos adversos — GP2</button>
+</div>
+
+<!-- MAPA GENERAL SVG -->
+<div class="panel active" id="panel-mapa">
+<svg width="100%" viewBox="0 0 680 500" role="img">
+  <title>Flujo completo del proceso de biopsia/citología en AP con puntos de control y características GP del Manual APA</title>
+  <desc>Diagrama de flujo de izquierda a derecha mostrando etapas preanalítica, analítica y postanalítica con sus subprocesos y los códigos GP del Manual APA</desc>
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <!-- LANE BACKGROUNDS -->
+  <rect x="20" y="36" width="198" height="430" rx="10" fill="#E6F1FB" opacity="0.35"/>
+  <rect x="240" y="36" width="198" height="430" rx="10" fill="#E1F5EE" opacity="0.35"/>
+  <rect x="460" y="36" width="200" height="430" rx="10" fill="#FAEEDA" opacity="0.35"/>
+
+  <!-- LANE HEADERS -->
+  <g class="node c-blue" onclick="show('pre')">
+    <rect x="30" y="44" width="178" height="36" rx="8" fill="#B5D4F4" stroke="#185FA5" stroke-width="0.5"/>
+    <text class="th" x="119" y="62" text-anchor="middle" dominant-baseline="central" font-size="13" fill="#0C447C">Preanalítica</text>
+  </g>
+  <g class="node c-teal" onclick="show('analitica')">
+    <rect x="250" y="44" width="178" height="36" rx="8" fill="#9FE1CB" stroke="#0F6E56" stroke-width="0.5"/>
+    <text class="th" x="339" y="62" text-anchor="middle" dominant-baseline="central" font-size="13" fill="#085041">Analítica</text>
+  </g>
+  <g class="node c-amber" onclick="show('post')">
+    <rect x="470" y="44" width="178" height="36" rx="8" fill="#FAC775" stroke="#BA7517" stroke-width="0.5"/>
+    <text class="th" x="559" y="62" text-anchor="middle" dominant-baseline="central" font-size="13" fill="#633806">Postanalítica</text>
+  </g>
+
+  <!-- PRE-ANALYTICAL STEPS -->
+  <g class="node" onclick="show('pre')">
+    <rect x="34" y="102" width="170" height="44" rx="6" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+    <text class="th" x="119" y="120" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#0C447C">Solicitud médica</text>
+    <text class="ts" x="119" y="136" text-anchor="middle" font-size="11" fill="#185FA5">Datos obligatorios · clínica</text>
+  </g>
+
+  <line x1="119" y1="146" x2="119" y2="164" stroke="#185FA5" stroke-width="1" marker-end="url(#arr)"/>
+
+  <g class="node" onclick="show('pre')">
+    <rect x="34" y="164" width="170" height="44" rx="6" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+    <text class="th" x="119" y="182" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#0C447C">Toma de muestra</text>
+    <text class="ts" x="119" y="198" text-anchor="middle" font-size="11" fill="#185FA5">Criterios · fijación · rotulación</text>
+  </g>
+
+  <line x1="119" y1="208" x2="119" y2="226" stroke="#185FA5" stroke-width="1" marker-end="url(#arr)"/>
+
+  <g class="node" onclick="show('pre')">
+    <rect x="34" y="226" width="170" height="44" rx="6" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+    <text class="th" x="119" y="244" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#0C447C">Transporte</text>
+    <text class="ts" x="119" y="260" text-anchor="middle" font-size="11" fill="#185FA5">Triple embalaje · cadena frío</text>
+  </g>
+
+  <line x1="119" y1="270" x2="119" y2="288" stroke="#185FA5" stroke-width="1" marker-end="url(#arr)"/>
+
+  <!-- DECISION: RECHAZO -->
+  <polygon points="119,288 160,316 119,344 78,316" fill="#FAECE7" stroke="#993C1D" stroke-width="0.5"/>
+  <text class="ts" x="119" y="312" text-anchor="middle" font-size="11" fill="#993C1D">¿Acepta</text>
+  <text class="ts" x="119" y="325" text-anchor="middle" font-size="11" fill="#993C1D">muestra?</text>
+
+  <!-- Rechazo branch -->
+  <text class="ts" x="62" y="320" text-anchor="middle" font-size="10" fill="#993C1D">NO</text>
+  <path d="M79 316 L40 316 L40 390" fill="none" stroke="#993C1D" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#arr)"/>
+  <rect x="24" y="390" width="70" height="34" rx="5" fill="#FAECE7" stroke="#993C1D" stroke-width="0.5"/>
+  <text class="ts" x="59" y="405" text-anchor="middle" font-size="10" fill="#993C1D">Rechazo</text>
+  <text class="ts" x="59" y="418" text-anchor="middle" font-size="10" fill="#993C1D">documentado</text>
+
+  <!-- Acepta branch -->
+  <text class="ts" x="150" y="358" text-anchor="middle" font-size="10" fill="#0F6E56">SÍ</text>
+  <line x1="119" y1="344" x2="119" y2="366" stroke="#185FA5" stroke-width="1" marker-end="url(#arr)"/>
+
+  <g class="node" onclick="show('pre')">
+    <rect x="34" y="366" width="170" height="44" rx="6" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+    <text class="th" x="119" y="384" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#0C447C">Recepción y registro</text>
+    <text class="ts" x="119" y="400" text-anchor="middle" font-size="11" fill="#185FA5">Código único · libro ingreso</text>
+  </g>
+
+  <!-- GP BADGE PRE -->
+  <rect x="34" y="432" width="170" height="22" rx="5" fill="#B5D4F4" stroke="#185FA5" stroke-width="0.5"/>
+  <text class="ts" x="119" y="447" text-anchor="middle" font-size="11" fill="#0C447C" font-weight="500">GP 1.1 · GP 1.2 · Trazabilidad</text>
+
+  <!-- Arrow PRE → ANAL -->
+  <line x1="204" y1="290" x2="250" y2="290" stroke="#888780" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text class="ts" x="227" y="283" text-anchor="middle" font-size="10" fill="var(--color-text-tertiary)">código</text>
+
+  <!-- ANALYTICAL STEPS -->
+  <g class="node" onclick="show('analitica')">
+    <rect x="254" y="102" width="170" height="44" rx="6" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+    <text class="th" x="339" y="120" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#085041">Macroscopía</text>
+    <text class="ts" x="339" y="136" text-anchor="middle" font-size="11" fill="#0F6E56">Descripción · tallado · casetes</text>
+  </g>
+
+  <line x1="339" y1="146" x2="339" y2="164" stroke="#0F6E56" stroke-width="1" marker-end="url(#arr)"/>
+
+  <g class="node" onclick="show('analitica')">
+    <rect x="254" y="164" width="170" height="44" rx="6" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+    <text class="th" x="339" y="182" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#085041">Procesamiento histológico</text>
+    <text class="ts" x="339" y="198" text-anchor="middle" font-size="11" fill="#0F6E56">Procesador · inclusión parafina</text>
+  </g>
+
+  <line x1="339" y1="208" x2="339" y2="226" stroke="#0F6E56" stroke-width="1" marker-end="url(#arr)"/>
+
+  <g class="node" onclick="show('analitica')">
+    <rect x="254" y="226" width="170" height="44" rx="6" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+    <text class="th" x="339" y="244" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#085041">Corte y tinción</text>
+    <text class="ts" x="339" y="260" text-anchor="middle" font-size="11" fill="#0F6E56">Microtomo · HE · técnicas esp.</text>
+  </g>
+
+  <line x1="339" y1="270" x2="339" y2="288" stroke="#0F6E56" stroke-width="1" marker-end="url(#arr)"/>
+
+  <g class="node" onclick="show('analitica')">
+    <rect x="254" y="288" width="170" height="44" rx="6" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+    <text class="th" x="339" y="306" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#085041">IHQ / técnicas especiales</text>
+    <text class="ts" x="339" y="322" text-anchor="middle" font-size="11" fill="#0F6E56">Controles + / − · validación</text>
+  </g>
+
+  <line x1="339" y1="332" x2="339" y2="350" stroke="#0F6E56" stroke-width="1" marker-end="url(#arr)"/>
+
+  <g class="node" onclick="show('analitica')">
+    <rect x="254" y="350" width="170" height="44" rx="6" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+    <text class="th" x="339" y="368" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#085041">Diagnóstico (patólogo)</text>
+    <text class="ts" x="339" y="384" text-anchor="middle" font-size="11" fill="#0F6E56">Microscopía · correlación</text>
+  </g>
+
+  <!-- GP BADGE ANAL -->
+  <rect x="254" y="410" width="170" height="22" rx="5" fill="#9FE1CB" stroke="#0F6E56" stroke-width="0.5"/>
+  <text class="ts" x="339" y="425" text-anchor="middle" font-size="11" fill="#085041" font-weight="500">GP 1.3 (a) · GP 1.4 · QC interno</text>
+
+  <!-- Arrow ANAL → POST -->
+  <line x1="424" y1="260" x2="470" y2="260" stroke="#888780" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text class="ts" x="447" y="253" text-anchor="middle" font-size="10" fill="var(--color-text-tertiary)">informe</text>
+
+  <!-- POST-ANALYTICAL STEPS -->
+  <g class="node" onclick="show('post')">
+    <rect x="474" y="102" width="170" height="44" rx="6" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.5"/>
+    <text class="th" x="559" y="120" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#633806">Validación del informe</text>
+    <text class="ts" x="559" y="136" text-anchor="middle" font-size="11" fill="#BA7517">Firma patólogo · revisión</text>
+  </g>
+
+  <line x1="559" y1="146" x2="559" y2="164" stroke="#BA7517" stroke-width="1" marker-end="url(#arr)"/>
+
+  <g class="node" onclick="show('post')">
+    <rect x="474" y="164" width="170" height="44" rx="6" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.5"/>
+    <text class="th" x="559" y="182" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#633806">Entrega de resultados</text>
+    <text class="ts" x="559" y="198" text-anchor="middle" font-size="11" fill="#BA7517">Dentro del TAT definido</text>
+  </g>
+
+  <line x1="559" y1="208" x2="559" y2="226" stroke="#BA7517" stroke-width="1" marker-end="url(#arr)"/>
+
+  <!-- TAT diamond -->
+  <polygon points="559,226 600,254 559,282 518,254" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.5"/>
+  <text class="ts" x="559" y="250" text-anchor="middle" font-size="11" fill="#633806">¿Valor</text>
+  <text class="ts" x="559" y="263" text-anchor="middle" font-size="11" fill="#633806">crítico?</text>
+
+  <!-- Valor critico branch -->
+  <text class="ts" x="617" y="258" text-anchor="middle" font-size="10" fill="#993C1D">SÍ</text>
+  <path d="M600 254 L640 254 L640 330" fill="none" stroke="#993C1D" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#arr)"/>
+  <rect x="598" y="330" width="80" height="34" rx="5" fill="#FAECE7" stroke="#993C1D" stroke-width="0.5"/>
+  <text class="ts" x="638" y="345" text-anchor="middle" font-size="10" fill="#993C1D">Notificación</text>
+  <text class="ts" x="638" y="358" text-anchor="middle" font-size="10" fill="#993C1D">inmediata AOC</text>
+
+  <!-- No critico branch -->
+  <text class="ts" x="522" y="295" text-anchor="middle" font-size="10" fill="#0F6E56">NO</text>
+  <line x1="559" y1="282" x2="559" y2="300" stroke="#BA7517" stroke-width="1" marker-end="url(#arr)"/>
+
+  <g class="node" onclick="show('post')">
+    <rect x="474" y="300" width="170" height="44" rx="6" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.5"/>
+    <text class="th" x="559" y="318" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#633806">Archivo y respaldo</text>
+    <text class="ts" x="559" y="334" text-anchor="middle" font-size="11" fill="#BA7517">Láminas · bloques · informes</text>
+  </g>
+
+  <!-- GP BADGE POST -->
+  <rect x="474" y="432" width="170" height="22" rx="5" fill="#FAC775" stroke="#BA7517" stroke-width="0.5"/>
+  <text class="ts" x="559" y="447" text-anchor="middle" font-size="11" fill="#633806" font-weight="500">GP 1.3 (b) · GP 1.5 · AOC 1.3</text>
+
+  <!-- GP2 at bottom -->
+  <rect x="34" y="464" width="606" height="22" rx="5" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+  <text class="ts" x="337" y="479" text-anchor="middle" font-size="11" fill="#3C3489" font-weight="500">GP 2.1 — Vigilancia de eventos adversos · GP 2.2 — Investigación de EA</text>
+
+  <!-- hint -->
+  <text class="ts" x="340" y="498" text-anchor="middle" font-size="10" fill="var(--color-text-tertiary)">Haz clic en cada etapa o usa los botones del menú para ver el detalle →</text>
+</svg>
+</div>
+
+<!-- PRE-ANALÍTICA -->
+<div class="panel" id="panel-pre">
+  <div class="stage-header">
+    <div class="stage-icon" style="background:#E6F1FB">🧪</div>
+    <div>
+      <div class="stage-title">Etapa preanalítica — GP 1.1 y GP 1.2</div>
+      <div class="stage-sub">Desde la solicitud médica hasta la recepción y registro en el laboratorio de AP · Concentra el 60–70% de los errores totales del proceso</div>
+    </div>
+  </div>
+
+  <div class="error-data">
+    <div class="error-card">
+      <div class="error-pct" style="color:#185FA5">60–70%</div>
+      <div class="error-lbl">de los errores ocurren en la etapa preanalítica</div>
+    </div>
+    <div class="error-card">
+      <div class="error-pct" style="color:#0F6E56">25–30%</div>
+      <div class="error-lbl">en la etapa postanalítica</div>
+    </div>
+    <div class="error-card">
+      <div class="error-pct" style="color:#BA7517">~5%</div>
+      <div class="error-lbl">en la etapa analítica propiamente tal</div>
+    </div>
+  </div>
+
+  <div class="gp-box">
+    <div class="gp-label">📌 GP 1.1 — Trazabilidad de biopsias y citologías (umbral ≥75%)</div>
+    <p>Exige un <span class="hl">documento institucional que describa los procedimientos de recepción, registro y entrega de resultados de biopsias y citologías que aseguren su trazabilidad</span>, con responsables definidos. El evaluador verificará en terreno que se pueda seguir el recorrido completo de una muestra desde su origen hasta el informe entregado, sin "puntos ciegos" en la cadena de custodia.</p>
+  </div>
+
+  <div class="step-grid">
+    <div class="step-card">
+      <div class="sc-label">Solicitud médica — qué debe contener</div>
+      <ul>
+        <li>Identificación del paciente (nombre, RUT, fecha de nacimiento)</li>
+        <li>Nombre del médico solicitante y su firma</li>
+        <li>Diagnóstico clínico o hipótesis diagnóstica</li>
+        <li>Tipo y sitio anatómico de la muestra</li>
+        <li>Fecha y hora de obtención</li>
+        <li>Número de muestras y tipo de fijador</li>
+      </ul>
+    </div>
+    <div class="step-card">
+      <div class="sc-label">Toma de muestra — criterios clave</div>
+      <ul>
+        <li>Fijación inmediata en formalina tamponada al 10% (volumen 10:1)</li>
+        <li>Frasco adecuado al tamaño de la pieza (no comprimir)</li>
+        <li>Etiqueta con al menos 2 identificadores únicos (nombre + RUT)</li>
+        <li>Concordancia entre etiqueta del frasco y solicitud</li>
+        <li>Un tipo de muestra por frasco (evitar mezcla)</li>
+        <li>Verificación verbal por médico que obtiene la muestra</li>
+      </ul>
+    </div>
+    <div class="step-card">
+      <div class="sc-label">Transporte</div>
+      <ul>
+        <li>Triple embalaje obligatorio (exigencia Manual APA GP1.2)</li>
+        <li>Contenedor primario (frasco con muestra) → secundario (bolsa estéril) → terciario (caja rígida)</li>
+        <li>Registro del traspaso: quién entrega, quién recibe, fecha y hora</li>
+        <li>Temperatura ambiente para muestras fijadas en formalina</li>
+        <li>Muestras para congelación: transporte en frío seco o en N₂ líquido</li>
+      </ul>
+    </div>
+    <div class="step-card">
+      <div class="sc-label">Recepción y criterios de rechazo</div>
+      <ul>
+        <li>Verificación de concordancia frasco–solicitud al ingreso</li>
+        <li>Asignación de código único interno (número de caso)</li>
+        <li>Registro en libro o sistema informático de todas las muestras ingresadas Y rechazadas</li>
+        <li><span class="hl">Criterios de rechazo documentados:</span> muestra sin identificación, sin solicitud, frasco abierto, fijador inadecuado, muestra desecada, datos insuficientes</li>
+        <li>Registro de la causal de cada rechazo</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="gp-box">
+    <div class="gp-label">📌 GP 1.2 — Etapa preanalítica: procedimientos explícitos y evaluación sistemática (umbral ≥80%)</div>
+    <ul>
+      <li>El documento debe describir: datos de la solicitud, criterios de obtención, conservación, rotulación, transporte (triple embalaje) y criterios de rechazo</li>
+      <li>Deben estar definidos los responsables de su aplicación</li>
+      <li>Debe existir un <span class="hl">indicador con umbral</span> (ejemplo: % de muestras rechazadas / total muestras recibidas)</li>
+      <li>Debe constar evidencia de evaluación periódica (registros del indicador)</li>
+    </ul>
+  </div>
+
+  <div class="alert-box">
+    <div class="al-label">⚠️ Puntos ciegos más frecuentes en AP chilenos</div>
+    <ul>
+      <li>El registro de rechazos existe pero no incluye la causal → el evaluador no puede verificar que el criterio se aplica</li>
+      <li>El código único se asigna en recepción pero no acompaña la muestra en TODAS las fases (se usa en macroscopía pero no en el procesador)</li>
+      <li>No existe registro del traspaso mensajero → laboratorio (firma de quien recibe)</li>
+      <li>El indicador de la etapa preanalítica está definido en papel pero sin registros de evaluación periódica</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ANALÍTICA -->
+<div class="panel" id="panel-analitica">
+  <div class="stage-header">
+    <div class="stage-icon" style="background:#E1F5EE">🔬</div>
+    <div>
+      <div class="stage-title">Etapa analítica — GP 1.3 (a) y GP 1.4</div>
+      <div class="stage-sub">Desde la macroscopía hasta el diagnóstico del patólogo · Requiere estandarización de técnicas y control de calidad interno en cada proceso</div>
+    </div>
+  </div>
+
+  <div class="gp-box">
+    <div class="gp-label">📌 GP 1.3 (a) — Procesos analíticos y postanalíticos: procedimientos explícitos (umbral ≥80%)</div>
+    <p>Para la etapa analítica, el documento institucional debe describir: <span class="hl">asignación de responsabilidades para realizar los exámenes, validar los resultados y entregar los informes</span> (incluyendo biopsias rápidas), técnicas de procesamiento de muestras, procedimiento de <span class="hl">control de calidad interno</span>, y plazos de entrega. Debe haber 2 indicadores, al menos uno relacionado con el QC interno.</p>
+  </div>
+
+  <div class="step-grid">
+    <div class="step-card">
+      <div class="sc-label">Macroscopía</div>
+      <ul>
+        <li>Descripción completa de la pieza (tamaño, color, consistencia, márgenes)</li>
+        <li>Tallado sistemático según protocolo de cada tipo de muestra</li>
+        <li>Registro de coincidencia entre datos del frasco y la solicitud en el informe macroscópico</li>
+        <li>Asignación de casetes con identificación del caso en cada uno</li>
+        <li>Registro de número de casetes enviados al procesador</li>
+      </ul>
+    </div>
+    <div class="step-card">
+      <div class="sc-label">Procesamiento histológico</div>
+      <ul>
+        <li>Procesador de tejidos: registro diario de temperatura y ciclos</li>
+        <li>Inclusión en parafina: orientación adecuada del tejido en el bloque</li>
+        <li>Corte en microtomo: verificación del grosor (3–4 µm rutina)</li>
+        <li>Tinción HE: control interno con tejido de referencia en cada corrida</li>
+        <li>Verificación de coincidencia número de casete → lámina → sobre</li>
+      </ul>
+    </div>
+    <div class="step-card">
+      <div class="sc-label">Técnicas especiales e IHQ</div>
+      <ul>
+        <li>Protocolo de cada técnica con parámetros críticos (tiempo, temperatura, pH)</li>
+        <li>Control positivo y negativo en CADA corrida de IHQ</li>
+        <li>Registro de resultado del control antes de validar la corrida</li>
+        <li>Validación de anticuerpos nuevos antes de uso diagnóstico</li>
+        <li>Participación en PEEC de IHQ (exigencia GP 1.4)</li>
+      </ul>
+    </div>
+    <div class="step-card">
+      <div class="sc-label">Biopsias rápidas intraoperatorias</div>
+      <ul>
+        <li>Proceso con plazos máximos definidos (≤20 minutos desde recepción)</li>
+        <li>Responsables explícitos: TM que procesa + patólogo que diagnostica</li>
+        <li>Comunicación del resultado al pabellón: registro de quién informa, a quién y a qué hora</li>
+        <li>Concordancia posterior biopsia rápida vs. definitiva: indicador de calidad recomendado</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="gp-box">
+    <div class="gp-label">📌 GP 1.4 — Control de calidad externo / PEEC (umbral ≥75%)</div>
+    <ul>
+      <li>Registros de participación en <span class="hl">PEEC de Anatomía Patológica</span> (IHQ como mínimo)</li>
+      <li>Registros de participación en <span class="hl">PEEC de Citología</span> (PEEC ISP para Papanicolaou u otro equivalente)</li>
+      <li>Si no hay PEEC disponible: se pueden usar enfoques alternativos de la NCh-ISO 15189 (punto 5.6.3.2)</li>
+      <li>Análisis y acciones de mejora documentadas ante resultados insatisfactorios del PEEC</li>
+    </ul>
+  </div>
+</div>
+
+<!-- POSTANALÍTICA -->
+<div class="panel" id="panel-post">
+  <div class="stage-header">
+    <div class="stage-icon" style="background:#FAEEDA">📄</div>
+    <div>
+      <div class="stage-title">Etapa postanalítica — GP 1.3 (b) y GP 1.5</div>
+      <div class="stage-sub">Desde la validación del informe hasta su entrega, archivo de material y verificación de oportunidad · Concentra el 25–30% de los errores totales</div>
+    </div>
+  </div>
+
+  <div class="gp-box">
+    <div class="gp-label">📌 GP 1.3 (b) — Postanalítica: respaldo y plazos (umbral ≥80%)</div>
+    <p>El documento debe incluir: <span class="hl">procedimiento de respaldo de informes, citologías, láminas e inclusiones histológicas</span>, y plazos de entrega definidos por tipo de examen. Los plazos deben ser conocidos por el solicitante y cumplirse de forma demostrable.</p>
+  </div>
+
+  <div class="step-grid">
+    <div class="step-card">
+      <div class="sc-label">Informe anatomopatológico</div>
+      <ul>
+        <li>Estructura mínima: identificación del paciente, muestra, macroscopía, microscopía, diagnóstico y firma del patólogo</li>
+        <li>Correlación con la solicitud: tipo de muestra declarado vs. procesado</li>
+        <li>Informes adicionales (IHQ, técnicas especiales) vinculados al informe principal</li>
+        <li>Respaldo digital de todos los informes emitidos</li>
+      </ul>
+    </div>
+    <div class="step-card">
+      <div class="sc-label">Archivo de material</div>
+      <ul>
+        <li>Láminas histológicas: archivo mínimo de 10 años (reglamento de AP)</li>
+        <li>Bloques de parafina: archivo mínimo de 10 años</li>
+        <li>Informes: archivo indefinido para biopsias oncológicas</li>
+        <li>Sistema de recuperación: por número de caso, RUT del paciente o fecha</li>
+        <li>Registro de préstamo de material (láminas y bloques cedidos a otras instituciones)</li>
+      </ul>
+    </div>
+    <div class="step-card">
+      <div class="sc-label">Entrega de resultados</div>
+      <ul>
+        <li>Registro de entrega conforme (firma de quien recibe el informe impreso)</li>
+        <li>Para informes digitales: constancia de envío y recepción</li>
+        <li>Verificación de que todos los informes de muestras ingresadas han sido emitidos</li>
+        <li>Sistema de alerta para biopsias con resultado pendiente fuera del plazo</li>
+      </ul>
+    </div>
+    <div class="step-card">
+      <div class="sc-label">Plazos TAT — GP 1.5</div>
+      <ul>
+        <li><span class="hl">Biopsia de rutina:</span> 5–7 días hábiles (definido por el prestador)</li>
+        <li><span class="hl">Biopsia rápida intraoperatoria:</span> ≤20 minutos desde recepción</li>
+        <li><span class="hl">Citología ginecológica:</span> 7–10 días hábiles</li>
+        <li><span class="hl">Citología urgente (BAAF nodular):</span> 24–48 horas</li>
+        <li>Los plazos deben estar documentados, conocidos y medidos mediante indicador</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="gp-box">
+    <div class="gp-label">📌 GP 1.5 — Oportunidad de entrega de resultados (umbral ≥80%)</div>
+    <ul>
+      <li>Exige documento con <span class="hl">plazos de entrega definidos por tipo de examen</span></li>
+      <li>Indicador de TAT con umbral documentado y evaluación periódica</li>
+      <li>Mecanismo para detectar resultados atrasados (alarmas, revisión periódica de casos pendientes)</li>
+      <li>Medidas especiales para resultados con valores críticos (vinculo con AOC 1.3)</li>
+    </ul>
+  </div>
+</div>
+
+<!-- PEEC / QC EXTERNO -->
+<div class="panel" id="panel-peec">
+  <div class="stage-header">
+    <div class="stage-icon" style="background:#EEEDFE">🏅</div>
+    <div>
+      <div class="stage-title">Control de calidad externo — GP 1.4</div>
+      <div class="stage-sub">Programa de evaluación externa de la calidad (PEEC) · Medida externa del desempeño analítico · Umbral ≥75%</div>
+    </div>
+  </div>
+
+  <div class="step-grid">
+    <div class="step-card">
+      <div class="sc-label">¿Qué es el PEEC?</div>
+      <p>Es un programa organizado en el que un organismo externo envía muestras o casos de referencia al laboratorio para que los procese y diagnostique. Los resultados se comparan con el diagnóstico de referencia (consenso de expertos) y se obtiene una medida objetiva del desempeño.</p>
+    </div>
+    <div class="step-card">
+      <div class="sc-label">PEEC para AP — IHQ</div>
+      <ul>
+        <li>Mínimo exigido: participación en PEEC de IHQ</li>
+        <li>Organismos habilitados: College of American Pathologists (CAP), UK NEQAS, SEAP/SEHH, entre otros</li>
+        <li>Frecuencia habitual: 2–4 rondas anuales</li>
+        <li>Registro de: resultados obtenidos, comparación con valor de referencia, análisis y acciones de mejora si no cumple</li>
+      </ul>
+    </div>
+    <div class="step-card">
+      <div class="sc-label">PEEC para citología</div>
+      <ul>
+        <li>Adscripción al PEEC Laboratorios citología ginecológica del ISP (Chile)</li>
+        <li>O equivalente reconocido</li>
+        <li>Registro de participación y de acciones de mejora ante resultados insatisfactorios</li>
+      </ul>
+    </div>
+    <div class="step-card">
+      <div class="sc-label">Alternativa si no hay PEEC disponible</div>
+      <p>La NCh-ISO 15189 (punto 5.6.3.2) admite enfoques alternativos: comparación interlaboratorio bilateral, uso de materiales de referencia certificados, o análisis de concordancia de casos entre patólogos de diferentes centros. Debe documentarse la justificación de la alternativa utilizada.</p>
+    </div>
+  </div>
+
+  <div class="alert-box">
+    <div class="al-label">⚠️ Error frecuente: participar pero no analizar</div>
+    <p>El error más común es que el laboratorio tiene los certificados de participación en el PEEC pero no tiene registros del análisis de los resultados ni de las acciones de mejora tomadas cuando el resultado fue insatisfactorio. El evaluador verifica explícitamente este punto. La participación sin análisis no cumple el elemento medible.</p>
+  </div>
+</div>
+
+<!-- EVENTOS ADVERSOS -->
+<div class="panel" id="panel-ea">
+  <div class="stage-header">
+    <div class="stage-icon" style="background:#EEEDFE">⚠️</div>
+    <div>
+      <div class="stage-title">Vigilancia de eventos adversos — GP 2.1 y GP 2.2</div>
+      <div class="stage-sub">Sistema de detección, registro y análisis de errores e incidentes del laboratorio de AP · Umbrales ≥80% y ≥66%</div>
+    </div>
+  </div>
+
+  <div class="step-grid">
+    <div class="step-card">
+      <div class="sc-label">¿Qué es un evento adverso en AP?</div>
+      <ul>
+        <li>Error de identificación de muestra (intercambio de pacientes)</li>
+        <li>Pérdida de muestra o de parte de ella</li>
+        <li>Diagnóstico incorrecto que afecta la conducta clínica</li>
+        <li>Demora significativa en la entrega de un resultado crítico</li>
+        <li>Contaminación cruzada entre muestras</li>
+        <li>Informe entregado al paciente equivocado</li>
+      </ul>
+    </div>
+    <div class="step-card">
+      <div class="sc-label">GP 2.1 — Sistema de vigilancia (umbral ≥80%)</div>
+      <ul>
+        <li>Documento que describe el sistema de detección y registro de EA</li>
+        <li>Responsable designado del sistema</li>
+        <li>Canal de reporte accesible a todo el personal</li>
+        <li>Registro de todos los EA ocurridos con fecha, descripción e impacto</li>
+        <li>Evaluación periódica de los EA registrados</li>
+      </ul>
+    </div>
+    <div class="step-card">
+      <div class="sc-label">GP 2.2 — Investigación de EA (umbral ≥66%)</div>
+      <ul>
+        <li>Análisis de causa raíz de los EA graves (metodología explícita: Ishikawa, 5 Por Qués)</li>
+        <li>Plan de acciones correctivas documentado</li>
+        <li>Seguimiento de la implementación de las acciones</li>
+        <li>Comunicación de los EA y sus lecciones aprendidas al equipo</li>
+      </ul>
+    </div>
+    <div class="step-card">
+      <div class="sc-label">Orientación sistémica — clave para acreditación</div>
+      <p>La Superintendencia de Salud es explícita: los EA deben analizarse buscando <span class="hl">causas organizacionales y fallas del sistema</span>, no atribuirse exclusivamente a error individual. El evaluador buscará que el registro de EA muestre evidencia de este enfoque: análisis de proceso, no solo sanción al individuo.</p>
+    </div>
+  </div>
+
+  <div class="gp-box">
+    <div class="gp-label">📌 Ejercicios de trazabilidad — herramienta recomendada</div>
+    <p>La Superintendencia de Salud recomienda <span class="hl">realizar ejercicios de trazabilidad en terreno</span> de forma periódica: tomar un caso cerrado y reconstruir su recorrido completo desde la solicitud médica hasta el informe archivado, verificando que cada traspaso esté registrado. Estos ejercicios deben estar documentados y son un insumo valioso para la autoevaluación y la detección de puntos ciegos antes de la visita del evaluador.</p>
+  </div>
+</div>
+
+</div>
+<script>
+function show(id){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nbtn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  const m={'mapa':0,'pre':1,'analitica':2,'post':3,'peec':4,'ea':5};
+  document.querySelectorAll('.nbtn')[m[id]].classList.add('active');
+}
+</script>
