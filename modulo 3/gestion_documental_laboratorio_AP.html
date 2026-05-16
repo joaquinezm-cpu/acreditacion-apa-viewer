@@ -1,0 +1,525 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.root{font-family:var(--font-sans);padding:8px 0 20px}
+.nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.nbtn{padding:7px 14px;border:0.5px solid var(--color-border-secondary);border-radius:99px;background:var(--color-background-primary);color:var(--color-text-secondary);font-size:12px;font-weight:500;cursor:pointer;transition:all .18s;white-space:nowrap}
+.nbtn:hover{background:var(--color-background-secondary)}
+.nbtn.active{background:var(--color-background-secondary);color:var(--color-text-primary);border-color:var(--color-border-primary)}
+.panel{display:none}.panel.active{display:block}
+
+.hdr{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:var(--border-radius-lg);border:0.5px solid var(--color-border-tertiary);background:var(--color-background-secondary);margin-bottom:14px}
+.hdr-icon{width:46px;height:46px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px}
+.hdr-title{font-size:15px;font-weight:500;color:var(--color-text-primary);margin-bottom:2px}
+.hdr-sub{font-size:12px;color:var(--color-text-secondary);line-height:1.5}
+
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px}
+@media(max-width:520px){.g2,.g3{grid-template-columns:1fr}}
+
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:12px 14px}
+.card .lbl{font-size:11px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
+.card p,.card li{font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+.card ul{padding-left:16px}.card li{margin-bottom:2px}
+.hl{color:var(--color-text-primary);font-weight:500}
+
+.ap{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-left:3px solid #0F6E56;border-radius:var(--border-radius-md);padding:11px 14px;margin-bottom:8px}
+.ap .al{font-size:11px;font-weight:500;color:#0F6E56;margin-bottom:4px}
+.ap p,.ap li{font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+.ap ul{padding-left:16px}.ap li{margin-bottom:2px}
+
+.iso{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-left:3px solid #185FA5;border-radius:var(--border-radius-md);padding:11px 14px;margin-bottom:8px}
+.iso .il{font-size:11px;font-weight:500;color:#185FA5;margin-bottom:4px}
+.iso p,.iso li{font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+.iso ul{padding-left:16px}.iso li{margin-bottom:2px}
+
+.warn{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-left:3px solid #BA7517;border-radius:var(--border-radius-md);padding:11px 14px;margin-bottom:8px}
+.warn .wl{font-size:11px;font-weight:500;color:#BA7517;margin-bottom:4px}
+.warn p,.warn li{font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+.warn ul{padding-left:16px}.warn li{margin-bottom:2px}
+
+.slbl{font-size:11px;font-weight:500;letter-spacing:.07em;color:var(--color-text-tertiary);text-transform:uppercase;margin:14px 0 8px}
+
+/* doc type cards */
+.dtype{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:12px 14px;cursor:pointer;transition:border-color .18s}
+.dtype:hover{border-color:var(--color-border-primary)}
+.dtype .dt-top{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.dtype .dt-badge{font-size:11px;padding:2px 9px;border-radius:99px;font-weight:500;flex-shrink:0}
+.dtype .dt-q{font-size:11px;color:var(--color-text-tertiary);font-style:italic}
+.dtype .dt-title{font-size:14px;font-weight:500;color:var(--color-text-primary)}
+.dtype p,.dtype li{font-size:12px;color:var(--color-text-secondary);line-height:1.5}
+.dtype ul{padding-left:14px;margin-top:4px}.dtype li{margin-bottom:2px}
+
+/* portada mockup */
+.portada{background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:0;overflow:hidden;margin-bottom:8px}
+.portada-top{background:var(--color-background-secondary);padding:10px 14px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.portada-row{display:flex;align-items:center;gap:10px;padding:8px 14px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.portada-row:last-child{border-bottom:none}
+.portada-key{font-size:11px;font-weight:500;color:var(--color-text-secondary);min-width:130px;flex-shrink:0}
+.portada-val{font-size:12px;color:var(--color-text-primary)}
+.portada-val.code{font-family:var(--font-mono);font-size:11px;color:#185FA5}
+.portada-val.red{color:#993C1D}
+.portada-val.muted{color:var(--color-text-tertiary);font-style:italic}
+
+/* listado maestro table */
+.lm-table{width:100%;border-collapse:collapse;font-size:12px}
+.lm-table th{background:var(--color-background-secondary);padding:7px 10px;text-align:left;font-weight:500;color:var(--color-text-secondary);border-bottom:0.5px solid var(--color-border-tertiary);font-size:11px}
+.lm-table td{padding:7px 10px;border-bottom:0.5px solid var(--color-border-tertiary);color:var(--color-text-secondary);vertical-align:top}
+.lm-table tr:last-child td{border-bottom:none}
+.lm-table .mono{font-family:var(--font-mono);font-size:11px;color:#185FA5}
+.lm-table .ok{color:#0F6E56;font-weight:500;font-size:11px}
+.lm-table .pend{color:#BA7517;font-weight:500;font-size:11px}
+
+/* ciclo stepper */
+.stepper{display:flex;gap:0;overflow-x:auto;margin-bottom:12px}
+.step{flex:1;min-width:90px;text-align:center;padding:10px 6px;position:relative}
+.step::after{content:'→';position:absolute;right:-8px;top:50%;transform:translateY(-50%);color:var(--color-text-tertiary);font-size:14px}
+.step:last-child::after{display:none}
+.step-num{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;margin:0 auto 5px}
+.step-lbl{font-size:11px;color:var(--color-text-secondary);line-height:1.3}
+</style>
+
+<div class="root">
+<h2 class="sr-only">Punto 3.3 — Gestión documental del laboratorio de AP: tipos de documentos, ciclo de vida, listado maestro y requisitos de acreditación</h2>
+
+<div class="nav">
+  <button class="nbtn active" onclick="show('overview')">Visión general</button>
+  <button class="nbtn" onclick="show('tipos')">Tipos de documentos</button>
+  <button class="nbtn" onclick="show('estructura')">Estructura y formato</button>
+  <button class="nbtn" onclick="show('ciclo')">Ciclo de vida</button>
+  <button class="nbtn" onclick="show('maestro')">Listado maestro</button>
+  <button class="nbtn" onclick="show('control')">Control ISO 15189</button>
+  <button class="nbtn" onclick="show('errores')">Errores frecuentes</button>
+</div>
+
+<!-- OVERVIEW -->
+<div class="panel active" id="panel-overview">
+<svg width="100%" viewBox="0 0 680 380" role="img">
+  <title>Sistema de gestión documental del laboratorio de AP: jerarquía de documentos y ciclo de vida</title>
+  <desc>Pirámide documental con política en la cima, luego manual, protocolos, procedimientos, instructivos y registros en la base, rodeada del ciclo de vida del documento</desc>
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <!-- PIRÁMIDE -->
+  <!-- Nivel 1: Política -->
+  <polygon points="340,30 420,90 260,90" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+  <text class="th" x="340" y="68" text-anchor="middle" font-size="11" fill="#3C3489" font-weight="500">Política de calidad</text>
+
+  <!-- Nivel 2: Manual -->
+  <polygon points="260,90 420,90 455,145 225,145" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+  <text class="th" x="340" y="122" text-anchor="middle" font-size="12" fill="#0C447C">Manual de calidad</text>
+
+  <!-- Nivel 3: Protocolos -->
+  <polygon points="225,145 455,145 490,200 190,200" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+  <text class="th" x="340" y="177" text-anchor="middle" font-size="12" fill="#085041">Protocolos</text>
+  <text class="ts" x="340" y="193" text-anchor="middle" font-size="10" fill="#0F6E56">¿Qué hacer?</text>
+
+  <!-- Nivel 4: Procedimientos -->
+  <polygon points="190,200 490,200 525,260 155,260" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.5"/>
+  <text class="th" x="340" y="232" text-anchor="middle" font-size="12" fill="#633806">Procedimientos / POE</text>
+  <text class="ts" x="340" y="248" text-anchor="middle" font-size="10" fill="#BA7517">¿Cómo hacerlo?</text>
+
+  <!-- Nivel 5: Instructivos -->
+  <polygon points="155,260 525,260 558,315 122,315" fill="#FAECE7" stroke="#993C1D" stroke-width="0.5"/>
+  <text class="th" x="340" y="291" text-anchor="middle" font-size="12" fill="#711B0B">Instructivos de trabajo</text>
+  <text class="ts" x="340" y="307" text-anchor="middle" font-size="10" fill="#993C1D">Paso a paso operativo</text>
+
+  <!-- Nivel 6: Registros -->
+  <polygon points="122,315 558,315 590,365 90,365" fill="#D3D1C7" stroke="#5F5E5A" stroke-width="0.5"/>
+  <text class="th" x="340" y="344" text-anchor="middle" font-size="12" fill="#2C2C2A">Registros</text>
+  <text class="ts" x="340" y="360" text-anchor="middle" font-size="10" fill="#444441">Evidencia de lo realizado</text>
+
+  <!-- CICLO DE VIDA (derecha) -->
+  <text class="ts" x="620" y="55" text-anchor="middle" font-size="11" fill="var(--color-text-tertiary)" font-weight="500">Ciclo de vida</text>
+
+  <!-- Elaborar -->
+  <rect x="575" y="65" width="90" height="30" rx="6" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+  <text class="ts" x="620" y="84" text-anchor="middle" font-size="11" fill="#085041">1 · Elaborar</text>
+  <line x1="620" y1="95" x2="620" y2="108" stroke="#0F6E56" stroke-width="1" marker-end="url(#arr)"/>
+
+  <!-- Revisar -->
+  <rect x="575" y="108" width="90" height="30" rx="6" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+  <text class="ts" x="620" y="127" text-anchor="middle" font-size="11" fill="#0C447C">2 · Revisar</text>
+  <line x1="620" y1="138" x2="620" y2="151" stroke="#185FA5" stroke-width="1" marker-end="url(#arr)"/>
+
+  <!-- Aprobar -->
+  <rect x="575" y="151" width="90" height="30" rx="6" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+  <text class="ts" x="620" y="170" text-anchor="middle" font-size="11" fill="#3C3489">3 · Aprobar</text>
+  <line x1="620" y1="181" x2="620" y2="194" stroke="#534AB7" stroke-width="1" marker-end="url(#arr)"/>
+
+  <!-- Difundir -->
+  <rect x="575" y="194" width="90" height="30" rx="6" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.5"/>
+  <text class="ts" x="620" y="213" text-anchor="middle" font-size="11" fill="#633806">4 · Difundir</text>
+  <line x1="620" y1="224" x2="620" y2="237" stroke="#BA7517" stroke-width="1" marker-end="url(#arr)"/>
+
+  <!-- Aplicar -->
+  <rect x="575" y="237" width="90" height="30" rx="6" fill="#FBEAF0" stroke="#993556" stroke-width="0.5"/>
+  <text class="ts" x="620" y="256" text-anchor="middle" font-size="11" fill="#72243E">5 · Aplicar</text>
+  <line x1="620" y1="267" x2="620" y2="280" stroke="#993556" stroke-width="1" marker-end="url(#arr)"/>
+
+  <!-- Actualizar -->
+  <rect x="575" y="280" width="90" height="30" rx="6" fill="#D3D1C7" stroke="#5F5E5A" stroke-width="0.5"/>
+  <text class="ts" x="620" y="299" text-anchor="middle" font-size="11" fill="#2C2C2A">6 · Actualizar</text>
+
+  <!-- Flecha retorno ciclo -->
+  <path d="M575 295 L545 295 L545 80 L575 80" fill="none" stroke="#888780" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#arr)"/>
+  <text class="ts" x="535" y="190" text-anchor="middle" font-size="10" fill="var(--color-text-tertiary)" transform="rotate(-90,535,190)">Revisión periódica</text>
+
+  <!-- LISTADO MAESTRO label (izquierda) -->
+  <rect x="14" y="150" width="100" height="50" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+  <text class="ts" x="64" y="170" text-anchor="middle" font-size="11" fill="#0C447C" font-weight="500">Listado</text>
+  <text class="ts" x="64" y="184" text-anchor="middle" font-size="11" fill="#0C447C" font-weight="500">Maestro</text>
+  <text class="ts" x="64" y="198" text-anchor="middle" font-size="10" fill="#185FA5">Registra todo</text>
+  <line x1="114" y1="175" x2="190" y2="200" stroke="#185FA5" stroke-width="0.5" stroke-dasharray="3 2" marker-end="url(#arr)"/>
+
+  <!-- hint -->
+  <text class="ts" x="300" y="375" text-anchor="middle" font-size="10" fill="var(--color-text-tertiary)">Usa los botones del menú para ver cada componente en detalle →</text>
+</svg>
+</div>
+
+<!-- TIPOS DE DOCUMENTOS -->
+<div class="panel" id="panel-tipos">
+  <div class="hdr">
+    <div class="hdr-icon" style="background:#EEEDFE">📂</div>
+    <div>
+      <div class="hdr-title">Tipos de documentos del sistema de gestión de calidad</div>
+      <div class="hdr-sub">Cada tipo responde una pregunta diferente · La jerarquía define quién aprueba y qué tan difícil es modificar el documento</div>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="dtype" onclick="sendPrompt('Dame un ejemplo concreto de política de calidad para un laboratorio de AP en Chile')">
+      <div class="dt-top">
+        <span class="dt-badge" style="background:#EEEDFE;color:#534AB7">Nivel 1</span>
+        <span class="dt-q">¿Por qué existimos?</span>
+      </div>
+      <div class="dt-title">Política de calidad</div>
+      <p style="margin-top:5px">Declaración de intenciones de la dirección respecto a la calidad. Establece el compromiso institucional. Breve (1 página), aprobada por la dirección, conocida por todo el personal.</p>
+      <ul style="margin-top:6px">
+        <li>Exigida por CAL 1.1 (1° EM) del Manual APA</li>
+        <li>Debe estar disponible en el punto de verificación "Dirección/Gerencia"</li>
+        <li>Ejemplos: "Nuestro LAP busca entregar diagnósticos confiables y oportunos..."</li>
+      </ul>
+    </div>
+
+    <div class="dtype" onclick="sendPrompt('¿Qué debe contener el manual de calidad de un laboratorio de AP?')">
+      <div class="dt-top">
+        <span class="dt-badge" style="background:#E6F1FB;color:#185FA5">Nivel 2</span>
+        <span class="dt-q">¿Cómo nos organizamos?</span>
+      </div>
+      <div class="dt-title">Manual de calidad</div>
+      <p style="margin-top:5px">Describe el sistema de gestión de calidad del laboratorio: organización, responsabilidades, alcance, referencias normativas y la forma en que se gestionan los documentos.</p>
+      <ul style="margin-top:6px">
+        <li>Marco global del sistema — "el manual de manuales"</li>
+        <li>Recomendado por CLSI HS01 como primer documento a elaborar</li>
+        <li>No lo exige explícitamente el Manual APA, pero estructura todo lo demás</li>
+      </ul>
+    </div>
+
+    <div class="dtype" onclick="sendPrompt('Dame la estructura completa de un protocolo de trazabilidad de biopsias para un laboratorio de AP')">
+      <div class="dt-top">
+        <span class="dt-badge" style="background:#E1F5EE;color:#0F6E56">Nivel 3</span>
+        <span class="dt-q">¿Qué hacer ante X situación?</span>
+      </div>
+      <div class="dt-title">Protocolo</div>
+      <p style="margin-top:5px">Pauta de actuación consensuada para una situación específica. Responde al "qué hacer". Más amplio que un procedimiento, puede contener varios procedimientos dentro.</p>
+      <ul style="margin-top:6px">
+        <li>Ej: Protocolo de trazabilidad de biopsias y citologías (GP 1.1)</li>
+        <li>Ej: Protocolo de vigilancia de eventos adversos (GP 2.1)</li>
+        <li>Ej: Protocolo de control de calidad interno (GP 1.3)</li>
+        <li>Sustentado en evidencia científica cuando es clínico</li>
+      </ul>
+    </div>
+
+    <div class="dtype" onclick="sendPrompt('Dame la estructura de un POE de procesamiento histológico para AP')">
+      <div class="dt-top">
+        <span class="dt-badge" style="background:#FAEEDA;color:#BA7517">Nivel 4</span>
+        <span class="dt-q">¿Cómo se hace paso a paso?</span>
+      </div>
+      <div class="dt-title">Procedimiento / POE</div>
+      <p style="margin-top:5px">Procedimiento Operativo Estándar (POE o SOP). Describe secuencialmente cómo se realiza una tarea específica. El evaluador buscará que lo descrito en el POE coincida con lo que hace el personal.</p>
+      <ul style="margin-top:6px">
+        <li>Ej: POE de recepción y registro de muestras</li>
+        <li>Ej: POE de tinción HE con hoja de control</li>
+        <li>Ej: POE de IHQ: protocolo de anticuerpo por anticuerpo</li>
+        <li>Ej: POE de biopsia rápida intraoperatoria</li>
+      </ul>
+    </div>
+
+    <div class="dtype">
+      <div class="dt-top">
+        <span class="dt-badge" style="background:#FAECE7;color:#993C1D">Nivel 5</span>
+        <span class="dt-q">¿Cómo uso este equipo/reactivo?</span>
+      </div>
+      <div class="dt-title">Instructivo de trabajo</div>
+      <p style="margin-top:5px">Más específico que el POE. Orientado al uso de un equipo, reactivo o tarea operativa puntual. Generalmente se ubica físicamente junto al equipo o en el puesto de trabajo.</p>
+      <ul style="margin-top:6px">
+        <li>Ej: Instructivo de uso del procesador de tejidos Leica ASP300</li>
+        <li>Ej: Instructivo de cambio de cuchilla del microtomo</li>
+        <li>Ej: Instructivo de preparación de formalina tamponada</li>
+      </ul>
+    </div>
+
+    <div class="dtype">
+      <div class="dt-top">
+        <span class="dt-badge" style="background:#D3D1C7;color:#2C2C2A">Nivel 6</span>
+        <span class="dt-q">¿Qué se hizo, cuándo y quién?</span>
+      </div>
+      <div class="dt-title">Registro</div>
+      <p style="margin-top:5px">Evidencia objetiva de que una actividad se realizó. Es la diferencia entre "decir que se hace" y "demostrar que se hizo". Los registros no se modifican — si hay error, se tacha y se anota corrección con firma y fecha.</p>
+      <ul style="margin-top:6px">
+        <li>Ej: Libro de ingreso de muestras</li>
+        <li>Ej: Hoja de control de tinción HE</li>
+        <li>Ej: Registro de temperatura del procesador</li>
+        <li>Ej: Planilla de resultados del PEEC</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="warn">
+    <div class="wl">⚠️ Distinción crítica: documento vs. registro</div>
+    <p>ISO 15189 (sección 4.3) es explícita: los <span class="hl">documentos</span> describen cómo se hace el trabajo y se actualizan cuando los procesos cambian. Los <span class="hl">registros</span> evidencian que el trabajo se hizo y son inmutables. El evaluador buscará ambos: el procedimiento escrito Y la evidencia de que se aplicó. Tener el POE sin el registro de aplicación es insuficiente.</p>
+  </div>
+</div>
+
+<!-- ESTRUCTURA Y FORMATO -->
+<div class="panel" id="panel-estructura">
+  <div class="hdr">
+    <div class="hdr-icon" style="background:#E6F1FB">📄</div>
+    <div>
+      <div class="hdr-title">Estructura y formato de los documentos</div>
+      <div class="hdr-sub">Portada mínima exigida · Contenido del protocolo y el POE · Requisitos de identificación ISO 15189</div>
+    </div>
+  </div>
+
+  <p class="slbl">Portada mínima requerida (cualquier tipo de documento)</p>
+  <div class="portada">
+    <div class="portada-top">
+      <span style="font-size:13px;font-weight:500;color:var(--color-text-primary)">Ejemplo: POE de recepción de muestras — Laboratorio de Anatomía Patológica</span>
+    </div>
+    <div class="portada-row"><span class="portada-key">Logo / nombre institución</span><span class="portada-val muted">[Logo del laboratorio / establecimiento]</span></div>
+    <div class="portada-row"><span class="portada-key">Título del documento</span><span class="portada-val hl">Procedimiento de Recepción y Registro de Muestras de Biopsia y Citología</span></div>
+    <div class="portada-row"><span class="portada-key">Código único</span><span class="portada-val code">LAP-POE-PRE-001</span></div>
+    <div class="portada-row"><span class="portada-key">Versión / edición</span><span class="portada-val">Versión 03</span></div>
+    <div class="portada-row"><span class="portada-key">Fecha de elaboración</span><span class="portada-val">15/03/2023</span></div>
+    <div class="portada-row"><span class="portada-key">Fecha de última revisión</span><span class="portada-val">10/01/2025</span></div>
+    <div class="portada-row"><span class="portada-key">Fecha de próxima revisión</span><span class="portada-val">Enero 2026</span></div>
+    <div class="portada-row"><span class="portada-key">Elaborado por</span><span class="portada-val">TM Nombre Apellido — Encargada de Calidad</span></div>
+    <div class="portada-row"><span class="portada-key">Revisado por</span><span class="portada-val">TM Nombre Apellido — Supervisora de Preanalítica</span></div>
+    <div class="portada-row"><span class="portada-key">Aprobado por</span><span class="portada-val red">Dr. Nombre Apellido — Director Técnico LAP</span></div>
+    <div class="portada-row"><span class="portada-key">Alcance / distribución</span><span class="portada-val">Área de recepción · Macroscopía · Secretaría</span></div>
+  </div>
+  <p style="font-size:12px;color:var(--color-text-tertiary);margin-bottom:12px">El pie de página de cada hoja del documento debe incluir: código · versión · página X de Y · fecha de vigencia</p>
+
+  <p class="slbl">Estructura interna del protocolo (¿qué hacer?)</p>
+  <div class="g2">
+    <div class="card"><div class="lbl">Contenido obligatorio</div>
+      <ul>
+        <li><span class="hl">1. Introducción</span> — contexto y relevancia</li>
+        <li><span class="hl">2. Objetivo</span> — qué se pretende lograr</li>
+        <li><span class="hl">3. Alcance</span> — a quién aplica y en qué ámbito</li>
+        <li><span class="hl">4. Definiciones</span> — términos específicos y abreviaturas</li>
+        <li><span class="hl">5. Actividades</span> — descripción secuencial con responsables</li>
+        <li><span class="hl">6. Evaluación</span> — indicador, fórmula y periodicidad</li>
+        <li><span class="hl">7. Referencias</span> — normativas y bibliografía</li>
+        <li><span class="hl">8. Anexos</span> — formularios, flujogramas, registros asociados</li>
+      </ul>
+    </div>
+    <div class="card"><div class="lbl">Estructura del POE / procedimiento (¿cómo?)</div>
+      <ul>
+        <li><span class="hl">1. Objetivo</span></li>
+        <li><span class="hl">2. Alcance</span></li>
+        <li><span class="hl">3. Definiciones y abreviaturas</span></li>
+        <li><span class="hl">4. Responsables</span> — quién ejecuta, quién supervisa</li>
+        <li><span class="hl">5. Materiales e insumos</span> requeridos</li>
+        <li><span class="hl">6. Descripción del procedimiento</span> — pasos numerados</li>
+        <li><span class="hl">7. Flujograma o algoritmo</span> (recomendado)</li>
+        <li><span class="hl">8. Registros</span> — qué se registra, dónde, por cuánto tiempo</li>
+        <li><span class="hl">9. Referencias</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="ap">
+    <div class="al">📋 Lo que el evaluador busca en el documento</div>
+    <p>Cuando el Manual APA dice "existe un documento escrito sobre…", el evaluador verificará que el documento contenga específicamente los atributos mencionados en el elemento medible. Por ejemplo, GP 1.2 exige que el documento describa: datos de la solicitud, criterios de obtención, conservación, rotulación, transporte y criterios de rechazo. Si el POE existe pero no incluye los criterios de rechazo, ese elemento medible no cumple — aunque el laboratorio aplique el criterio en la práctica.</p>
+  </div>
+</div>
+
+<!-- CICLO DE VIDA -->
+<div class="panel" id="panel-ciclo">
+  <div class="hdr">
+    <div class="hdr-icon" style="background:#E1F5EE">🔄</div>
+    <div>
+      <div class="hdr-title">Ciclo de vida del documento</div>
+      <div class="hdr-sub">Desde la elaboración hasta la obsolescencia · Cada etapa tiene responsables y requisitos específicos</div>
+    </div>
+  </div>
+
+  <div class="stepper">
+    <div class="step"><div class="step-num" style="background:#E1F5EE;color:#085041">1</div><div class="step-lbl">Elaborar</div></div>
+    <div class="step"><div class="step-num" style="background:#E6F1FB;color:#0C447C">2</div><div class="step-lbl">Revisar</div></div>
+    <div class="step"><div class="step-num" style="background:#EEEDFE;color:#3C3489">3</div><div class="step-lbl">Aprobar</div></div>
+    <div class="step"><div class="step-num" style="background:#FAEEDA;color:#633806">4</div><div class="step-lbl">Difundir</div></div>
+    <div class="step"><div class="step-num" style="background:#FBEAF0;color:#72243E">5</div><div class="step-lbl">Aplicar</div></div>
+    <div class="step"><div class="step-num" style="background:#D3D1C7;color:#2C2C2A">6</div><div class="step-lbl">Actualizar</div></div>
+  </div>
+
+  <div class="g2">
+    <div class="card"><div class="lbl">1 · Elaboración</div>
+      <ul>
+        <li>Responsable técnico del área con competencia en el tema</li>
+        <li>Participación del personal que ejecutará el proceso (no solo el Encargado de Calidad)</li>
+        <li>Contenido debe reflejar la realidad local — no copiar documentos de otras instituciones</li>
+        <li>Usar formato estándar institucional definido por la Unidad de Calidad</li>
+      </ul>
+    </div>
+    <div class="card"><div class="lbl">2 · Revisión</div>
+      <ul>
+        <li>Par técnico o supervisor del área verifica coherencia y aplicabilidad</li>
+        <li>Encargado de Calidad verifica cumplimiento de formato y requisitos del estándar</li>
+        <li>Se documentan observaciones y se realizan correcciones</li>
+        <li>Solo cuando la revisión es conforme se avanza a la aprobación</li>
+      </ul>
+    </div>
+    <div class="card"><div class="lbl">3 · Aprobación</div>
+      <ul>
+        <li>El Director Técnico (o quien defina la institución) firma la aprobación</li>
+        <li>La aprobación formaliza el documento — le da carácter institucional</li>
+        <li>Se actualiza el Listado Maestro con versión, fecha y código</li>
+        <li>Documentos anteriores pasan a "obsoletos" y se retiran de circulación</li>
+      </ul>
+    </div>
+    <div class="card"><div class="lbl">4 · Difusión y distribución</div>
+      <ul>
+        <li>El documento vigente se pone disponible en los puntos de verificación (lugares de trabajo)</li>
+        <li>Se comunica al personal afectado — capacitación si el contenido cambia</li>
+        <li>Registro de que el personal tomó conocimiento (firma de lectura)</li>
+        <li>Solo versiones vigentes deben estar disponibles — retirar versiones anteriores</li>
+      </ul>
+    </div>
+    <div class="card"><div class="lbl">5 · Aplicación</div>
+      <ul>
+        <li>El personal ejecuta las tareas conforme lo descrito en el documento</li>
+        <li>Se generan los registros asociados como evidencia</li>
+        <li>Cualquier desviación se documenta como no conformidad</li>
+        <li>El evaluador verificará coherencia entre lo escrito y lo practicado</li>
+      </ul>
+    </div>
+    <div class="card"><div class="lbl">6 · Actualización y obsolescencia</div>
+      <ul>
+        <li>Revisión periódica programada (al menos anual para documentos técnicos)</li>
+        <li>Actualización obligatoria ante cambios de proceso, equipo, reactivo o normativa</li>
+        <li>Documentos obsoletos: identificar como "OBSOLETO", fechar y archivar al menos 1 copia</li>
+        <li>No mantener versiones desactualizadas en los puestos de trabajo</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="warn">
+    <div class="wl">⚠️ Cuándo un cambio requiere nuevo acto administrativo</div>
+    <p>Cambios menores (logo, formato, corrección ortográfica) no requieren nueva aprobación formal. Pero cualquier cambio que afecte la aplicabilidad del procedimiento sí lo requiere: cambio de responsables, cambio de alcance, cambio de criterios, incorporación de nuevos pasos. Esta distinción debe estar definida en el propio sistema de gestión documental del laboratorio.</p>
+  </div>
+</div>
+
+<!-- LISTADO MAESTRO -->
+<div class="panel" id="panel-maestro">
+  <div class="hdr">
+    <div class="hdr-icon" style="background:#E6F1FB">📋</div>
+    <div>
+      <div class="hdr-title">El Listado Maestro de documentos</div>
+      <div class="hdr-sub">Registro central de todos los documentos del sistema · Herramienta de control y de gestión de la acreditación · Administrado desde la Unidad de Calidad</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:12px">
+    <div class="lbl">¿Qué es y para qué sirve?</div>
+    <p>El Listado Maestro es un <span class="hl">inventario centralizado de todos los documentos del laboratorio</span> que son necesarios para enfrentar el proceso de acreditación. Permite saber en todo momento qué documentos existen, en qué versión están, quién es responsable, dónde deben estar disponibles y cuándo deben revisarse. Es la "hoja de ruta" del sistema documental — sin él, la gestión es reactiva y caótica.</p>
+  </div>
+
+  <p class="slbl">Ejemplo de Listado Maestro para laboratorio de AP — ámbito GP</p>
+  <div style="overflow-x:auto;margin-bottom:12px">
+    <table class="lm-table">
+      <thead>
+        <tr>
+          <th>N°</th><th>Nombre del documento</th><th>Tipo</th><th>Código</th><th>Versión</th><th>Responsable</th><th>Punto verificación</th><th>Fecha rev.</th><th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>Procedimiento de recepción y registro de biopsias y citologías (trazabilidad)</td><td>POE</td><td class="mono">LAP-POE-PRE-001</td><td>v03</td><td>TM Encarg. Calidad</td><td>Recepción · Dirección</td><td>Ene 2026</td><td class="ok">Vigente</td></tr>
+        <tr><td>2</td><td>Procedimiento de etapa preanalítica: solicitud, obtención, transporte y rechazo</td><td>POE</td><td class="mono">LAP-POE-PRE-002</td><td>v02</td><td>TM Supervisora</td><td>Recepción · Macrosc.</td><td>Mar 2026</td><td class="ok">Vigente</td></tr>
+        <tr><td>3</td><td>Protocolo de técnicas de procesamiento analítico de biopsias</td><td>Protocolo</td><td class="mono">LAP-PRO-ANA-001</td><td>v04</td><td>TM Lab. Técnica</td><td>Laboratorio técnica</td><td>Jun 2025</td><td class="ok">Vigente</td></tr>
+        <tr><td>4</td><td>Procedimiento de control de calidad interno (IHQ)</td><td>POE</td><td class="mono">LAP-POE-ANA-002</td><td>v01</td><td>TM IHQ</td><td>Laboratorio técnica</td><td>Sep 2025</td><td class="pend">En revisión</td></tr>
+        <tr><td>5</td><td>Procedimiento de biopsia rápida intraoperatoria</td><td>POE</td><td class="mono">LAP-POE-ANA-003</td><td>v02</td><td>TM Lab. Técnica</td><td>Lab. técnica · Microsc.</td><td>Dic 2025</td><td class="ok">Vigente</td></tr>
+        <tr><td>6</td><td>Plazos de entrega de resultados por tipo de examen</td><td>POE</td><td class="mono">LAP-POE-POST-001</td><td>v01</td><td>TM Supervisora</td><td>Secretaría · Dirección</td><td>Ago 2025</td><td class="ok">Vigente</td></tr>
+        <tr><td>7</td><td>Protocolo de vigilancia y análisis de eventos adversos</td><td>Protocolo</td><td class="mono">LAP-PRO-CAL-001</td><td>v02</td><td>TM Encarg. Calidad</td><td>Dirección · General</td><td>Feb 2026</td><td class="ok">Vigente</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ap">
+    <div class="al">📌 Sistema de codificación recomendado para AP</div>
+    <p>La clave del código debe permitir identificar: institución, tipo de documento, etapa del proceso y número correlativo. Un sistema simple y consistente: <span class="hl">LAP-[TIPO]-[ETAPA]-[NNN]</span> — donde TIPO puede ser POE (procedimiento), PRO (protocolo), INS (instructivo), REG (registro); ETAPA puede ser PRE, ANA, POST, CAL, RH, EQ, etc. El código debe aparecer en el encabezado o pie de cada página del documento.</p>
+  </div>
+</div>
+
+<!-- CONTROL ISO 15189 -->
+<div class="panel" id="panel-control">
+  <div class="hdr">
+    <div class="hdr-icon" style="background:#E6F1FB">⚖️</div>
+    <div>
+      <div class="hdr-title">Control de la documentación — ISO 15189:2012 sección 4.3</div>
+      <div class="hdr-sub">10 condiciones que el laboratorio debe garantizar mediante procedimiento documentado</div>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="card"><div class="lbl">a) Revisión y aprobación previa a la emisión</div><p>Todo documento del sistema de gestión de calidad debe ser revisado y aprobado por personal autorizado antes de su distribución. No se puede circular un borrador como documento vigente.</p></div>
+    <div class="card"><div class="lbl">b) Identificación completa de cada documento</div><p>Cada documento debe incluir: <span class="hl">título, identificador único en cada página, fecha de la edición actual y/o número de edición, página X de Y total, y quién autorizó la emisión</span>.</p></div>
+    <div class="card"><div class="lbl">c) Lista de ediciones vigentes (Listado Maestro)</div><p>Las ediciones autorizadas vigentes y su distribución deben identificarse mediante una lista o registro de control — que es precisamente el Listado Maestro.</p></div>
+    <div class="card"><div class="lbl">d) Solo versiones vigentes en puntos de uso</div><p>En los lugares donde se trabaja, solo deben estar disponibles las versiones autorizadas vigentes. Una lámina de protocolo antiguo en el procesador es incumplimiento directo.</p></div>
+    <div class="card"><div class="lbl">f) Modificaciones identificadas</div><p>Cuando se actualiza un documento, los cambios deben estar marcados o identificados para que el personal sepa qué cambió respecto a la versión anterior.</p></div>
+    <div class="card"><div class="lbl">g) Documentos legibles</div><p>Todos los documentos deben permanecer legibles: sin manchas, sin deterioro, sin texto ilegible. Documentos impresos en papel deben protegerse del uso que los deteriore.</p></div>
+    <div class="card"><div class="lbl">h) Revisión y actualización periódica</div><p>Los documentos deben revisarse con una frecuencia que garantice que permanezcan aptos para su fin previsto. La periodicidad debe estar definida en el propio sistema documental.</p></div>
+    <div class="card"><div class="lbl">i-j) Gestión de documentos obsoletos</div><p>Los documentos controlados obsoletos deben fecharse, marcarse como "OBSOLETO" y retirarse de circulación. Al menos una copia debe archivarse por el tiempo especificado (o el que exija la normativa).</p></div>
+  </div>
+
+  <div class="iso">
+    <div class="il">📌 Conexión directa con el Manual APA — elemento medible "existe un documento escrito"</div>
+    <p>Cada vez que el Manual APA dice <span class="hl">"existe un documento de carácter institucional que describe…"</span>, está verificando simultáneamente: que el documento existe, que tiene carácter formal (aprobado por la dirección), que está disponible en los puntos de verificación señalados, y que su contenido corresponde exactamente a lo solicitado en ese elemento medible. Cumplir ISO 15189 sección 4.3 hace que automáticamente los documentos del laboratorio estén en condiciones de ser evaluados por el acreditador.</p>
+  </div>
+</div>
+
+<!-- ERRORES FRECUENTES -->
+<div class="panel" id="panel-errores">
+  <div class="hdr">
+    <div class="hdr-icon" style="background:#FAEEDA">⚠️</div>
+    <div>
+      <div class="hdr-title">Errores frecuentes en gestión documental</div>
+      <div class="hdr-sub">Los más recurrentes en laboratorios de AP chilenos en proceso de acreditación · Detectados en autoevaluaciones y evaluaciones en terreno</div>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="card"><div class="lbl">Error 1 — Documentos que no reflejan la práctica real</div><p>El POE dice que el criterio de rechazo es "muestra sin identificación", pero en la práctica se aceptan muestras con identificación parcial "para no perder el examen". El evaluador entrevista al personal y detecta la discrepancia. La solución no es cambiar el POE para permitir la práctica incorrecta, sino corregir la práctica.</p></div>
+    <div class="card"><div class="lbl">Error 2 — Versiones obsoletas en circulación</div><p>El procedimiento de HE fue actualizado hace 6 meses, pero en el mesón del técnico sigue colgado el instructivo de la versión anterior. El evaluador encuentra dos versiones del mismo documento con distinto contenido en distintos puntos de trabajo — incumplimiento directo de ISO 4.3(d).</p></div>
+    <div class="card"><div class="lbl">Error 3 — Documentos sin aprobación formal</div><p>Existen procedimientos bien escritos, con formato correcto, pero firmados solo por el Encargado de Calidad sin la firma de aprobación del Director Técnico. No tienen carácter institucional — el evaluador no puede constatar que la dirección los avala.</p></div>
+    <div class="card"><div class="lbl">Error 4 — Listado Maestro desactualizado</div><p>El Listado Maestro tiene documentos que ya fueron actualizados pero sigue mostrando la versión antigua, o incluye documentos que ya no existen. El evaluador usa el Listado Maestro para verificar la coherencia del sistema — si está desactualizado, la herramienta de control es inutilizable.</p></div>
+    <div class="card"><div class="lbl">Error 5 — Contenido del documento no coincide con el elemento medible</div><p>El GP 1.2 exige que el documento incluya "criterios de rechazo". El laboratorio tiene un POE de recepción de muestras excelente, pero los criterios de rechazo están en un documento separado sin código ni aprobación formal. Para el evaluador, el elemento medible no está cumplido en ese documento.</p></div>
+    <div class="card"><div class="lbl">Error 6 — El personal no conoce los documentos</div><p>Los POEs existen, están vigentes, aprobados y en el punto correcto — pero el técnico que los aplica a diario no sabe dónde están ni ha sido capacitado en su contenido. El evaluador entrevista al personal y constata que no conocen los documentos que supuestamente aplican. Difusión sin capacitación no es difusión efectiva.</p></div>
+  </div>
+</div>
+
+</div>
+<script>
+function show(id){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nbtn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  const m={'overview':0,'tipos':1,'estructura':2,'ciclo':3,'maestro':4,'control':5,'errores':6};
+  document.querySelectorAll('.nbtn')[m[id]].classList.add('active');
+}
+</script>
