@@ -1,0 +1,555 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.root{font-family:var(--font-sans);padding:8px 0 20px}
+.nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.nbtn{padding:7px 14px;border:0.5px solid var(--color-border-secondary);border-radius:99px;background:var(--color-background-primary);color:var(--color-text-secondary);font-size:12px;font-weight:500;cursor:pointer;transition:all .18s;white-space:nowrap}
+.nbtn:hover{background:var(--color-background-secondary)}
+.nbtn.active{background:var(--color-background-secondary);color:var(--color-text-primary);border-color:var(--color-border-primary)}
+.panel{display:none}.panel.active{display:block}
+
+.hdr{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:var(--border-radius-lg);border:0.5px solid var(--color-border-tertiary);background:var(--color-background-secondary);margin-bottom:14px}
+.hdr-icon{width:46px;height:46px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px}
+.hdr-title{font-size:15px;font-weight:500;color:var(--color-text-primary);margin-bottom:2px}
+.hdr-sub{font-size:12px;color:var(--color-text-secondary);line-height:1.5}
+
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px}
+@media(max-width:520px){.g2,.g3{grid-template-columns:1fr}}
+
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:12px 14px;margin-bottom:0}
+.card .lbl{font-size:11px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
+.card p,.card li{font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+.card ul{padding-left:16px}.card li{margin-bottom:2px}
+.hl{color:var(--color-text-primary);font-weight:500}
+
+.ap-box{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-left:3px solid #0F6E56;border-radius:var(--border-radius-md);padding:11px 14px;margin-bottom:8px}
+.ap-box .al{font-size:11px;font-weight:500;color:#0F6E56;margin-bottom:4px}
+.ap-box p,.ap-box li{font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+.ap-box ul{padding-left:16px}.ap-box li{margin-bottom:2px}
+
+.warn-box{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-left:3px solid #BA7517;border-radius:var(--border-radius-md);padding:11px 14px;margin-bottom:8px}
+.warn-box .wl{font-size:11px;font-weight:500;color:#BA7517;margin-bottom:4px}
+.warn-box p,.warn-box li{font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+.warn-box ul{padding-left:16px}.warn-box li{margin-bottom:2px}
+
+.iso-box{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-left:3px solid #185FA5;border-radius:var(--border-radius-md);padding:11px 14px;margin-bottom:8px}
+.iso-box .il{font-size:11px;font-weight:500;color:#185FA5;margin-bottom:4px}
+.iso-box p,.iso-box li{font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+.iso-box ul{padding-left:16px}.iso-box li{margin-bottom:2px}
+
+.slbl{font-size:11px;font-weight:500;letter-spacing:.07em;color:var(--color-text-tertiary);text-transform:uppercase;margin:14px 0 8px}
+
+/* 5 por qués stepper */
+.porques{display:flex;flex-direction:column;gap:0;margin-bottom:12px}
+.pq-row{display:flex;align-items:flex-start;gap:12px;padding:10px 14px;border:0.5px solid var(--color-border-tertiary);border-bottom:none;background:var(--color-background-primary)}
+.pq-row:first-child{border-radius:var(--border-radius-md) var(--border-radius-md) 0 0}
+.pq-row:last-child{border-bottom:0.5px solid var(--color-border-tertiary);border-radius:0 0 var(--border-radius-md) var(--border-radius-md)}
+.pq-num{width:28px;height:28px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;margin-top:1px}
+.pq-content{flex:1}
+.pq-q{font-size:12px;font-weight:500;color:var(--color-text-secondary);margin-bottom:3px}
+.pq-a{font-size:13px;color:var(--color-text-primary);line-height:1.5}
+
+/* Plan de corrección */
+.plan{background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-lg);overflow:hidden;margin-bottom:12px}
+.plan-hdr{background:var(--color-background-secondary);padding:10px 16px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.plan-title{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.plan-sub{font-size:11px;color:var(--color-text-secondary);margin-top:2px}
+.plan-row{border-bottom:0.5px solid var(--color-border-tertiary);display:flex}
+.plan-row:last-child{border-bottom:none}
+.plan-num{width:36px;flex-shrink:0;background:var(--color-background-secondary);display:flex;align-items:center;justify-content:center;border-right:0.5px solid var(--color-border-tertiary);font-size:12px;font-weight:500;color:var(--color-text-secondary)}
+.plan-key{width:170px;flex-shrink:0;padding:10px 12px;background:var(--color-background-secondary);border-right:0.5px solid var(--color-border-tertiary);font-size:12px;font-weight:500;color:var(--color-text-secondary);line-height:1.4}
+.plan-val{flex:1;padding:10px 14px;font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+.plan-val .hl{color:var(--color-text-primary);font-weight:500}
+.plan-val ul{padding-left:16px}.plan-val li{margin-bottom:3px;font-size:13px;color:var(--color-text-secondary)}
+
+/* 3 tipos de acciones */
+.action-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}
+@media(max-width:520px){.action-grid{grid-template-columns:1fr}}
+.action-card{border-radius:var(--border-radius-md);padding:12px 14px;border:0.5px solid var(--color-border-tertiary)}
+.action-card .at{font-size:11px;font-weight:500;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em}
+.action-card .an{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:5px}
+.action-card p,.action-card li{font-size:12px;color:var(--color-text-secondary);line-height:1.5}
+.action-card ul{padding-left:14px}.action-card li{margin-bottom:2px}
+
+/* error cards */
+.err-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-left:3px solid #E24B4A;border-radius:var(--border-radius-md);padding:12px 14px;margin-bottom:8px}
+.err-card .etitle{font-size:13px;font-weight:500;color:#A32D2D;margin-bottom:5px}
+.err-card p{font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+.err-fix{font-size:12px;color:#0F6E56;margin-top:5px;font-style:italic}
+</style>
+
+<div class="root">
+<h2 class="sr-only">Punto 3.5 — Análisis de causas en el laboratorio de AP: Ishikawa, 5 Por Qués y Plan de Corrección</h2>
+
+<div class="nav">
+  <button class="nbtn active" onclick="show('concepto')">Tipos de acciones</button>
+  <button class="nbtn" onclick="show('ishikawa')">Diagrama Ishikawa</button>
+  <button class="nbtn" onclick="show('cincoq')">Los 5 Por Qués</button>
+  <button class="nbtn" onclick="show('plan')">Plan de corrección APA</button>
+  <button class="nbtn" onclick="show('ejemplo')">Ejemplo completo AP</button>
+  <button class="nbtn" onclick="show('errores')">Errores frecuentes</button>
+</div>
+
+<!-- TIPOS DE ACCIONES -->
+<div class="panel active" id="panel-concepto">
+  <div class="hdr">
+    <div class="hdr-icon" style="background:#FBEAF0">🔍</div>
+    <div>
+      <div class="hdr-title">¿Cuándo se hace análisis de causas y qué tipo de acción corresponde?</div>
+      <div class="hdr-sub">ISO 15189 distingue 3 tipos de acciones · Solo una elimina la causa raíz · El análisis de causas alimenta la acción correctiva y la preventiva</div>
+    </div>
+  </div>
+
+  <div class="action-grid">
+    <div class="action-card" style="background:#FFF3CD;border-color:#BA7517">
+      <div class="at" style="color:#BA7517">Acción inmediata</div>
+      <div class="an">Mitiga el efecto AHORA</div>
+      <p>Se toma en el momento en que se detecta la no conformidad. Su objetivo es reducir el impacto inmediato — no elimina la causa. No requiere análisis de causa raíz.</p>
+      <ul style="margin-top:6px">
+        <li>Repetir el corte defectuoso</li>
+        <li>Bloquear el resultado del control fallido</li>
+        <li>Recuperar la muestra mal identificada</li>
+      </ul>
+    </div>
+    <div class="action-card" style="background:#FBEAF0;border-color:#993556">
+      <div class="at" style="color:#993556">Acción correctiva</div>
+      <div class="an">Elimina la causa raíz</div>
+      <p>Se toma después del análisis para eliminar la causa que generó la no conformidad <span class="hl">ya ocurrida</span>, para que no vuelva a ocurrir. Requiere análisis de causa raíz (Ishikawa / 5 Por Qués).</p>
+      <ul style="margin-top:6px">
+        <li>Modificar el POE de cambio de cuchilla</li>
+        <li>Rediseñar el sistema de identificación de casetes</li>
+        <li>Cambiar el protocolo de preparación del control</li>
+      </ul>
+    </div>
+    <div class="action-card" style="background:#E1F5EE;border-color:#0F6E56">
+      <div class="at" style="color:#0F6E56">Acción preventiva</div>
+      <div class="an">Anticipa no conformidades</div>
+      <p>Proceso <span class="hl">proactivo</span> para eliminar causas de no conformidades <span class="hl">potenciales</span> antes de que ocurran. No es reacción ante un problema — es anticipación basada en análisis de riesgo.</p>
+      <ul style="margin-top:6px">
+        <li>FMEA de nuevos reactivos antes de implementarlos</li>
+        <li>Rediseño del flujo de trabajo en período de alta demanda</li>
+        <li>Validación de equipos antes de usarlos en diagnóstico</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="warn-box">
+    <div class="wl">⚠️ El error conceptual más crítico — confundir acción inmediata con acción correctiva</div>
+    <p>ISO 15189 es explícita en su nota a la sección 4.10: <span class="hl">"La acción tomada en el momento de la no conformidad para mitigar sus efectos inmediatos se considera una acción inmediata. Solo la acción tomada para eliminar la causa raíz del problema se considera acción correctiva."</span> El evaluador detectará este error cuando el registro de no conformidades muestra siempre la misma "acción correctiva" (repetir el procedimiento) sin ningún análisis de causa que justifique por qué esa repetición elimina la causa raíz.</p>
+  </div>
+
+  <div class="slbl">¿Cuándo se activa el análisis de causa raíz? — ISO 15189 sección 4.9</div>
+  <div class="g2">
+    <div class="card">
+      <div class="lbl">Situaciones que lo requieren</div>
+      <ul>
+        <li>No conformidad que podría volver a ocurrir</li>
+        <li>No conformidad grave con impacto en el paciente</li>
+        <li>Evento adverso (GP 2.2 Manual APA)</li>
+        <li>Indicador bajo el umbral de forma repetida</li>
+        <li>Falla de QC no resuelta con acción inmediata</li>
+        <li>Incumplimiento detectado en auditoría interna o acreditación</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="lbl">Fuentes de detección de no conformidades (ISO 15189)</div>
+      <ul>
+        <li>Reclamaciones de médicos solicitantes o pacientes</li>
+        <li>Fallas del control de calidad interno</li>
+        <li>Calibración de instrumentos fuera de rango</li>
+        <li>Comparaciones interlaboratorio (PEEC)</li>
+        <li>Comentarios del personal</li>
+        <li>Revisión por la dirección / auditorías internas</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="iso-box">
+    <div class="il">📌 ISO 15189:2012 — Secciones 4.9, 4.10 y 4.11</div>
+    <p>La norma exige un <span class="hl">procedimiento documentado</span> para: (a) revisar las no conformidades, (b) determinar las causas raíz, (c) evaluar la necesidad de acción correctiva, (d) determinar e implementar la acción, (e) registrar los resultados, y (f) revisar la eficacia de la acción tomada. Este ciclo de seis pasos es exactamente la estructura del Plan de Corrección del Manual APA.</p>
+  </div>
+</div>
+
+<!-- ISHIKAWA -->
+<div class="panel" id="panel-ishikawa">
+  <div class="hdr">
+    <div class="hdr-icon" style="background:#E6F1FB">🐟</div>
+    <div>
+      <div class="hdr-title">Diagrama de Ishikawa — causa-efecto (espina de pescado)</div>
+      <div class="hdr-sub">Herramienta visual para identificar causas raíz · Organiza causas en 6 categorías · Facilita el trabajo grupal · Imprescindible para eventos adversos graves</div>
+    </div>
+  </div>
+
+  <!-- ISHIKAWA SVG: Error de identificación de biopsia -->
+  <svg width="100%" viewBox="0 0 680 380" role="img" style="margin-bottom:12px">
+    <title>Diagrama de Ishikawa: Error de identificación de biopsia en el traspaso macroscopía - laboratorio técnica</title>
+    <desc>Espina de pescado con 6 ramas de causas: Mano de obra, Método, Máquina, Material, Medio ambiente, Medición, convergiendo hacia el efecto "Error de identificación de biopsia"</desc>
+
+    <!-- EFECTO (cabeza) -->
+    <rect x="530" y="155" width="140" height="70" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="1"/>
+    <text x="600" y="181" text-anchor="middle" font-size="12" fill="#711B0B" font-weight="500">Error de</text>
+    <text x="600" y="197" text-anchor="middle" font-size="12" fill="#711B0B" font-weight="500">identificación</text>
+    <text x="600" y="213" text-anchor="middle" font-size="12" fill="#711B0B" font-weight="500">de biopsia</text>
+
+    <!-- Espina central -->
+    <line x1="50" y1="190" x2="530" y2="190" stroke="#5F5E5A" stroke-width="2" marker-end="url(#fish-arr)"/>
+    <defs>
+      <marker id="fish-arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M2 1L8 5L2 9" fill="none" stroke="#5F5E5A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </marker>
+    </defs>
+
+    <!-- RAMA 1: Mano de obra (arriba izquierda) -->
+    <line x1="140" y1="190" x2="100" y2="100" stroke="#185FA5" stroke-width="1.5"/>
+    <rect x="32" y="55" width="110" height="44" rx="6" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+    <text x="87" y="74" text-anchor="middle" font-size="12" fill="#0C447C" font-weight="500">Mano de obra</text>
+    <text x="87" y="90" text-anchor="middle" font-size="10" fill="#185FA5">Personal / Competencia</text>
+    <!-- sub causas -->
+    <line x1="120" y1="160" x2="100" y2="145" stroke="#185FA5" stroke-width="1" opacity="0.6"/>
+    <text x="64" y="141" text-anchor="middle" font-size="10" fill="#185FA5">Sin capacitación en ID</text>
+    <line x1="132" y1="175" x2="105" y2="165" stroke="#185FA5" stroke-width="1" opacity="0.6"/>
+    <text x="55" y="162" text-anchor="middle" font-size="10" fill="#185FA5">Fatiga / exceso de carga</text>
+
+    <!-- RAMA 2: Método (arriba centro-izquierda) -->
+    <line x1="260" y1="190" x2="220" y2="100" stroke="#0F6E56" stroke-width="1.5"/>
+    <rect x="152" y="55" width="110" height="44" rx="6" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+    <text x="207" y="74" text-anchor="middle" font-size="12" fill="#085041" font-weight="500">Método</text>
+    <text x="207" y="90" text-anchor="middle" font-size="10" fill="#0F6E56">Procedimiento / POE</text>
+    <line x1="246" y1="160" x2="224" y2="145" stroke="#0F6E56" stroke-width="1" opacity="0.6"/>
+    <text x="188" y="141" text-anchor="middle" font-size="10" fill="#0F6E56">POE sin paso de verificación</text>
+    <line x1="252" y1="175" x2="226" y2="165" stroke="#0F6E56" stroke-width="1" opacity="0.6"/>
+    <text x="176" y="162" text-anchor="middle" font-size="10" fill="#0F6E56">Sin doble verificación</text>
+
+    <!-- RAMA 3: Máquina/Equipo (arriba derecha) -->
+    <line x1="390" y1="190" x2="360" y2="105" stroke="#BA7517" stroke-width="1.5"/>
+    <rect x="295" y="58" width="110" height="44" rx="6" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.5"/>
+    <text x="350" y="77" text-anchor="middle" font-size="12" fill="#633806" font-weight="500">Máquina / Equipo</text>
+    <text x="350" y="93" text-anchor="middle" font-size="10" fill="#BA7517">Impresoras / Sistema</text>
+    <line x1="378" y1="160" x2="362" y2="145" stroke="#BA7517" stroke-width="1" opacity="0.6"/>
+    <text x="318" y="141" text-anchor="middle" font-size="10" fill="#BA7517">Impresora de casetes sin batería</text>
+    <line x1="382" y1="175" x2="363" y2="165" stroke="#BA7517" stroke-width="1" opacity="0.6"/>
+    <text x="315" y="162" text-anchor="middle" font-size="10" fill="#BA7517">LIS sin alerta de ID</text>
+
+    <!-- RAMA 4: Material (abajo izquierda) -->
+    <line x1="170" y1="190" x2="130" y2="278" stroke="#534AB7" stroke-width="1.5"/>
+    <rect x="50" y="282" width="110" height="44" rx="6" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+    <text x="105" y="301" text-anchor="middle" font-size="12" fill="#3C3489" font-weight="500">Material</text>
+    <text x="105" y="317" text-anchor="middle" font-size="10" fill="#534AB7">Insumos / Casetes</text>
+    <line x1="155" y1="220" x2="133" y2="237" stroke="#534AB7" stroke-width="1" opacity="0.6"/>
+    <text x="94" y="234" text-anchor="middle" font-size="10" fill="#534AB7">Casetes sin código visible</text>
+    <line x1="160" y1="236" x2="135" y2="255" stroke="#534AB7" stroke-width="1" opacity="0.6"/>
+    <text x="88" y="252" text-anchor="middle" font-size="10" fill="#534AB7">Tinta de rotulador borrosa</text>
+
+    <!-- RAMA 5: Medio ambiente (abajo centro) -->
+    <line x1="310" y1="190" x2="274" y2="278" stroke="#993556" stroke-width="1.5"/>
+    <rect x="178" y="282" width="126" height="44" rx="6" fill="#FBEAF0" stroke="#993556" stroke-width="0.5"/>
+    <text x="241" y="301" text-anchor="middle" font-size="12" fill="#72243E" font-weight="500">Medio ambiente</text>
+    <text x="241" y="317" text-anchor="middle" font-size="10" fill="#993556">Espacio / Condiciones</text>
+    <line x1="295" y1="220" x2="278" y2="237" stroke="#993556" stroke-width="1" opacity="0.6"/>
+    <text x="232" y="234" text-anchor="middle" font-size="10" fill="#993556">Área de macroscopía sin luz</text>
+    <line x1="298" y1="236" x2="279" y2="255" stroke="#993556" stroke-width="1" opacity="0.6"/>
+    <text x="228" y="252" text-anchor="middle" font-size="10" fill="#993556">Espacio reducido / desorden</text>
+
+    <!-- RAMA 6: Medición (abajo derecha) -->
+    <line x1="430" y1="190" x2="410" y2="278" stroke="#993C1D" stroke-width="1.5"/>
+    <rect x="320" y="282" width="126" height="44" rx="6" fill="#FAECE7" stroke="#993C1D" stroke-width="0.5"/>
+    <text x="383" y="301" text-anchor="middle" font-size="12" fill="#711B0B" font-weight="500">Medición</text>
+    <text x="383" y="317" text-anchor="middle" font-size="10" fill="#993C1D">Indicadores / Control</text>
+    <line x1="424" y1="220" x2="412" y2="237" stroke="#993C1D" stroke-width="1" opacity="0.6"/>
+    <text x="370" y="234" text-anchor="middle" font-size="10" fill="#993C1D">Sin indicador de errores ID</text>
+    <line x1="428" y1="236" x2="413" y2="255" stroke="#993C1D" stroke-width="1" opacity="0.6"/>
+    <text x="367" y="252" text-anchor="middle" font-size="10" fill="#993C1D">No se audita la trazabilidad</text>
+
+    <text x="340" y="370" text-anchor="middle" font-size="10" fill="var(--color-text-tertiary)">Haz clic en las pestañas superiores para ver más herramientas →</text>
+  </svg>
+
+  <div class="g2">
+    <div class="card">
+      <div class="lbl">Las 6 categorías (6M) — adaptadas a laboratorio AP</div>
+      <ul>
+        <li><span class="hl">Mano de obra:</span> personal, competencias, capacitación, fatiga, carga de trabajo</li>
+        <li><span class="hl">Método:</span> POE, protocolo, procedimiento, pasos faltantes, falta de estandarización</li>
+        <li><span class="hl">Máquina / Equipo:</span> equipos, softwares, fallas técnicas, calibración</li>
+        <li><span class="hl">Material:</span> insumos, reactivos, materiales de control, calidad de casetes</li>
+        <li><span class="hl">Medio ambiente:</span> espacio, iluminación, temperatura, ruido, desorden</li>
+        <li><span class="hl">Medición:</span> indicadores, registros, auditorías, frecuencia de control</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="lbl">Cómo construirlo paso a paso</div>
+      <ul>
+        <li><span class="hl">1.</span> Definir el problema / efecto con precisión ("error de identificación en traspaso macroscopía–técnica")</li>
+        <li><span class="hl">2.</span> Dibujar la espina central con el efecto a la derecha</li>
+        <li><span class="hl">3.</span> Agregar las 6 ramas de categorías</li>
+        <li><span class="hl">4.</span> Lluvia de ideas grupal — causas posibles para cada categoría</li>
+        <li><span class="hl">5.</span> Identificar las causas raíz más probables (las que de eliminarse prevendrían el problema)</li>
+        <li><span class="hl">6.</span> Priorizar y diseñar la acción correctiva para cada causa raíz</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="ap-box">
+    <div class="al">📌 Clave del Ishikawa en acreditación AP</div>
+    <p>El Manual APA (GP 2.2 y Plan de Corrección) exige que el análisis sea grupal y que quede documentado: quiénes participaron, qué metodología se usó y a qué conclusiones se llegó. El Ishikawa cumple todos estos requisitos: es visual, participativo, trazable y fácil de archivar como evidencia. El evaluador puede pedir ver el diagrama como respaldo del análisis de causa raíz.</p>
+  </div>
+</div>
+
+<!-- 5 POR QUÉS -->
+<div class="panel" id="panel-cincoq">
+  <div class="hdr">
+    <div class="hdr-icon" style="background:#E1F5EE">❓</div>
+    <div>
+      <div class="hdr-title">Los 5 Por Qués — análisis de causa raíz lineal</div>
+      <div class="hdr-sub">Técnica simple y poderosa para problemas acotados · Pregunta "¿Por qué?" sucesivamente hasta llegar a la causa raíz · Complementaria al Ishikawa</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:12px">
+    <div class="lbl">¿Cuándo usar los 5 Por Qués vs. el Ishikawa?</div>
+    <div class="g2" style="margin-top:8px">
+      <div>
+        <p><span class="hl">Usa los 5 Por Qués cuando:</span> el problema es acotado, tiene una cadena causal relativamente lineal, y necesitas llegar rápido a la causa raíz para implementar una solución concreta. Ideal para no conformidades de baja-mediana gravedad.</p>
+      </div>
+      <div>
+        <p><span class="hl">Usa el Ishikawa cuando:</span> el problema es complejo o multifactorial, tiene múltiples causas posibles de distintas categorías, o cuando es un evento adverso grave que requiere análisis grupal y documentación exhaustiva.</p>
+      </div>
+    </div>
+  </div>
+
+  <p class="slbl">Ejemplo: láminas de HE con cortes defectuosos — aplicación de los 5 Por Qués</p>
+
+  <div class="porques">
+    <div class="pq-row" style="background:#FAECE7">
+      <div class="pq-num" style="background:#993C1D;color:white">NC</div>
+      <div class="pq-content">
+        <div class="pq-q">No conformidad detectada</div>
+        <div class="pq-a" style="color:#711B0B;font-weight:500">El 8% de las láminas HE del mes presentan cortes defectuosos (grosor irregular, chatarra de cuchilla) — supera el umbral del 5% definido en el indicador de QC interno.</div>
+      </div>
+    </div>
+    <div class="pq-row">
+      <div class="pq-num" style="background:#185FA5;color:white">1</div>
+      <div class="pq-content">
+        <div class="pq-q">¿Por qué hay cortes defectuosos?</div>
+        <div class="pq-a">Porque la cuchilla del microtomo estaba deteriorada al momento del corte.</div>
+      </div>
+    </div>
+    <div class="pq-row">
+      <div class="pq-num" style="background:#185FA5;color:white">2</div>
+      <div class="pq-content">
+        <div class="pq-q">¿Por qué la cuchilla estaba deteriorada?</div>
+        <div class="pq-a">Porque no se cambió a tiempo — se usó más casetes de los que permite la cuchilla antes de su cambio.</div>
+      </div>
+    </div>
+    <div class="pq-row">
+      <div class="pq-num" style="background:#185FA5;color:white">3</div>
+      <div class="pq-content">
+        <div class="pq-q">¿Por qué se usó más casetes de los que permite?</div>
+        <div class="pq-a">Porque no hay ningún criterio documentado sobre cuántos casetes procesar por cuchilla ni quién es responsable de decidir el cambio.</div>
+      </div>
+    </div>
+    <div class="pq-row">
+      <div class="pq-num" style="background:#185FA5;color:white">4</div>
+      <div class="pq-content">
+        <div class="pq-q">¿Por qué no hay ese criterio documentado?</div>
+        <div class="pq-a">Porque el POE del microtomo describe el uso del equipo pero no incluye parámetros de mantenimiento de cuchillas ni criterio de cambio.</div>
+      </div>
+    </div>
+    <div class="pq-row" style="background:#E1F5EE">
+      <div class="pq-num" style="background:#0F6E56;color:white">5</div>
+      <div class="pq-content">
+        <div class="pq-q">¿Por qué el POE no incluye esos parámetros?</div>
+        <div class="pq-a" style="color:#085041;font-weight:500">Causa raíz: el POE del microtomo fue elaborado con foco en el procedimiento operativo pero sin incluir los criterios de mantenimiento preventivo del equipo. No existe un procedimiento de mantenimiento preventivo del microtomo que establezca criterios de cambio de cuchilla, responsables y frecuencia.</div>
+      </div>
+    </div>
+    <div class="pq-row" style="background:#EEEDFE">
+      <div class="pq-num" style="background:#534AB7;color:white">→</div>
+      <div class="pq-content">
+        <div class="pq-q">Acción correctiva derivada</div>
+        <div class="pq-a" style="color:#3C3489;font-weight:500">Elaborar e implementar el Instructivo de mantenimiento preventivo del microtomo, que incluya: criterio de cambio de cuchilla (máx. X casetes o primer signo de corte deficiente), responsable de la decisión de cambio, registro obligatorio. Incorporar la verificación del estado de la cuchilla como primer paso del turno en el POE de corte HE.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="warn-box">
+    <div class="wl">⚠️ Cuándo los 5 Por Qués no son suficientes</div>
+    <p>Si al llegar al 4° o 5° "por qué" la respuesta sigue siendo "porque alguien no lo hizo" o "porque el técnico no siguió el procedimiento", el análisis no está llegando a la causa raíz sistémica — está llegando a un culpable individual. El Manual APA y la Superintendencia de Salud son explícitos: los EA deben analizarse buscando <span class="hl">causas organizacionales y fallas del sistema</span>, no atribuyendo el problema exclusivamente a error individual. En esos casos, usa el Ishikawa para buscar también en Método, Máquina y Medición.</p>
+  </div>
+</div>
+
+<!-- PLAN DE CORRECCIÓN -->
+<div class="panel" id="panel-plan">
+  <div class="hdr">
+    <div class="hdr-icon" style="background:#FAEEDA">📝</div>
+    <div>
+      <div class="hdr-title">El Plan de Corrección del Manual APA</div>
+      <div class="hdr-sub">Estructura oficial de 7 secciones · Se activa cuando el evaluador detecta un incumplimiento en terreno · Es el mecanismo formal de subsanación post-acreditación</div>
+    </div>
+  </div>
+
+  <div class="plan">
+    <div class="plan-hdr">
+      <div class="plan-title">Estructura oficial del Plan de Corrección</div>
+      <div class="plan-sub">Según el Manual APA y orientaciones de la Superintendencia de Salud</div>
+    </div>
+    <div class="plan-row">
+      <div class="plan-num">1</div>
+      <div class="plan-key">Característica y EM incumplidos</div>
+      <div class="plan-val">Identificar el <span class="hl">código de la característica</span> (ej: GP 1.2) y <span class="hl">cuál o cuáles elementos medibles</span> específicamente no se cumplieron. Ser preciso — no basta con decir "GP 1.2 no cumple", hay que decir qué EM: "no existe indicador definido" o "el documento no incluye criterios de rechazo".</div>
+    </div>
+    <div class="plan-row">
+      <div class="plan-num">2</div>
+      <div class="plan-key">Fundamento del incumplimiento</div>
+      <div class="plan-val">Describir exactamente <span class="hl">qué no pudo verificar el evaluador en terreno</span> y cómo lo detectó. Se recomienda copiar textualmente los hallazgos del Informe de Acreditación. Esta sección responde: "¿qué encontró el evaluador?" — no "qué creemos que pasó".</div>
+    </div>
+    <div class="plan-row">
+      <div class="plan-num">3</div>
+      <div class="plan-key">Causas y factores contribuyentes</div>
+      <div class="plan-val">Resultado del análisis de causa raíz (Ishikawa / 5 Por Qués). Identificar <span class="hl">la causa principal y los factores contribuyentes</span>. El enfoque debe ser multicausal y sistémico — no individual. El prestador debe presentar los factores más relevantes, ya que a cada uno se le aplicará acción correctiva.</div>
+    </div>
+    <div class="plan-row">
+      <div class="plan-num">4</div>
+      <div class="plan-key">Actividades de análisis</div>
+      <div class="plan-val">Describir <span class="hl">qué actividades se realizaron, qué metodología se utilizó y quiénes participaron</span> en el análisis de causas. El objetivo es evidenciar que el análisis fue grupal — no producto de un solo profesional. Respaldar con acta de reunión si es posible.</div>
+    </div>
+    <div class="plan-row">
+      <div class="plan-num">5</div>
+      <div class="plan-key">Acciones correctivas</div>
+      <div class="plan-val">Identificar las <span class="hl">acciones concretas a implementar para subsanar el incumplimiento</span>. Deben estar en directa relación con las causas y factores identificados en el punto 3. Ser específicas y verificables — no "mejorar el procedimiento", sino "elaborar el indicador de tasa de rechazo con fórmula, umbral y fuente de datos, e incorporarlo al POE LAP-POE-PRE-001 versión 03".</div>
+    </div>
+    <div class="plan-row">
+      <div class="plan-num">6</div>
+      <div class="plan-key">Responsables</div>
+      <div class="plan-val">Identificar <span class="hl">por cargo</span> (no solo por nombre) al profesional responsable de la implementación, seguimiento y evaluación de cada acción correctiva. Si hay más de una acción, puede haber más de un responsable.</div>
+    </div>
+    <div class="plan-row">
+      <div class="plan-num">7</div>
+      <div class="plan-key">Plazo e implementación</div>
+      <div class="plan-val">Definir el <span class="hl">plazo para implementar cada acción correctiva</span> (desde la fecha de aprobación del Plan por la Entidad Acreditadora) y la fecha estimada de reevaluación de la característica. Incluir cómo se evaluará que la acción fue efectiva.</div>
+    </div>
+  </div>
+
+  <div class="ap-box">
+    <div class="al">📌 El Plan de Corrección en el contexto de tu laboratorio</div>
+    <p>Aunque el Plan de Corrección se activa formalmente después de una evaluación con incumplimientos, dominarlo antes de la visita tiene una ventaja enorme: te permite hacer tu propia autoevaluación con el mismo nivel de rigor que el evaluador. Si en tu autoevaluación detectas un incumplimiento de GP 1.3 (falta el indicador de QC interno), puedes aplicar la estructura del Plan internamente para resolverlo antes de que llegue el evaluador — con análisis de causa, acciones concretas, responsables y plazo. Eso es exactamente lo que el módulo 3 busca que puedas hacer.</p>
+  </div>
+</div>
+
+<!-- EJEMPLO COMPLETO -->
+<div class="panel" id="panel-ejemplo">
+  <div class="hdr">
+    <div class="hdr-icon" style="background:#FBEAF0">📋</div>
+    <div>
+      <div class="hdr-title">Ejemplo completo — Plan de Corrección real para AP</div>
+      <div class="hdr-sub">Caso: incumplimiento de GP 1.3 detectado en evaluación en terreno · Falta el indicador de QC interno</div>
+    </div>
+  </div>
+
+  <div class="plan">
+    <div class="plan-hdr">
+      <div class="plan-title">Plan de Corrección — Laboratorio de AP "Ejemplo"</div>
+      <div class="plan-sub">Proceso de acreditación · Entidad acreditadora: [nombre] · Fecha del informe: [fecha]</div>
+    </div>
+    <div class="plan-row">
+      <div class="plan-num">1</div>
+      <div class="plan-key">Característica y EM</div>
+      <div class="plan-val"><span class="hl">GP 1.3 — Etapas analítica y postanalítica.</span><br>Elemento medible incumplido: "Se han definido 2 indicadores y umbrales de cumplimiento, al menos uno de ellos deberá estar relacionado con el procedimiento de control de calidad interno."<br>El laboratorio presentó solo 1 indicador (TAT de biopsias). No se presentó ningún indicador de control de calidad interno.</div>
+    </div>
+    <div class="plan-row">
+      <div class="plan-num">2</div>
+      <div class="plan-key">Fundamento</div>
+      <div class="plan-val">Según el Informe de Acreditación: "En el punto de verificación Laboratorio de Técnica se constató que el laboratorio cuenta con registro de control de calidad de tinciones HE e IHQ, sin embargo, no existe un indicador definido con fórmula matemática, umbral y evaluación periódica asociados a dicho control. Solo se presentó un indicador de TAT."</div>
+    </div>
+    <div class="plan-row">
+      <div class="plan-num">3</div>
+      <div class="plan-key">Causas y factores contribuyentes</div>
+      <div class="plan-val">
+        <span class="hl">Causa principal:</span> el sistema de gestión de calidad del laboratorio tiene implementado el control de calidad interno de IHQ y HE, pero dicho control no estaba formalizado como indicador de calidad con los componentes exigidos (fórmula, umbral, periodicidad, fuente de datos).<br><br>
+        <span class="hl">Factores contribuyentes:</span>
+        <ul>
+          <li>El Encargado de Calidad desconocía la exigencia específica de GP 1.3 de contar con al menos 1 indicador de QC interno (confundió el registro de QC con el indicador)</li>
+          <li>No se realizó una revisión sistemática de los elementos medibles de GP 1.3 en la autoevaluación previa a la visita</li>
+          <li>No existe un documento que liste los indicadores exigidos por el Manual APA y los compare con los indicadores disponibles en el laboratorio</li>
+        </ul>
+      </div>
+    </div>
+    <div class="plan-row">
+      <div class="plan-num">4</div>
+      <div class="plan-key">Actividades de análisis</div>
+      <div class="plan-val">Se realizó reunión de análisis de causas el [fecha], con participación de: Director Técnico, TM Encargada de Calidad y TM a cargo de IHQ. Se aplicó la técnica de los 5 Por Qués para identificar la causa raíz. La reunión fue respaldada con acta (Acta N°03/2025, archivada en carpeta de calidad).</div>
+    </div>
+    <div class="plan-row">
+      <div class="plan-num">5</div>
+      <div class="plan-key">Acciones correctivas</div>
+      <div class="plan-val">
+        <ul>
+          <li><span class="hl">AC1:</span> Elaborar la ficha del indicador de QC interno de IHQ: "% de corridas de IHQ con control positivo satisfactorio", con fórmula, umbral (≥95%), fuente de datos, periodicidad mensual y responsable definidos. Incorporar al documento LAP-IND-001 versión 02.</li>
+          <li><span class="hl">AC2:</span> Recopilar los registros históricos de QC de IHQ de los últimos 6 meses y calcular el indicador retroactivamente para presentar la evaluación periódica.</li>
+          <li><span class="hl">AC3:</span> Elaborar una matriz de trazabilidad entre los elementos medibles del Manual APA y los indicadores del laboratorio, para detectar brechas antes de la próxima evaluación.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="plan-row">
+      <div class="plan-num">6</div>
+      <div class="plan-key">Responsables</div>
+      <div class="plan-val">AC1 y AC2: TM Encargada/o de Calidad · AC3: TM Encargada/o de Calidad con supervisión de Director Técnico.</div>
+    </div>
+    <div class="plan-row">
+      <div class="plan-num">7</div>
+      <div class="plan-key">Plazo y reevaluación</div>
+      <div class="plan-val">Plazo de implementación: 30 días desde aprobación del Plan por la Entidad Acreditadora.<br>Reevaluación de la característica: a los 60 días de la implementación, con informe de resultados del indicador presentado a la dirección.<br>Fecha estimada de reevaluación por Entidad Acreditadora: [fecha acordada].</div>
+    </div>
+  </div>
+</div>
+
+<!-- ERRORES -->
+<div class="panel" id="panel-errores">
+  <div class="hdr">
+    <div class="hdr-icon" style="background:#FAEEDA">🚫</div>
+    <div>
+      <div class="hdr-title">Errores frecuentes en análisis de causas</div>
+      <div class="hdr-sub">Los más recurrentes en laboratorios de AP chilenos · Detectados en planes de corrección y autoevaluaciones</div>
+    </div>
+  </div>
+
+  <div class="err-card">
+    <div class="etitle">Error 1 — "La causa raíz fue que el técnico no siguió el procedimiento"</div>
+    <p>Atribuir el problema exclusivamente al error humano individual sin analizar por qué el sistema permitió que ese error ocurriera. El Manual APA exige análisis sistémico. Si la causa siempre es "el técnico X", el sistema de calidad nunca mejora — solo sanciona.</p>
+    <p class="err-fix">✓ Corrección: preguntar "¿Por qué el técnico no siguió el procedimiento?" — ¿el procedimiento no es claro? ¿no fue capacitado? ¿la carga de trabajo es excesiva? Ahí está la causa sistémica.</p>
+  </div>
+
+  <div class="err-card">
+    <div class="etitle">Error 2 — La acción correctiva es la misma que la acción inmediata</div>
+    <p>El registro dice: NC detectada = corte defectuoso. Acción inmediata = repetir el corte. Acción correctiva = repetir el corte. No hay análisis de causa y la "acción correctiva" no elimina nada — solo repite la solución de emergencia.</p>
+    <p class="err-fix">✓ Corrección: la acción correctiva debe modificar el proceso para que el corte defectuoso no vuelva a ocurrir. Eso puede implicar modificar el POE, cambiar la frecuencia de cambio de cuchilla, implementar un registro de verificación al inicio del turno.</p>
+  </div>
+
+  <div class="err-card">
+    <div class="etitle">Error 3 — El análisis lo hace solo el Encargado de Calidad</div>
+    <p>El Plan de Corrección muestra que el análisis fue realizado únicamente por el TM Encargado de Calidad, sin participación de la dirección ni del personal del área involucrada. La Superintendencia de Salud es explícita: el análisis debe evidenciar trabajo grupal.</p>
+    <p class="err-fix">✓ Corrección: convocar al director técnico, al jefe del área involucrada y al personal que ejecuta el proceso. Respaldar la reunión con acta de asistencia y conclusiones. Tres personas más el Encargado de Calidad es suficiente.</p>
+  </div>
+
+  <div class="err-card">
+    <div class="etitle">Error 4 — Las acciones son vagas e inverificables</div>
+    <p>"Mejorar la supervisión del personal" o "reforzar la capacitación" sin especificar qué se supervisará, con qué frecuencia, quién es responsable y qué evidencia quedará de ello. El evaluador que vuelve a visitar el laboratorio no puede constatar si la acción fue implementada.</p>
+    <p class="err-fix">✓ Corrección: cada acción debe ser específica, medible y con evidencia: "Implementar checklist de verificación de identidad al inicio de cada turno de macroscopía, con firma del TM responsable. Registros archivados en carpeta de calidad, revisados mensualmente por el Encargado de Calidad."</p>
+  </div>
+
+  <div class="err-card">
+    <div class="etitle">Error 5 — No se verifica la eficacia de la acción correctiva</div>
+    <p>El Plan de Corrección se implementa, las acciones se ejecutan, pero no hay ningún registro posterior que muestre si el problema fue resuelto. ISO 15189 (4.10 f) exige revisar la eficacia de la acción tomada. Sin ese cierre, el ciclo de mejora continua está incompleto.</p>
+    <p class="err-fix">✓ Corrección: definir en el punto 7 del Plan cómo se medirá que la acción fue efectiva: "El indicador de QC interno de IHQ será evaluado mensualmente por 3 meses. Si supera el umbral de 95% en los tres períodos consecutivos, la acción correctiva se considerará eficaz y se cerrará la no conformidad."</p>
+  </div>
+</div>
+
+</div>
+<script>
+function show(id){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nbtn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  const m={'concepto':0,'ishikawa':1,'cincoq':2,'plan':3,'ejemplo':4,'errores':5};
+  document.querySelectorAll('.nbtn')[m[id]].classList.add('active');
+}
+</script>
