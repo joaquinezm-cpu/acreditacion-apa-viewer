@@ -1,0 +1,526 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.root{font-family:var(--font-sans);padding:8px 0 20px}
+.nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
+.nbtn{
+  padding:7px 14px;border:0.5px solid var(--color-border-secondary);
+  border-radius:99px;background:var(--color-background-primary);
+  color:var(--color-text-secondary);font-size:12px;font-weight:500;
+  cursor:pointer;transition:all .18s;white-space:nowrap
+}
+.nbtn:hover{background:var(--color-background-secondary)}
+.nbtn.active{background:var(--color-background-secondary);color:var(--color-text-primary);border-color:var(--color-border-primary)}
+.panel{display:none}.panel.active{display:block}
+
+/* Overview SVG container */
+.svg-wrap{width:100%;overflow:visible;margin-bottom:4px}
+
+/* Detail cards */
+.detail-header{
+  display:flex;align-items:center;gap:14px;
+  padding:14px 16px;border-radius:var(--border-radius-lg);
+  border:0.5px solid var(--color-border-tertiary);
+  background:var(--color-background-secondary);margin-bottom:14px
+}
+.detail-badge{
+  width:46px;height:46px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;font-weight:500
+}
+.detail-title{font-size:15px;font-weight:500;color:var(--color-text-primary);margin-bottom:3px}
+.detail-sub{font-size:12px;color:var(--color-text-secondary);line-height:1.5}
+
+.section-title{
+  font-size:11px;font-weight:500;letter-spacing:.07em;
+  color:var(--color-text-tertiary);text-transform:uppercase;
+  margin:14px 0 8px
+}
+.content-card{
+  background:var(--color-background-primary);
+  border:0.5px solid var(--color-border-tertiary);
+  border-radius:var(--border-radius-md);padding:12px 14px;
+  margin-bottom:8px
+}
+.content-card .cc-label{
+  font-size:11px;font-weight:500;color:var(--color-text-secondary);
+  margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em
+}
+.content-card p,.content-card li{
+  font-size:13px;color:var(--color-text-secondary);line-height:1.6
+}
+.content-card ul{padding-left:16px}
+.content-card li{margin-bottom:3px}
+.highlight{
+  color:var(--color-text-primary);font-weight:500
+}
+.ap-box{
+  background:var(--color-background-secondary);
+  border:0.5px solid var(--color-border-tertiary);
+  border-left:3px solid #0F6E56;
+  border-radius:var(--border-radius-md);
+  padding:11px 14px;margin-top:10px
+}
+.ap-box .ap-label{
+  font-size:11px;font-weight:500;color:#0F6E56;
+  margin-bottom:4px;letter-spacing:.05em
+}
+.ap-box p,.ap-box li{font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+.ap-box ul{padding-left:16px}
+.norm-box{
+  background:var(--color-background-secondary);
+  border:0.5px solid var(--color-border-tertiary);
+  border-left:3px solid #185FA5;
+  border-radius:var(--border-radius-md);
+  padding:11px 14px;margin-top:10px
+}
+.norm-box .n-label{font-size:11px;font-weight:500;color:#185FA5;margin-bottom:4px}
+.norm-box p{font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+.pills{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.pill{
+  font-size:11px;padding:2px 9px;border-radius:99px;
+  border:0.5px solid var(--color-border-secondary);
+  color:var(--color-text-secondary)
+}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:480px){.row2{grid-template-columns:1fr}}
+
+/* color helpers */
+.bg-p{background:#E6F1FB;color:#185FA5}
+.bg-g{background:#E1F5EE;color:#0F6E56}
+.bg-a{background:#FAEEDA;color:#BA7517}
+.bg-pk{background:#FBEAF0;color:#993556}
+.bg-pu{background:#EEEDFE;color:#534AB7}
+.bg-co{background:#FAECE7;color:#993C1D}
+</style>
+
+<div class="root">
+<h2 class="sr-only">Punto 3.1 — Calidad y mejora continua aplicada al laboratorio de anatomía patológica</h2>
+
+<div class="nav">
+  <button class="nbtn active" onclick="show('overview')">Vista general</button>
+  <button class="nbtn" onclick="show('qlp')">Hacer — QLP</button>
+  <button class="nbtn" onclick="show('qc')">Verificar — QC</button>
+  <button class="nbtn" onclick="show('qa')">Verificar — QA</button>
+  <button class="nbtn" onclick="show('qi')">Actuar — QI</button>
+  <button class="nbtn" onclick="show('qp')">Planificar — QP</button>
+  <button class="nbtn" onclick="show('sistemas')">Sistemas</button>
+  <button class="nbtn" onclick="show('normas')">Marcos normativos</button>
+</div>
+
+<!-- OVERVIEW -->
+<div class="panel active" id="panel-overview">
+<svg class="svg-wrap" viewBox="0 0 680 430" role="img">
+  <title>Ciclo PDCA aplicado al laboratorio de AP según modelo Westgard</title>
+  <desc>Diagrama circular del ciclo PDCA con sus cinco componentes: QP (Planificar), QLP (Hacer), QC y QA (Verificar), QI (Actuar), centrado en los objetivos de calidad</desc>
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <!-- Outer ring label: PDCA phases -->
+  <!-- PLAN arc label -->
+  <text class="ts" x="340" y="28" text-anchor="middle" font-size="11" fill="#534AB7" font-weight="500" letter-spacing="2">P L A N I F I C A R</text>
+  <!-- DO arc label -->
+  <text class="ts" x="628" y="220" text-anchor="middle" font-size="11" fill="#185FA5" font-weight="500" letter-spacing="2" transform="rotate(90,628,220)">H A C E R</text>
+  <!-- CHECK arc label -->
+  <text class="ts" x="340" y="415" text-anchor="middle" font-size="11" fill="#BA7517" font-weight="500" letter-spacing="2">V E R I F I C A R</text>
+  <!-- ACT arc label -->
+  <text class="ts" x="52" y="220" text-anchor="middle" font-size="11" fill="#993556" font-weight="500" letter-spacing="2" transform="rotate(-90,52,220)">A C T U A R</text>
+
+  <!-- Circular arrow (PDCA flow) -->
+  <circle cx="340" cy="218" r="145" fill="none" stroke="var(--color-border-tertiary)" stroke-width="1" stroke-dasharray="4 4"/>
+
+  <!-- Curved arrows for rotation -->
+  <path d="M 260 78 A 150 150 0 0 1 478 145" fill="none" stroke="#B5D4F4" stroke-width="1.5" marker-end="url(#arr)"/>
+  <path d="M 490 150 A 150 150 0 0 1 490 290" fill="none" stroke="#B5D4F4" stroke-width="1.5" marker-end="url(#arr)"/>
+  <path d="M 478 295 A 150 150 0 0 1 260 360" fill="none" stroke="#B5D4F4" stroke-width="1.5" marker-end="url(#arr)"/>
+  <path d="M 255 358 A 150 150 0 0 1 195 148" fill="none" stroke="#B5D4F4" stroke-width="1.5" marker-end="url(#arr)"/>
+  <path d="M 198 145 A 150 150 0 0 1 258 80" fill="none" stroke="#B5D4F4" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- CENTER: Quality Goals -->
+  <g class="node" onclick="sendPrompt('¿Qué son los objetivos de calidad QG en un laboratorio de AP y cómo se definen?')">
+    <circle cx="340" cy="218" r="58" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+    <text class="th" x="340" y="208" text-anchor="middle" dominant-baseline="central" font-size="13" fill="#3C3489">QG</text>
+    <text class="ts" x="340" y="224" text-anchor="middle" font-size="11" fill="#534AB7">Objetivos de</text>
+    <text class="ts" x="340" y="237" text-anchor="middle" font-size="11" fill="#534AB7">calidad</text>
+  </g>
+
+  <!-- QP — PLANIFICAR (top) -->
+  <g class="node" onclick="show('qp')">
+    <rect x="268" y="48" width="144" height="54" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+    <text class="th" x="340" y="68" text-anchor="middle" dominant-baseline="central" font-size="13" fill="#3C3489">QP — Planificación</text>
+    <text class="ts" x="340" y="86" text-anchor="middle" font-size="11" fill="#534AB7">Selección y validación de</text>
+    <text class="ts" x="340" y="98" text-anchor="middle" font-size="11" fill="#534AB7">métodos · diseño del QC</text>
+  </g>
+
+  <!-- QLP — HACER (right) -->
+  <g class="node" onclick="show('qlp')">
+    <rect x="496" y="162" width="152" height="54" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+    <text class="th" x="572" y="182" text-anchor="middle" dominant-baseline="central" font-size="13" fill="#0C447C">QLP — Procesos</text>
+    <text class="ts" x="572" y="199" text-anchor="middle" font-size="11" fill="#185FA5">POEs · personal ·</text>
+    <text class="ts" x="572" y="211" text-anchor="middle" font-size="11" fill="#185FA5">reactivos · equipos</text>
+  </g>
+
+  <!-- QC — VERIFICAR (bottom-right) -->
+  <g class="node" onclick="show('qc')">
+    <rect x="426" y="306" width="152" height="54" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.5"/>
+    <text class="th" x="502" y="326" text-anchor="middle" dominant-baseline="central" font-size="13" fill="#854F0B">QC — Control</text>
+    <text class="ts" x="502" y="343" text-anchor="middle" font-size="11" fill="#BA7517">Levey-Jennings ·</text>
+    <text class="ts" x="502" y="355" text-anchor="middle" font-size="11" fill="#BA7517">reglas Westgard</text>
+  </g>
+
+  <!-- QA — VERIFICAR (bottom-left) -->
+  <g class="node" onclick="show('qa')">
+    <rect x="102" y="306" width="152" height="54" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.5"/>
+    <text class="th" x="178" y="326" text-anchor="middle" dominant-baseline="central" font-size="13" fill="#854F0B">QA — Evaluación</text>
+    <text class="ts" x="178" y="343" text-anchor="middle" font-size="11" fill="#BA7517">TAT · EQA · PEEC ·</text>
+    <text class="ts" x="178" y="355" text-anchor="middle" font-size="11" fill="#BA7517">satisfacción usuario</text>
+  </g>
+
+  <!-- QI — ACTUAR (left) -->
+  <g class="node" onclick="show('qi')">
+    <rect x="32" y="162" width="152" height="54" rx="8" fill="#FBEAF0" stroke="#993556" stroke-width="0.5"/>
+    <text class="th" x="108" y="182" text-anchor="middle" dominant-baseline="central" font-size="13" fill="#72243E">QI — Mejora</text>
+    <text class="ts" x="108" y="199" text-anchor="middle" font-size="11" fill="#993556">Ishikawa · 5 Por Qués</text>
+    <text class="ts" x="108" y="211" text-anchor="middle" font-size="11" fill="#993556">· causa raíz</text>
+  </g>
+
+  <!-- Connector lines from center to boxes -->
+  <line x1="340" y1="160" x2="340" y2="102" stroke="var(--color-border-secondary)" stroke-width="0.5" stroke-dasharray="3 3"/>
+  <line x1="385" y1="200" x2="496" y2="195" stroke="var(--color-border-secondary)" stroke-width="0.5" stroke-dasharray="3 3"/>
+  <line x1="375" y1="255" x2="440" y2="306" stroke="var(--color-border-secondary)" stroke-width="0.5" stroke-dasharray="3 3"/>
+  <line x1="305" y1="255" x2="240" y2="306" stroke="var(--color-border-secondary)" stroke-width="0.5" stroke-dasharray="3 3"/>
+  <line x1="296" y1="200" x2="184" y2="195" stroke="var(--color-border-secondary)" stroke-width="0.5" stroke-dasharray="3 3"/>
+
+  <!-- Click hint -->
+  <text class="ts" x="340" y="400" text-anchor="middle" font-size="11" fill="var(--color-text-tertiary)">Haz clic en cualquier componente para ver su detalle →</text>
+</svg>
+</div>
+
+<!-- QLP -->
+<div class="panel" id="panel-qlp">
+  <div class="detail-header">
+    <div class="detail-badge bg-p">QLP</div>
+    <div>
+      <div class="detail-title">Procesos de calidad del laboratorio (Quality Laboratory Processes)</div>
+      <div class="detail-sub">Fase HACER del ciclo PDCA · Define cómo se realiza el trabajo</div>
+    </div>
+  </div>
+  <div class="content-card">
+    <div class="cc-label">¿Qué es?</div>
+    <p>Son las <span class="highlight">políticas, procedimientos, estándares de personal y recursos materiales</span> que determinan cómo se realiza el trabajo en el laboratorio. Es la traducción operativa de las intenciones de calidad: el "cómo hacemos las cosas aquí".</p>
+  </div>
+  <div class="row2">
+    <div class="content-card">
+      <div class="cc-label">Elementos que lo componen</div>
+      <ul>
+        <li>Procedimientos Operativos Estándar (POEs / SOPs)</li>
+        <li>Descripción de cargos y competencias</li>
+        <li>Criterios de aceptación/rechazo de muestras</li>
+        <li>Protocolos de equipos y reactivos</li>
+        <li>Instructivos de trabajo paso a paso</li>
+        <li>Registros de trazabilidad de muestras</li>
+      </ul>
+    </div>
+    <div class="content-card">
+      <div class="cc-label">Prioridades de implementación (CLSI HS01)</div>
+      <ul>
+        <li>Manual de calidad</li>
+        <li>Control de documentos y registros</li>
+        <li>Procedimiento de gestión de incidencias</li>
+        <li>Análisis y validación de procesos de trabajo</li>
+        <li>Implementación del control de procesos</li>
+      </ul>
+    </div>
+  </div>
+  <div class="ap-box">
+    <div class="ap-label">📋 En tu laboratorio de AP</div>
+    <ul>
+      <li>POE de procesamiento histológico: recepción → fijación → tallado → inclusión → corte → tinción HE → montaje → diagnóstico</li>
+      <li>Criterio documentado de rechazo de biopsia (muestra sin formalina, sin identificación, frasco abierto)</li>
+      <li>Protocolo de técnicas especiales (PAS, Ziehl-Neelsen, Masson) con tiempos y controles</li>
+      <li>POE de inmunohistoquímica: antígeno retrieval, diluciones de anticuerpos, controles positivos/negativos</li>
+      <li>Instructivo de uso del criostato para biopsias rápidas intraoperatorias</li>
+    </ul>
+  </div>
+</div>
+
+<!-- QC -->
+<div class="panel" id="panel-qc">
+  <div class="detail-header">
+    <div class="detail-badge bg-a">QC</div>
+    <div>
+      <div class="detail-title">Control de calidad (Quality Control)</div>
+      <div class="detail-sub">Fase VERIFICAR del ciclo PDCA · Detecta problemas antes de liberar resultados</div>
+    </div>
+  </div>
+  <div class="content-card">
+    <div class="cc-label">¿Qué es?</div>
+    <p>Son los <span class="highlight">procedimientos para monitorear los procesos, detectar problemas y realizar correcciones antes de liberar los productos y servicios</span>. El control estadístico de calidad es su herramienta central. Involucra a todo el personal analítico del laboratorio.</p>
+  </div>
+  <div class="row2">
+    <div class="content-card">
+      <div class="cc-label">Herramientas del QC estadístico</div>
+      <ul>
+        <li>Carta de control Levey-Jennings (eje x = tiempo, eje y = resultado del control)</li>
+        <li>Cálculo de media y desviación estándar (SD)</li>
+        <li>Límites de control: media ± 2SD (alerta) y ± 3SD (rechazo)</li>
+        <li>Reglas de Westgard: 1₂s, 1₃s, 2₂s, R₄s, 4₁s, 10ₓ</li>
+        <li>Evaluación de error aleatorio vs. error sistemático</li>
+      </ul>
+    </div>
+    <div class="content-card">
+      <div class="cc-label">Tipos de error que detecta</div>
+      <ul>
+        <li><span class="highlight">Error aleatorio:</span> imprecisión, dispersión de puntos (regla R₄s)</li>
+        <li><span class="highlight">Error sistemático:</span> sesgo constante, tendencias (reglas 2₂s, 4₁s, 10ₓ)</li>
+        <li><span class="highlight">Tendencia:</span> desplazamiento gradual de la media (7T, 9x)</li>
+        <li><span class="highlight">Cambio brusco:</span> fallo súbito del reactivo o equipo (1₃s)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="ap-box">
+    <div class="ap-label">🔬 En tu laboratorio de AP</div>
+    <ul>
+      <li>Control de IHQ: uso de tejido control positivo y negativo en cada corrida de anticuerpos (exigido por APA 1.3)</li>
+      <li>Control de tinciones especiales: tejido conocido como control interno en cada tinción</li>
+      <li>Control de procesador de tejidos: registro diario de temperatura, tiempos y alarmas del equipo</li>
+      <li>Control de microtomo: registro de grosor de corte, verificación periódica con lámina de calibración</li>
+      <li>EQA/PEEC: participación en programa de evaluación externa de calidad (exigido por Manual APA)</li>
+    </ul>
+  </div>
+</div>
+
+<!-- QA -->
+<div class="panel" id="panel-qa">
+  <div class="detail-header">
+    <div class="detail-badge bg-a">QA</div>
+    <div>
+      <div class="detail-title">Evaluación de calidad (Quality Assessment)</div>
+      <div class="detail-sub">Fase VERIFICAR · Monitoreo amplio más allá del control estadístico</div>
+    </div>
+  </div>
+  <div class="content-card">
+    <div class="cc-label">¿Qué es y qué diferencia tiene con QC?</div>
+    <p>Mientras el QC monitorea el desempeño analítico en tiempo real, el QA abarca <span class="highlight">aspectos más amplios de la calidad</span>: tiempo de entrega de resultados (TAT), toma y recepción de muestras, informe de resultados. Incluye tanto la evaluación interna como la externa. El aseguramiento de la calidad es el resultado de todo el proceso de gestión, no solo un componente.</p>
+  </div>
+  <div class="row2">
+    <div class="content-card">
+      <div class="cc-label">Evaluación interna</div>
+      <ul>
+        <li>Auditorías internas del sistema de gestión</li>
+        <li>Revisión periódica por la dirección</li>
+        <li>Indicadores de calidad (TAT, tasa de rechazo, correlaciones)</li>
+        <li>Revisión de reclamaciones e incidencias</li>
+        <li>Evaluación de respuesta del usuario</li>
+      </ul>
+    </div>
+    <div class="content-card">
+      <div class="cc-label">Evaluación externa</div>
+      <ul>
+        <li>Ensayos de aptitud (Proficiency Testing / PT)</li>
+        <li>PEEC: Programa de Evaluación Externa de Calidad</li>
+        <li>Comparación entre laboratorios</li>
+        <li>Acreditación: auditoría externa del sistema completo</li>
+        <li>Inspecciones de organismos regulatorios</li>
+      </ul>
+    </div>
+  </div>
+  <div class="ap-box">
+    <div class="ap-label">🧪 En tu laboratorio de AP</div>
+    <ul>
+      <li>TAT de biopsias de rutina: tiempo entre recepción y emisión del informe (indicador GP1.2 / GP1.5)</li>
+      <li>Tasa de correlaciones citología-histología: % de casos con diagnóstico concordante entre Pap y biopsia cérvica</li>
+      <li>PEEC de histopatología: envío de casos a programa externo de calidad y análisis de resultados</li>
+      <li>Auditoría interna anual: revisión de todos los procesos contra los elementos medibles del Manual APA</li>
+      <li>Encuesta de satisfacción al médico solicitante: percepción de calidad del informe y del TAT</li>
+    </ul>
+  </div>
+  <div class="norm-box">
+    <div class="n-label">📌 ISO 15189:2012 — Requisitos de evaluación y auditorías (sección 4.14)</div>
+    <p>La norma exige: revisión periódica de peticiones y procedimientos, evaluación de respuesta del usuario, auditorías internas, gestión del riesgo, indicadores de calidad, y revisiones por organizaciones externas. Todos estos elementos forman parte del QA y son verificables en una acreditación.</p>
+  </div>
+</div>
+
+<!-- QI -->
+<div class="panel" id="panel-qi">
+  <div class="detail-header">
+    <div class="detail-badge bg-pk">QI</div>
+    <div>
+      <div class="detail-title">Mejora de calidad (Quality Improvement)</div>
+      <div class="detail-sub">Fase ACTUAR del ciclo PDCA · Elimina causas raíz de los problemas detectados</div>
+    </div>
+  </div>
+  <div class="content-card">
+    <div class="cc-label">¿Qué es?</div>
+    <p>Está orientada a <span class="highlight">determinar la causa raíz de los problemas identificados por el QC y el QA</span> para eliminarlos definitivamente. No es apagar el incendio (eso es la acción inmediata), sino evitar que vuelva a ocurrir. Involucra herramientas de análisis grupal cuando el problema es complejo.</p>
+  </div>
+  <div class="row2">
+    <div class="content-card">
+      <div class="cc-label">Herramientas del QI</div>
+      <ul>
+        <li>Diagrama de Ishikawa (espina de pescado)</li>
+        <li>Técnica de los 5 Por Qués</li>
+        <li>Diagrama de Pareto (80/20)</li>
+        <li>Diagrama de flujo del proceso</li>
+        <li>FMEA: análisis de modos de falla y efectos</li>
+        <li>Análisis de campo de fuerza</li>
+      </ul>
+    </div>
+    <div class="content-card">
+      <div class="cc-label">Tipos de acciones (ISO 15189)</div>
+      <ul>
+        <li><span class="highlight">Acción inmediata:</span> mitiga el efecto en el momento (no es correctiva)</li>
+        <li><span class="highlight">Acción correctiva:</span> elimina la causa raíz de una no conformidad existente</li>
+        <li><span class="highlight">Acción preventiva:</span> proceso proactivo para evitar no conformidades potenciales</li>
+      </ul>
+    </div>
+  </div>
+  <div class="ap-box">
+    <div class="ap-label">🔎 Ejemplo en tu laboratorio de AP</div>
+    <p>Problema detectado: aumento del % de láminas con cortes defectuosos (grosor irregular, chatarra de cuchilla). La acción inmediata es repetir el corte. La acción correctiva, tras análisis de causa raíz con Ishikawa, podría ser: implementar registro diario del estado de la cuchilla del microtomo, con criterio documentado de cambio (p. ej. cada 50 casetes o ante la primera señal de corte deficiente). La acción preventiva sería rediseñar el POE de mantenimiento del microtomo para incluir esta verificación antes de cada turno.</p>
+  </div>
+</div>
+
+<!-- QP -->
+<div class="panel" id="panel-qp">
+  <div class="detail-header">
+    <div class="detail-badge bg-pu">QP</div>
+    <div>
+      <div class="detail-title">Planificación de calidad (Quality Planning)</div>
+      <div class="detail-sub">Fase PLANIFICAR del ciclo PDCA · Define qué se va a hacer y cómo se va a medir</div>
+    </div>
+  </div>
+  <div class="content-card">
+    <div class="cc-label">¿Qué es?</div>
+    <p>Se centra en <span class="highlight">establecer y validar procesos que satisfacen las necesidades del cliente</span>. Incluye la selección y validación de nuevos métodos o instrumentos, y el diseño del sistema de control de calidad que se aplicará a cada proceso. Es el componente menos desarrollado en muchos laboratorios, pero es clave para la acreditación.</p>
+  </div>
+  <div class="row2">
+    <div class="content-card">
+      <div class="cc-label">Lo que abarca el QP</div>
+      <ul>
+        <li>Definición de objetivos de calidad (errores tolerados)</li>
+        <li>Selección de métodos analíticos según requisitos clínicos</li>
+        <li>Validación y verificación de desempeño de métodos</li>
+        <li>Diseño del plan de control de calidad analítica</li>
+        <li>Selección de materiales de control</li>
+        <li>Definición de reglas de control a utilizar</li>
+      </ul>
+    </div>
+    <div class="content-card">
+      <div class="cc-label">Presupuesto de error (Six Sigma)</div>
+      <p>Del mismo modo que se define un presupuesto financiero, la QP exige definir un <span class="highlight">"presupuesto de error"</span>: cuánto error es tolerable en cada proceso para que el resultado siga siendo clínicamente aceptable. Sin esto, no se puede diseñar un QC efectivo.</p>
+    </div>
+  </div>
+  <div class="ap-box">
+    <div class="ap-label">📐 En tu laboratorio de AP</div>
+    <ul>
+      <li>Validación de anticuerpo nuevo de IHQ: verificar reactividad, especificidad, dilución óptima y tejido control apropiado antes de implementar en diagnóstico rutinario</li>
+      <li>Definición del TAT objetivo para biopsias de urgencia (ej. biopsia rápida intraoperatoria: ≤20 min) y diseño del proceso para cumplirlo</li>
+      <li>Selección del programa de PEEC y definición de la frecuencia de participación</li>
+      <li>Diseño del plan de control de calidad de tinciones: qué controles, qué frecuencia, qué criterio de rechazo</li>
+    </ul>
+  </div>
+</div>
+
+<!-- SISTEMAS -->
+<div class="panel" id="panel-sistemas">
+  <div class="detail-header">
+    <div class="detail-badge bg-co">SQ</div>
+    <div>
+      <div class="detail-title">Sistemas de calidad del laboratorio</div>
+      <div class="detail-sub">Estructura jerárquica: un sistema general que contiene tres sistemas específicos</div>
+    </div>
+  </div>
+  <div class="content-card">
+    <div class="cc-label">Modelo de sistemas (Westgard / CLIA)</div>
+    <p>El laboratorio no tiene un único sistema de calidad, sino una <span class="highlight">arquitectura de sistemas anidados</span>. El sistema general provee la estructura de dirección, organización, personal y políticas. Sobre esa base se apoyan los tres sistemas específicos del proceso total de análisis.</p>
+  </div>
+  <div class="row2">
+    <div class="content-card">
+      <div class="cc-label">Sistema general del laboratorio</div>
+      <ul>
+        <li>Estructura organizacional y dirección</li>
+        <li>Instalaciones y condiciones ambientales</li>
+        <li>Gestión del personal (competencias, formación)</li>
+        <li>Políticas y procedimientos generales</li>
+        <li>Gestión documental y de registros</li>
+        <li>Requisitos de gestión (ISO 15189, sección 4)</li>
+      </ul>
+    </div>
+    <div class="content-card">
+      <div class="cc-label">Los 3 sistemas específicos</div>
+      <ul>
+        <li><span class="highlight">Pre-analítico:</span> solicitud, toma de muestra, rotulación, transporte, recepción, procesamiento inicial</li>
+        <li><span class="highlight">Analítico:</span> procesamiento histológico, tinciones, diagnóstico, IHQ, técnicas especiales</li>
+        <li><span class="highlight">Post-analítico:</span> informe, entrega de resultados, archivo de láminas y bloques, valores críticos</li>
+      </ul>
+    </div>
+  </div>
+  <div class="ap-box">
+    <div class="ap-label">🏥 Aplicación directa en acreditación AP</div>
+    <p>El Manual APA organiza sus exigencias exactamente siguiendo esta lógica. El Ámbito GP (Gestión de Procesos) cubre los tres sistemas específicos con sus características GP1.1 a GP2.2. El Ámbito CAL cubre el sistema general. El Ámbito RH cubre la gestión del personal. Comprender esta arquitectura te permite navegar el manual con lógica, no de memoria.</p>
+  </div>
+</div>
+
+<!-- NORMAS -->
+<div class="panel" id="panel-normas">
+  <div class="detail-header">
+    <div class="detail-badge bg-p">N</div>
+    <div>
+      <div class="detail-title">Marcos normativos: ISO 15189, CLSI HS01 y CLIA</div>
+      <div class="detail-sub">Tres lenguajes distintos para el mismo concepto — y su relación con Chile</div>
+    </div>
+  </div>
+  <div class="content-card">
+    <div class="cc-label">¿Por qué tres marcos y cómo se relacionan?</div>
+    <p>Westgard afirma que ISO, CLSI y CLIA son <span class="highlight">complementarios pero no siempre consistentes</span>. Hablan del mismo sistema de calidad con distintos nombres y énfasis. La acreditación chilena (Manual APA) se basa en el marco de la Superintendencia de Salud, que tiene sus raíces en ISO 15189. Conocer los tres te permite entender la lógica profunda detrás de cada exigencia.</p>
+  </div>
+  <div class="row2">
+    <div class="content-card">
+      <div class="cc-label">ISO 15189:2012</div>
+      <ul>
+        <li>Norma internacional para laboratorios médicos</li>
+        <li>Sección 4: Requisitos de gestión (organización, documentación, NC, acciones correctivas, mejora continua, revisión por dirección)</li>
+        <li>Sección 5: Requisitos técnicos (personal, instalaciones, equipos, procesos pre/analítico/post)</li>
+        <li>Base directa del Manual APA chileno</li>
+      </ul>
+    </div>
+    <div class="content-card">
+      <div class="cc-label">CLSI HS01 — QSEs</div>
+      <ul>
+        <li>Elementos Esenciales del Sistema de Calidad (QSEs)</li>
+        <li>12 elementos: organización, personal, equipos, compras, control de procesos, gestión de información, incidencias, evaluaciones, mejora, cliente, instalaciones/seguridad</li>
+        <li>El compromiso de la dirección es el primer QSE</li>
+        <li>Marco más didáctico para implementación</li>
+      </ul>
+    </div>
+  </div>
+  <div class="norm-box">
+    <div class="n-label">🇨🇱 Conexión con el sistema chileno de acreditación</div>
+    <p>El Manual APA de Chile (Ministerio de Salud) traduce estos marcos en características, elementos medibles y puntos de verificación concretos. Cuando el evaluador llega a tu laboratorio y pregunta por el "responsable designado", "el documento escrito" o la "evaluación periódica", está verificando que tu sistema de calidad cumple con los componentes QLP, QC, QA, QI y QP del ciclo que estudiamos aquí.</p>
+  </div>
+  <div class="content-card" style="margin-top:8px">
+    <div class="cc-label">Metodologías complementarias</div>
+    <div class="pills">
+      <span class="pill">Lean: reduce tiempos de ciclo → optimiza TAT</span>
+      <span class="pill">Six Sigma: cuantifica calidad en escala sigma</span>
+      <span class="pill">Lean + Six Sigma: eficiencia + calidad</span>
+      <span class="pill">FMEA: anticipa modos de fallo (ISO 22367)</span>
+      <span class="pill">Gestión de riesgos: ISO 14971 / CLSI EP18-23</span>
+    </div>
+  </div>
+</div>
+
+</div>
+<script>
+function show(id){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nbtn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  const map={'overview':0,'qlp':1,'qc':2,'qa':3,'qi':4,'qp':5,'sistemas':6,'normas':7};
+  document.querySelectorAll('.nbtn')[map[id]].classList.add('active');
+}
+</script>
