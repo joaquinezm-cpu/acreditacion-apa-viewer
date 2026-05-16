@@ -1,0 +1,116 @@
+<svg width="100%" viewBox="0 0 680 620" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Árbol de decisión del proceso de acreditación: tres resultados posibles y sus consecuencias</title>
+  <desc>Diagrama que muestra las reglas de decisión para la primera, segunda y tercera acreditación de laboratorios de anatomía patológica, con los tres posibles resultados (acreditado, con observaciones, no acreditado) y el procedimiento del Plan de Corrección</desc>
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#888780" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <!-- === EVALUACIÓN EN TERRENO → Informe === -->
+  <rect x="200" y="16" width="280" height="44" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+  <text x="340" y="34" font-family="sans-serif" font-size="12" font-weight="500" fill="#0C447C" text-anchor="middle">Informe de acreditación</text>
+  <text x="340" y="51" font-family="sans-serif" font-size="10" fill="#185FA5" text-anchor="middle">EA emite con FEA → envía al ISP dentro de 5 días hábiles</text>
+
+  <!-- Arrow down to decision node -->
+  <line x1="340" y1="60" x2="340" y2="86" stroke="#B5D4F4" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- === REGLAS DE DECISIÓN (diamond shape) === -->
+  <rect x="190" y="90" width="300" height="56" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
+  <text x="340" y="112" font-family="sans-serif" font-size="12" font-weight="500" fill="#633806" text-anchor="middle">Reglas de decisión</text>
+  <text x="340" y="128" font-family="sans-serif" font-size="10" fill="#854F0B" text-anchor="middle">¿Cumple las características obligatorias y el % total?</text>
+
+  <!-- Three arrows to three outcomes -->
+  <line x1="190" y1="118" x2="90" y2="178" stroke="#B5D4F4" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="340" y1="146" x2="340" y2="178" stroke="#B5D4F4" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="490" y1="118" x2="590" y2="178" stroke="#B5D4F4" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- Labels on arrows -->
+  <text x="118" y="155" font-family="sans-serif" font-size="10" fill="#3B6D11" text-anchor="middle">Sí, total</text>
+  <text x="340" y="165" font-family="sans-serif" font-size="10" fill="#854F0B" text-anchor="middle">Parcial</text>
+  <text x="562" y="155" font-family="sans-serif" font-size="10" fill="#A32D2D" text-anchor="middle">No</text>
+
+  <!-- === OUTCOME 1: ACREDITADO === -->
+  <rect x="20" y="182" width="180" height="64" rx="8" fill="#EAF3DE" stroke="#3B6D11" stroke-width="1"/>
+  <text x="110" y="202" font-family="sans-serif" font-size="13" font-weight="500" fill="#27500A" text-anchor="middle">ACREDITADO</text>
+  <text x="110" y="219" font-family="sans-serif" font-size="10" fill="#3B6D11" text-anchor="middle">100% oblig. + % total ≥ umbral</text>
+  <text x="110" y="234" font-family="sans-serif" font-size="10" fill="#3B6D11" text-anchor="middle">Vigencia: 3 años</text>
+
+  <line x1="110" y1="246" x2="110" y2="268" stroke="#C0DD97" stroke-width="1.5" marker-end="url(#arr)"/>
+  <rect x="20" y="272" width="180" height="36" rx="6" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
+  <text x="110" y="287" font-family="sans-serif" font-size="10" fill="#444441" text-anchor="middle">Inscripción en Registro</text>
+  <text x="110" y="301" font-family="sans-serif" font-size="10" fill="#444441" text-anchor="middle">Pago 2ª cuota (5 días hábiles)</text>
+
+  <!-- === OUTCOME 2: CON OBSERVACIONES === -->
+  <rect x="240" y="182" width="200" height="64" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1"/>
+  <text x="340" y="202" font-family="sans-serif" font-size="12" font-weight="500" fill="#633806" text-anchor="middle">CON OBSERVACIONES</text>
+  <text x="340" y="218" font-family="sans-serif" font-size="10" fill="#854F0B" text-anchor="middle">% parcial + máx. 2 oblig. incumplidas</text>
+  <text x="340" y="233" font-family="sans-serif" font-size="10" fill="#854F0B" text-anchor="middle">Inscrito en Registro con esa condición</text>
+
+  <line x1="340" y1="246" x2="340" y2="268" stroke="#FAC775" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- PLAN DE CORRECCIÓN flow -->
+  <rect x="240" y="272" width="200" height="36" rx="6" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
+  <text x="340" y="287" font-family="sans-serif" font-size="10" fill="#444441" text-anchor="middle">Prestador elabora Plan de Corrección</text>
+  <text x="340" y="301" font-family="sans-serif" font-size="10" fill="#444441" text-anchor="middle">Plazo: 10 días hábiles desde RE IP</text>
+
+  <line x1="340" y1="308" x2="340" y2="328" stroke="#FAC775" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <rect x="240" y="332" width="200" height="36" rx="6" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
+  <text x="340" y="347" font-family="sans-serif" font-size="10" fill="#444441" text-anchor="middle">EA original aprueba o rechaza el Plan</text>
+  <text x="340" y="361" font-family="sans-serif" font-size="10" fill="#444441" text-anchor="middle">Cronograma máx. 6 meses</text>
+
+  <!-- Branch: plan approved or rejected -->
+  <line x1="280" y1="368" x2="200" y2="398" stroke="#C0DD97" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="400" y1="368" x2="470" y2="398" stroke="#F09595" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <text x="222" y="388" font-family="sans-serif" font-size="10" fill="#3B6D11" text-anchor="middle">Aprobado</text>
+  <text x="452" y="388" font-family="sans-serif" font-size="10" fill="#A32D2D" text-anchor="middle">Rechazado</text>
+
+  <!-- Plan approved path -->
+  <rect x="120" y="402" width="160" height="46" rx="6" fill="#EAF3DE" stroke="#3B6D11" stroke-width="0.5"/>
+  <text x="200" y="421" font-family="sans-serif" font-size="10" fill="#27500A" text-anchor="middle">Nueva evaluación</text>
+  <text x="200" y="435" font-family="sans-serif" font-size="10" fill="#3B6D11" text-anchor="middle">EA distinta · 35 UTM · solo</text>
+  <text x="200" y="447" font-family="sans-serif" font-size="10" fill="#3B6D11" text-anchor="middle">características del plan</text>
+
+  <!-- Plan rejected path -->
+  <rect x="400" y="402" width="150" height="36" rx="6" fill="#FCEBEB" stroke="#E24B4A" stroke-width="0.5"/>
+  <text x="475" y="417" font-family="sans-serif" font-size="10" fill="#791F1F" text-anchor="middle">NO ACREDITADO</text>
+  <text x="475" y="431" font-family="sans-serif" font-size="10" fill="#A32D2D" text-anchor="middle">Se cancela inscripción</text>
+
+  <!-- New evaluation results -->
+  <line x1="200" y1="448" x2="200" y2="468" stroke="#C0DD97" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="160" y1="486" x2="110" y2="506" stroke="#C0DD97" stroke-width="1" marker-end="url(#arr)"/>
+  <line x1="230" y1="486" x2="280" y2="506" stroke="#F09595" stroke-width="1" marker-end="url(#arr)"/>
+
+  <rect x="120" y="468" width="160" height="24" rx="4" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
+  <text x="200" y="484" font-family="sans-serif" font-size="10" fill="#444441" text-anchor="middle">¿Cumple el Plan de Corrección?</text>
+
+  <rect x="40" y="510" width="140" height="30" rx="6" fill="#EAF3DE" stroke="#3B6D11" stroke-width="0.5"/>
+  <text x="110" y="522" font-family="sans-serif" font-size="10" fill="#27500A" text-anchor="middle">ACREDITADO</text>
+  <text x="110" y="534" font-family="sans-serif" font-size="10" fill="#3B6D11" text-anchor="middle">con observaciones</text>
+
+  <rect x="220" y="510" width="140" height="30" rx="6" fill="#FCEBEB" stroke="#E24B4A" stroke-width="0.5"/>
+  <text x="290" y="522" font-family="sans-serif" font-size="10" fill="#791F1F" text-anchor="middle">NO ACREDITADO</text>
+  <text x="290" y="534" font-family="sans-serif" font-size="10" fill="#A32D2D" text-anchor="middle">cancela inscripción</text>
+
+  <text x="163" y="498" font-family="sans-serif" font-size="10" fill="#3B6D11" text-anchor="middle">Sí</text>
+  <text x="248" y="498" font-family="sans-serif" font-size="10" fill="#A32D2D" text-anchor="middle">No</text>
+
+  <!-- === OUTCOME 3: NO ACREDITADO === -->
+  <rect x="480" y="182" width="182" height="64" rx="8" fill="#FCEBEB" stroke="#E24B4A" stroke-width="1"/>
+  <text x="571" y="202" font-family="sans-serif" font-size="13" font-weight="500" fill="#791F1F" text-anchor="middle">NO ACREDITADO</text>
+  <text x="571" y="219" font-family="sans-serif" font-size="10" fill="#A32D2D" text-anchor="middle">No alcanza umbrales mínimos</text>
+  <text x="571" y="234" font-family="sans-serif" font-size="10" fill="#A32D2D" text-anchor="middle">o &gt;2 obligatorias incumplidas</text>
+
+  <line x1="571" y1="246" x2="571" y2="268" stroke="#F09595" stroke-width="1.5" marker-end="url(#arr)"/>
+  <rect x="480" y="272" width="182" height="36" rx="6" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
+  <text x="571" y="287" font-family="sans-serif" font-size="10" fill="#444441" text-anchor="middle">Puede volver a solicitar</text>
+  <text x="571" y="301" font-family="sans-serif" font-size="10" fill="#444441" text-anchor="middle">Nueva autoevaluación desde cero</text>
+
+  <!-- === REGLAS NUMÉRICAS BOTTOM === -->
+  <rect x="20" y="558" width="640" height="52" rx="8" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
+  <text x="340" y="573" font-family="sans-serif" font-size="11" font-weight="500" fill="#444441" text-anchor="middle">Umbrales por proceso — Laboratorio de anatomía patológica</text>
+  <text x="340" y="588" font-family="sans-serif" font-size="10" fill="#5F5E5A" text-anchor="middle">1ª: oblig. 100% + total ≥70% · obs. ≥65% + máx. 2 oblig. incumpl.   |   2ª: oblig. 100% + total ≥80% · obs. ≥75% + máx. 2 oblig.</text>
+  <text x="340" y="603" font-family="sans-serif" font-size="10" fill="#5F5E5A" text-anchor="middle">3ª o más: total ≥90% · obs. ≥80% + máx. 2 oblig. incumpl.   |   Obligatorias APA: AOC 1.1 · RH 1.1 · REG 1.2</text>
+</svg>
