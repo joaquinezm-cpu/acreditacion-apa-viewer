@@ -1,0 +1,257 @@
+
+<style>
+  .card-tema {
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-lg);
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.15s;
+    position: relative;
+  }
+  .card-tema:hover { border-color: var(--color-border-secondary); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .card-tema.active { border-color: #185FA5; border-width: 1.5px; }
+  .num-badge {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 26px; height: 26px; border-radius: 50%;
+    font-size: 13px; font-weight: 500; margin-right: 8px; flex-shrink: 0;
+  }
+  .detail-box {
+    background: var(--color-background-secondary);
+    border-radius: var(--border-radius-md);
+    border-left: 3px solid #185FA5;
+    padding: 14px 16px;
+    margin-top: 12px;
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    line-height: 1.65;
+    display: none;
+  }
+  .detail-box.visible { display: block; }
+  .tag-ap {
+    display: inline-block;
+    background: #E6F1FB; color: #185FA5;
+    font-size: 11px; padding: 2px 8px;
+    border-radius: 20px; margin-top: 6px; margin-right: 4px;
+  }
+  .act-box {
+    background: var(--color-background-primary);
+    border: 1.5px solid #BA7517;
+    border-radius: var(--border-radius-lg);
+    padding: 16px;
+    margin-top: 16px;
+  }
+  .connector {
+    width: 2px; height: 16px;
+    background: var(--color-border-secondary);
+    margin: 0 auto;
+  }
+</style>
+
+<h2 class="sr-only">Mapa conceptual del Módulo 2: Preparación, Ciclo y Cierre del Proceso de Acreditación</h2>
+
+<div style="padding: 4px 0 16px;">
+  <div style="text-align:center; margin-bottom:20px;">
+    <div style="display:inline-flex; align-items:center; gap:10px; background:var(--color-background-secondary); border-radius:var(--border-radius-lg); padding:12px 24px; border:0.5px solid var(--color-border-tertiary);">
+      <i class="ti ti-certificate" style="font-size:22px;color:#185FA5" aria-hidden="true"></i>
+      <div style="text-align:left;">
+        <div style="font-size:11px;color:var(--color-text-tertiary);font-weight:500;text-transform:uppercase;letter-spacing:0.5px;">Módulo 2</div>
+        <div style="font-size:16px;font-weight:500;color:var(--color-text-primary);">Preparación, ciclo y cierre del proceso</div>
+      </div>
+    </div>
+    <div style="font-size:12px;color:var(--color-text-tertiary);margin-top:8px;">Haz clic en cada tema para ver el contenido clave</div>
+  </div>
+
+  <div style="display:grid;gap:10px;">
+
+    <div class="card-tema" id="t1" onclick="toggle(1)">
+      <div style="display:flex;align-items:center;">
+        <span class="num-badge" style="background:#E6F1FB;color:#185FA5;">2.1</span>
+        <div style="flex:1;">
+          <div style="font-weight:500;color:var(--color-text-primary);font-size:14px;">Proceso de acreditación, fases y plazos</div>
+          <div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px;">Ciclo completo: solicitud → evaluación → resolución</div>
+        </div>
+        <i class="ti ti-chevron-down" id="ic1" style="font-size:16px;color:var(--color-text-tertiary);transition:transform 0.2s" aria-hidden="true"></i>
+      </div>
+      <div class="detail-box" id="d1">
+        El proceso tiene <strong>etapas bien definidas con plazos regulados</strong> por DS 15/2007. Las fases principales son:<br><br>
+        <strong>① Solicitud</strong> → el prestador ingresa su solicitud a la Intendencia de Prestadores.<br>
+        <strong>② Designación aleatoria</strong> → se sortea la Entidad Acreditadora (no se elige).<br>
+        <strong>③ Pago 1ª cuota</strong> → activa el proceso. La EA tiene 40 días hábiles para iniciar terreno.<br>
+        <strong>④ Evaluación en terreno</strong> → máx. 30 días hábiles desde el inicio.<br>
+        <strong>⑤ Informe</strong> → emitido por la EA con firma electrónica avanzada.<br>
+        <strong>⑥ Resolución de la Intendencia</strong> → acreditado / con observaciones / no acreditado.<br><br>
+        <span class="tag-ap">💡 AP</span> <em>En tu laboratorio: el plazo total desde solicitud a resolución puede superar los 3 meses. Planificar con anticipación es clave.</em>
+      </div>
+    </div>
+
+    <div class="connector"></div>
+
+    <div class="card-tema" id="t2" onclick="toggle(2)">
+      <div style="display:flex;align-items:center;">
+        <span class="num-badge" style="background:#E1F5EE;color:#0F6E56;">2.2</span>
+        <div style="flex:1;">
+          <div style="font-weight:500;color:var(--color-text-primary);font-size:14px;">Requisitos para iniciar el proceso</div>
+          <div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px;">Condiciones previas que debe cumplir el laboratorio</div>
+        </div>
+        <i class="ti ti-chevron-down" id="ic2" style="font-size:16px;color:var(--color-text-tertiary);transition:transform 0.2s" aria-hidden="true"></i>
+      </div>
+      <div class="detail-box" id="d2" style="border-left-color:#0F6E56;">
+        Para iniciar el proceso, el laboratorio debe contar con:<br><br>
+        ✅ Autorización sanitaria vigente<br>
+        ✅ Resolución sanitaria de funcionamiento<br>
+        ✅ Registro como prestador en la Intendencia<br>
+        ✅ Director técnico identificado<br>
+        ✅ Representante legal definido<br>
+        ✅ Informe de autoevaluación elaborado<br>
+        ✅ Pago de la primera cuota del arancel<br><br>
+        <span class="tag-ap" style="background:#E1F5EE;color:#0F6E56;">💡 AP</span> <em>En anatomía patológica: el director técnico debe ser médico patólogo o TM con la habilitación correspondiente, según la normativa vigente.</em>
+      </div>
+    </div>
+
+    <div class="connector"></div>
+
+    <div class="card-tema" id="t3" onclick="toggle(3)">
+      <div style="display:flex;align-items:center;">
+        <span class="num-badge" style="background:#FAEEDA;color:#854F0B;">2.3</span>
+        <div style="flex:1;">
+          <div style="font-weight:500;color:var(--color-text-primary);font-size:14px;">Proceso de autoevaluación</div>
+          <div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px;">⭐ Tema central del módulo — evaluar el propio cumplimiento</div>
+        </div>
+        <i class="ti ti-chevron-down" id="ic3" style="font-size:16px;color:var(--color-text-tertiary);transition:transform 0.2s" aria-hidden="true"></i>
+      </div>
+      <div class="detail-box" id="d3" style="border-left-color:#854F0B;">
+        La autoevaluación es el proceso interno mediante el cual el laboratorio analiza su propio grado de cumplimiento de los estándares APA <strong>antes de la visita de la entidad acreditadora</strong>.<br><br>
+        <strong>Componentes del informe de autoevaluación:</strong><br>
+        • Cronología: fechas de inicio/término del proceso<br>
+        • Plan de trabajo ejecutado<br>
+        • % de cumplimiento por característica (DP, CAL, GP, AOC, RH, REG, EQ, INS, AP-APA)<br>
+        • Metodología de evaluación utilizada<br>
+        • Medidas de aseguramiento o mejora implementadas<br>
+        • Puntos de verificación "no aplican" con fundamento<br>
+        • Identificación del equipo participante<br><br>
+        <span class="tag-ap" style="background:#FAEEDA;color:#854F0B;">💡 AP</span> <em>La autoevaluación es tu "ensayo general" antes de la visita oficial. Una autoevaluación rigurosa minimiza las sorpresas durante la evaluación en terreno.</em>
+      </div>
+    </div>
+
+    <div class="connector"></div>
+
+    <div class="card-tema" id="t4" onclick="toggle(4)">
+      <div style="display:flex;align-items:center;">
+        <span class="num-badge" style="background:#FAECE7;color:#993C1D;">2.4</span>
+        <div style="flex:1;">
+          <div style="font-weight:500;color:var(--color-text-primary);font-size:14px;">Aranceles del proceso de acreditación</div>
+          <div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px;">Estructura de pagos y plazos de las cuotas</div>
+        </div>
+        <i class="ti ti-chevron-down" id="ic4" style="font-size:16px;color:var(--color-text-tertiary);transition:transform 0.2s" aria-hidden="true"></i>
+      </div>
+      <div class="detail-box" id="d4" style="border-left-color:#993C1D;">
+        El arancel se paga en <strong>dos cuotas</strong>:<br><br>
+        <strong>1ª cuota:</strong> Se paga al inicio — activa el proceso. La EA debe iniciar la evaluación en terreno dentro de los 40 días hábiles siguientes.<br><br>
+        <strong>2ª cuota:</strong> Se paga tras la notificación de la resolución exenta de la Intendencia.<br><br>
+        <strong>Para acreditación con observaciones:</strong> El arancel de la nueva evaluación es la <em>mitad</em> del proceso original.<br><br>
+        Si la EA no cumple plazos → pierde derecho al arancel y debe devolverlo.<br><br>
+        <span class="tag-ap" style="background:#FAECE7;color:#993C1D;">💡 AP</span> <em>El monto del arancel varía según el tipo y complejidad del prestador. Es un costo que debe estar presupuestado con antelación.</em>
+      </div>
+    </div>
+
+    <div class="connector"></div>
+
+    <div class="card-tema" id="t5" onclick="toggle(5)">
+      <div style="display:flex;align-items:center;">
+        <span class="num-badge" style="background:#EEEDFE;color:#534AB7;">2.5</span>
+        <div style="flex:1;">
+          <div style="font-weight:500;color:var(--color-text-primary);font-size:14px;">Entidades acreditadoras y evaluación en terreno</div>
+          <div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px;">Rol de la EA, cronograma y visita de evaluadores</div>
+        </div>
+        <i class="ti ti-chevron-down" id="ic5" style="font-size:16px;color:var(--color-text-tertiary);transition:transform 0.2s" aria-hidden="true"></i>
+      </div>
+      <div class="detail-box" id="d5" style="border-left-color:#534AB7;">
+        Las <strong>Entidades Acreditadoras (EA)</strong> son organismos certificados y registrados en la Intendencia de Prestadores. Se designan <em>aleatoriamente</em> — el prestador no puede elegirlas.<br><br>
+        <strong>Evaluación en terreno:</strong><br>
+        • Cronograma propuesto por la EA y aprobado por la Intendencia (con 20 días hábiles de anticipación)<br>
+        • Los evaluadores contrastan las condiciones reales del laboratorio vs. los estándares APA<br>
+        • Deben usar criterios objetivos, no discriminatorios e imparciales (Art. 23 DS 15)<br>
+        • Se conforma un expediente con todos los hallazgos<br>
+        • La EA debe evitar conflictos de interés con el prestador evaluado<br><br>
+        <span class="tag-ap" style="background:#EEEDFE;color:#534AB7;">💡 AP</span> <em>Durante la visita, el evaluador revisará documentación, registros, procesos en funcionamiento, infraestructura y entrevistará al personal. Toda evidencia debe estar disponible y ordenada.</em>
+      </div>
+    </div>
+
+    <div class="connector"></div>
+
+    <div class="card-tema" id="t6" onclick="toggle(6)">
+      <div style="display:flex;align-items:center;">
+        <span class="num-badge" style="background:#EAF3DE;color:#3B6D11;">2.6</span>
+        <div style="flex:1;">
+          <div style="font-weight:500;color:var(--color-text-primary);font-size:14px;">Informe de evaluación y reglas de decisión</div>
+          <div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px;">Cómo se decide si el laboratorio queda acreditado</div>
+        </div>
+        <i class="ti ti-chevron-down" id="ic6" style="font-size:16px;color:var(--color-text-tertiary);transition:transform 0.2s" aria-hidden="true"></i>
+      </div>
+      <div class="detail-box" id="d6" style="border-left-color:#3B6D11;">
+        <strong>Reglas de decisión (para laboratorio APA):</strong><br><br>
+        <table style="width:100%;font-size:12px;border-collapse:collapse;">
+          <tr style="background:var(--color-background-tertiary);">
+            <td style="padding:6px 8px;font-weight:500;">Proceso</td>
+            <td style="padding:6px 8px;font-weight:500;">Para acreditar</td>
+            <td style="padding:6px 8px;font-weight:500;">Para acreditar c/observ.</td>
+          </tr>
+          <tr>
+            <td style="padding:6px 8px;border-top:0.5px solid var(--color-border-tertiary);">1ª acreditación</td>
+            <td style="padding:6px 8px;border-top:0.5px solid var(--color-border-tertiary);color:#3B6D11;">100% oblig. + ≥70% total</td>
+            <td style="padding:6px 8px;border-top:0.5px solid var(--color-border-tertiary);">≥65% total, máx. 2 oblig.</td>
+          </tr>
+          <tr>
+            <td style="padding:6px 8px;border-top:0.5px solid var(--color-border-tertiary);">2ª acreditación</td>
+            <td style="padding:6px 8px;border-top:0.5px solid var(--color-border-tertiary);color:#3B6D11;">100% oblig. + ≥80% total</td>
+            <td style="padding:6px 8px;border-top:0.5px solid var(--color-border-tertiary);">≥75% total, máx. 2 oblig.</td>
+          </tr>
+          <tr>
+            <td style="padding:6px 8px;border-top:0.5px solid var(--color-border-tertiary);">3ª o más</td>
+            <td style="padding:6px 8px;border-top:0.5px solid var(--color-border-tertiary);color:#3B6D11;">≥90% total</td>
+            <td style="padding:6px 8px;border-top:0.5px solid var(--color-border-tertiary);">≥80% total, máx. 2 oblig.</td>
+          </tr>
+        </table>
+        <br>
+        La vigencia de la acreditación es de <strong>3 años</strong> desde la resolución exenta de la Intendencia.<br><br>
+        <span class="tag-ap" style="background:#EAF3DE;color:#3B6D11;">💡 AP</span> <em>Las características obligatorias son el "piso mínimo" — no cumplirlas todas es causa directa de no acreditación, independientemente del % total.</em>
+      </div>
+    </div>
+
+    <div class="act-box">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+        <i class="ti ti-pencil" style="font-size:18px;color:#BA7517" aria-hidden="true"></i>
+        <span style="font-weight:500;font-size:14px;color:var(--color-text-primary);">Actividad complementaria</span>
+        <span style="font-size:11px;background:#FAEEDA;color:#854F0B;padding:2px 8px;border-radius:20px;">Para la clase sincrónica</span>
+      </div>
+      <div style="font-size:13px;color:var(--color-text-secondary);line-height:1.6;">
+        <strong>Determina los 5 puntos críticos de la autoevaluación</strong> para el proceso de acreditación e indica por qué cada uno es crítico.<br>
+        <span style="font-size:12px;color:var(--color-text-tertiary);">Tutor: MPS TM Andrés Corbacho Moya</span>
+      </div>
+      <button onclick="sendPrompt('Quiero desarrollar la actividad complementaria del Módulo 2 sobre los 5 puntos críticos de la autoevaluación')" style="margin-top:10px;font-size:13px;">
+        Desarrollar actividad al finalizar ↗
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+let current = null;
+function toggle(n) {
+  const d = document.getElementById('d'+n);
+  const ic = document.getElementById('ic'+n);
+  const card = document.getElementById('t'+n);
+  if (current && current !== n) {
+    document.getElementById('d'+current).classList.remove('visible');
+    document.getElementById('ic'+current).style.transform = '';
+    document.getElementById('t'+current).classList.remove('active');
+  }
+  const open = d.classList.contains('visible');
+  d.classList.toggle('visible', !open);
+  ic.style.transform = open ? '' : 'rotate(180deg)';
+  card.classList.toggle('active', !open);
+  current = open ? null : n;
+}
+</script>
