@@ -1,0 +1,291 @@
+
+<style>
+* { box-sizing: border-box; }
+.wrap { font-family: var(--font-sans); padding: 4px 0 16px; }
+
+.intro-banner {
+  background: var(--color-background-secondary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-lg);
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+.intro-icon {
+  width: 40px; height: 40px; flex-shrink: 0;
+  background: var(--color-background-info);
+  border-radius: var(--border-radius-md);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+}
+.intro-text p { margin: 0; font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; }
+.intro-text strong { color: var(--color-text-primary); font-weight: 500; }
+
+.section-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  margin: 0 0 10px;
+}
+
+.punto-card {
+  background: var(--color-background-primary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-lg);
+  padding: 0;
+  margin-bottom: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.18s, transform 0.15s;
+}
+.punto-card:hover { border-color: var(--color-border-primary); transform: translateY(-1px); }
+
+.punto-header {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+}
+.punto-numero {
+  width: 52px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 500;
+  border-right: 0.5px solid var(--color-border-tertiary);
+}
+.punto-main {
+  flex: 1;
+  padding: 12px 14px;
+}
+.punto-titulo {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  margin: 0 0 5px;
+}
+.punto-resumen {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  line-height: 1.55;
+  margin: 0 0 8px;
+}
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.tag {
+  font-size: 11px;
+  padding: 2px 9px;
+  border-radius: 99px;
+  border: 0.5px solid var(--color-border-secondary);
+  color: var(--color-text-secondary);
+}
+.punto-cta {
+  padding: 12px 14px 12px 0;
+  display: flex;
+  align-items: center;
+  color: var(--color-text-tertiary);
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+/* colors per punto */
+.c1 { background: #E6F1FB; color: #185FA5; }
+.c2 { background: #E1F5EE; color: #0F6E56; }
+.c3 { background: #FAEEDA; color: #BA7517; }
+.c4 { background: #FBEAF0; color: #993556; }
+.c5 { background: #EEEDFE; color: #534AB7; }
+.c6 { background: #FAECE7; color: #993C1D; }
+
+.divider {
+  border: none;
+  border-top: 0.5px solid var(--color-border-tertiary);
+  margin: 16px 0;
+}
+
+.lec-box {
+  background: var(--color-background-secondary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-left: 3px solid #BA7517;
+  border-radius: var(--border-radius-md);
+  padding: 12px 14px;
+  margin-bottom: 10px;
+}
+.lec-box .lec-title { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin: 0 0 4px; }
+.lec-box .lec-desc { font-size: 12px; color: var(--color-text-secondary); margin: 0; line-height: 1.5; }
+
+.act-box {
+  background: var(--color-background-secondary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-left: 3px solid #993556;
+  border-radius: var(--border-radius-md);
+  padding: 12px 14px;
+}
+.act-box .act-title { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin: 0 0 4px; }
+.act-box .act-desc { font-size: 12px; color: var(--color-text-secondary); margin: 0; line-height: 1.5; }
+
+.conn-note {
+  background: var(--color-background-secondary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-md);
+  padding: 11px 14px;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  margin-top: 12px;
+}
+.conn-note strong { color: var(--color-text-primary); font-weight: 500; }
+</style>
+
+<h2 class="sr-only">Resumen general del Módulo 3: Herramientas y metodologías requeridas para acreditación de laboratorios de anatomía patológica</h2>
+
+<div class="wrap">
+
+  <div class="intro-banner">
+    <div class="intro-icon" aria-hidden="true">🛠️</div>
+    <div class="intro-text">
+      <p><strong>¿De qué trata este módulo?</strong> El Módulo 3 entrega las herramientas y metodologías que debe dominar todo laboratorio que busca acreditarse bajo el Manual APA. No es teoría abstracta: cada punto responde a una exigencia concreta que un evaluador verificará en terreno. Sin estas bases, los Módulos 4, 5 y 6 —que aplican los estándares uno por uno— no tienen sustento.</p>
+    </div>
+  </div>
+
+  <p class="section-label">Contenidos del módulo</p>
+
+  <!-- 3.1 -->
+  <div class="punto-card" onclick="sendPrompt('Desarrolla en profundidad el punto 3.1 Calidad y Mejora Continua del Módulo 3')">
+    <div class="punto-header">
+      <div class="punto-numero c1">3.1</div>
+      <div class="punto-main">
+        <p class="punto-titulo">Calidad y mejora continua</p>
+        <p class="punto-resumen">Introduce el marco conceptual de todo el sistema: qué es la calidad en un laboratorio de AP, cómo funciona el ciclo PDCA (Planificar–Hacer–Verificar–Actuar) y cuáles son sus cinco componentes operativos —procesos del laboratorio, control de calidad, evaluación, mejora y planificación. Se revisa la equivalencia entre ISO 15189, CLSI HS01 y CLIA como marcos normativos, y se presentan metodologías complementarias como Lean, Six Sigma y gestión de riesgos.</p>
+        <div class="tags">
+          <span class="tag">Ciclo PDCA</span>
+          <span class="tag">ISO 15189</span>
+          <span class="tag">CLSI HS01</span>
+          <span class="tag">QLP / QC / QA / QI / QP</span>
+          <span class="tag">Lean / Six Sigma</span>
+        </div>
+      </div>
+      <div class="punto-cta">›</div>
+    </div>
+  </div>
+
+  <!-- 3.2 -->
+  <div class="punto-card" onclick="sendPrompt('Desarrolla en profundidad el punto 3.2 Gestión de procesos del Módulo 3')">
+    <div class="punto-header">
+      <div class="punto-numero c2">3.2</div>
+      <div class="punto-main">
+        <p class="punto-titulo">Gestión de procesos</p>
+        <p class="punto-resumen">Enseña a identificar, mapear y controlar los procesos del laboratorio de AP en sus tres grandes etapas: preanalítica (recepción y registro de muestras, cadena de custodia), analítica (procesamiento histológico, técnicas especiales, diagnóstico) y postanalítica (emisión de informes, tiempos de respuesta). Se trabaja el concepto de proceso crítico, puntos de control y la trazabilidad como eje central del ámbito GP del Manual APA.</p>
+        <div class="tags">
+          <span class="tag">Preanalítica / Analítica / Postanalítica</span>
+          <span class="tag">Mapa de procesos</span>
+          <span class="tag">Trazabilidad</span>
+          <span class="tag">Ámbito GP (Manual APA)</span>
+        </div>
+      </div>
+      <div class="punto-cta">›</div>
+    </div>
+  </div>
+
+  <!-- 3.3 -->
+  <div class="punto-card" onclick="sendPrompt('Desarrolla en profundidad el punto 3.3 Gestión documental del Módulo 3')">
+    <div class="punto-header">
+      <div class="punto-numero c3">3.3</div>
+      <div class="punto-main">
+        <p class="punto-titulo">Gestión documental</p>
+        <p class="punto-resumen">Explica cómo estructurar y controlar el sistema documental del laboratorio. Se distinguen los tipos de documentos (políticas, procedimientos, protocolos, instructivos, registros), se define el listado maestro de documentos, el sistema de codificación, versiones, aprobación y difusión. Se toman como referencia la norma ISO 15489 y los requisitos documentales explícitos del proceso de acreditación (elemento medible "existe un documento escrito sobre...").</p>
+        <div class="tags">
+          <span class="tag">Listado maestro</span>
+          <span class="tag">POE / Protocolo / Instructivo</span>
+          <span class="tag">Control de versiones</span>
+          <span class="tag">ISO 15489</span>
+          <span class="tag">Codificación</span>
+        </div>
+      </div>
+      <div class="punto-cta">›</div>
+    </div>
+  </div>
+
+  <!-- 3.4 -->
+  <div class="punto-card" onclick="sendPrompt('Desarrolla en profundidad el punto 3.4 Gestión de indicadores del Módulo 3')">
+    <div class="punto-header">
+      <div class="punto-numero c4">3.4</div>
+      <div class="punto-main">
+        <p class="punto-titulo">Gestión de indicadores</p>
+        <p class="punto-resumen">Cubre el diseño, implementación y monitoreo de indicadores de calidad del laboratorio de AP. Se define la estructura de un indicador (nombre, fórmula, numerador, denominador, umbral, periodicidad, fuente de datos) y se revisan los indicadores que el Manual APA exige explícitamente para características como GP1.2, GP1.3, GP1.5 y GP2.1. Incluye cómo establecer metas y qué hacer cuando no se alcanza el umbral.</p>
+        <div class="tags">
+          <span class="tag">Fórmula de indicador</span>
+          <span class="tag">Umbral de cumplimiento</span>
+          <span class="tag">GP1.2 / GP1.3 / GP1.5</span>
+          <span class="tag">Periodicidad</span>
+          <span class="tag">Dashboard de calidad</span>
+        </div>
+      </div>
+      <div class="punto-cta">›</div>
+    </div>
+  </div>
+
+  <!-- 3.5 -->
+  <div class="punto-card" onclick="sendPrompt('Desarrolla en profundidad el punto 3.5 Análisis de causas del Módulo 3')">
+    <div class="punto-header">
+      <div class="punto-numero c5">3.5</div>
+      <div class="punto-main">
+        <p class="punto-titulo">Análisis de causas</p>
+        <p class="punto-resumen">Entrega las herramientas para investigar y resolver no conformidades: el Diagrama de Ishikawa (causa-efecto) y la técnica de los 5 Por Qués como métodos de análisis de causa raíz. Se vincula directamente con la estructura del Plan de Corrección exigido por la entidad acreditadora cuando una característica no se cumple: identificación del hallazgo, causas y factores contribuyentes, acciones correctivas, responsables y plazos.</p>
+        <div class="tags">
+          <span class="tag">Diagrama Ishikawa</span>
+          <span class="tag">5 Por Qués</span>
+          <span class="tag">No conformidades</span>
+          <span class="tag">Plan de corrección</span>
+          <span class="tag">Acciones correctivas</span>
+        </div>
+      </div>
+      <div class="punto-cta">›</div>
+    </div>
+  </div>
+
+  <!-- 3.6 -->
+  <div class="punto-card" onclick="sendPrompt('Desarrolla en profundidad el punto 3.6 Estructura y Contenido de los Estándares de Acreditación Vigentes del Módulo 3')">
+    <div class="punto-header">
+      <div class="punto-numero c6">3.6</div>
+      <div class="punto-main">
+        <p class="punto-titulo">Estructura y contenido de los estándares de acreditación vigentes</p>
+        <p class="punto-resumen">Enseña a leer e interpretar el Manual APA: su lógica de ámbitos → características → elementos medibles → puntos de verificación. Se revisa la diferencia entre características obligatorias (umbral 100%) y no obligatorias (umbral variable), los verificadores (dirección, laboratorio, archivo clínico), y la tabla de puntajes del manual vigente con todos los ámbitos que aplican a un laboratorio de AP y citología (DP, CAL, GP, AOC, RH, REG, EQ, INS, APA).</p>
+        <div class="tags">
+          <span class="tag">Ámbitos / Características / EM</span>
+          <span class="tag">Pauta de cotejo</span>
+          <span class="tag">Umbrales 100% vs variables</span>
+          <span class="tag">Verificadores</span>
+          <span class="tag">Compendio de Circulares</span>
+        </div>
+      </div>
+      <div class="punto-cta">›</div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <p class="section-label">Lectura complementaria y actividad</p>
+
+  <div class="lec-box">
+    <p class="lec-title">📖 Lectura complementaria — Westgard QC, Ed. Wallace Coulter</p>
+    <p class="lec-desc"><em>Prácticas Básicas de Control de Calidad</em> (James O. Westgard). Cubre el ciclo PDCA aplicado al laboratorio clínico, los sistemas de calidad pre/analítico/post-analítico, y los fundamentos del control estadístico de calidad. Incluye ejercicios con cartas de control Levey-Jennings y reglas de Westgard (1₂s, 1₃s, 2₂s, R₄s). Base teórica directa para el punto 3.1 y complemento aplicado para 3.4 y 3.5.</p>
+  </div>
+
+  <div class="act-box">
+    <p class="act-title">✏️ Actividad complementaria — para la clase sincrónica</p>
+    <p class="act-desc">Construir e interpretar una carta de control Levey-Jennings con datos reales de tu laboratorio. Seleccionar un ensayo de interés, identificar qué regla/s de control se aplican actualmente (1₃s / 2₂s / R₄s), graficar los valores de control en escala ±2s y ±3s, e interpretar el comportamiento: ¿rechazos por error aleatorio? ¿por error sistemático? Responder preguntas de autoevaluación del capítulo Westgard. Se analiza y discute en la clase sincrónica vía Teams.</p>
+  </div>
+
+  <div class="conn-note">
+    <strong>Conexión con los módulos siguientes:</strong> Todo lo aprendido aquí es el andamiaje que se aplicará directamente en los módulos 4, 5 y 6. Gestión documental → documentos que exige cada elemento medible. Indicadores → los que verifican en GP1.2, GP1.3, GP1.5. Análisis de causas → plan de corrección cuando no se cumple una característica. Estándares → la "partitura" que se lee en los módulos 4-6.
+  </div>
+
+</div>
