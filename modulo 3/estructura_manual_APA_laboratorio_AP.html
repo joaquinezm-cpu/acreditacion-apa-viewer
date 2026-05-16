@@ -1,0 +1,548 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.root{font-family:var(--font-sans);padding:8px 0 20px}
+.nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.nbtn{padding:7px 14px;border:0.5px solid var(--color-border-secondary);border-radius:99px;background:var(--color-background-primary);color:var(--color-text-secondary);font-size:12px;font-weight:500;cursor:pointer;transition:all .18s;white-space:nowrap}
+.nbtn:hover{background:var(--color-background-secondary)}
+.nbtn.active{background:var(--color-background-secondary);color:var(--color-text-primary);border-color:var(--color-border-primary)}
+.panel{display:none}.panel.active{display:block}
+
+.hdr{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:var(--border-radius-lg);border:0.5px solid var(--color-border-tertiary);background:var(--color-background-secondary);margin-bottom:14px}
+.hdr-icon{width:46px;height:46px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px}
+.hdr-title{font-size:15px;font-weight:500;color:var(--color-text-primary);margin-bottom:2px}
+.hdr-sub{font-size:12px;color:var(--color-text-secondary);line-height:1.5}
+
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+@media(max-width:520px){.g2{grid-template-columns:1fr}}
+
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:12px 14px}
+.card .lbl{font-size:11px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
+.card p,.card li{font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+.card ul{padding-left:16px}.card li{margin-bottom:2px}
+.hl{color:var(--color-text-primary);font-weight:500}
+
+.ap-box{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-left:3px solid #0F6E56;border-radius:var(--border-radius-md);padding:11px 14px;margin-bottom:8px}
+.ap-box .al{font-size:11px;font-weight:500;color:#0F6E56;margin-bottom:4px}
+.ap-box p,.ap-box li{font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+.ap-box ul{padding-left:16px}.ap-box li{margin-bottom:2px}
+
+.warn-box{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-left:3px solid #BA7517;border-radius:var(--border-radius-md);padding:11px 14px;margin-bottom:8px}
+.warn-box .wl{font-size:11px;font-weight:500;color:#BA7517;margin-bottom:4px}
+.warn-box p,.warn-box li{font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+.warn-box ul{padding-left:16px}.warn-box li{margin-bottom:2px}
+
+.iso-box{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-left:3px solid #185FA5;border-radius:var(--border-radius-md);padding:11px 14px;margin-bottom:8px}
+.iso-box .il{font-size:11px;font-weight:500;color:#185FA5;margin-bottom:4px}
+.iso-box p{font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+
+.slbl{font-size:11px;font-weight:500;letter-spacing:.07em;color:var(--color-text-tertiary);text-transform:uppercase;margin:14px 0 8px}
+
+/* Ámbitos table */
+.amb-table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:12px}
+.amb-table th{background:var(--color-background-secondary);padding:8px 10px;text-align:left;font-weight:500;color:var(--color-text-secondary);border-bottom:0.5px solid var(--color-border-tertiary);font-size:11px}
+.amb-table td{padding:8px 10px;border-bottom:0.5px solid var(--color-border-tertiary);color:var(--color-text-secondary);vertical-align:top;line-height:1.4}
+.amb-table tr:last-child td{border-bottom:none}
+.amb-table .codigo{font-family:var(--font-mono);font-size:11px;color:#185FA5;font-weight:500}
+.amb-table .u100{color:#993C1D;font-weight:500;font-size:11px}
+.amb-table .uvar{color:#0F6E56;font-weight:500;font-size:11px}
+.amb-table .u50{color:#BA7517;font-weight:500;font-size:11px}
+.amb-table .pts{color:var(--color-text-primary);font-weight:500}
+
+/* EM formula boxes */
+.em-grid{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+.em-row{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md)}
+.em-num{width:26px;height:26px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;margin-top:1px}
+.em-content{flex:1}
+.em-formula{font-size:12px;font-weight:500;color:var(--color-text-secondary);margin-bottom:2px}
+.em-detail{font-size:12px;color:var(--color-text-tertiary);line-height:1.5}
+
+/* Pauta cotejo mockup */
+.cotejo{background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-lg);overflow:hidden;margin-bottom:12px}
+.cotejo-hdr{background:var(--color-background-secondary);padding:10px 14px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.cotejo-title{font-size:12px;font-weight:500;color:var(--color-text-primary)}
+.cotejo-sub{font-size:11px;color:var(--color-text-secondary)}
+.cotejo-table{width:100%;border-collapse:collapse}
+.cotejo-table th{background:var(--color-background-secondary);padding:7px 8px;text-align:center;font-size:10px;font-weight:500;color:var(--color-text-secondary);border:0.5px solid var(--color-border-tertiary);line-height:1.3}
+.cotejo-table td{padding:7px 8px;font-size:11px;color:var(--color-text-secondary);border:0.5px solid var(--color-border-tertiary);vertical-align:middle;line-height:1.4}
+.cotejo-table td.em{background:var(--color-background-secondary);font-size:11px}
+.cotejo-table .cumple{text-align:center;color:#0F6E56;font-weight:500;font-size:12px}
+.cotejo-table .nocumple{text-align:center;color:#993C1D;font-weight:500;font-size:12px}
+.cotejo-table .nap{text-align:center;color:var(--color-text-tertiary);font-size:11px}
+
+/* Score calculator */
+.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+@media(max-width:480px){.calc-grid{grid-template-columns:1fr}}
+.calc-card{text-align:center;padding:14px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md)}
+.calc-num{font-size:28px;font-weight:500;margin-bottom:4px}
+.calc-lbl{font-size:12px;color:var(--color-text-secondary);line-height:1.4}
+
+/* PV chips */
+.pv-chips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px}
+.pv-chip{font-size:11px;padding:4px 10px;border-radius:99px;border:0.5px solid var(--color-border-secondary);color:var(--color-text-secondary);background:var(--color-background-primary)}
+.pv-chip.active{background:var(--color-background-info);color:var(--color-text-info);border-color:transparent}
+</style>
+
+<div class="root">
+<h2 class="sr-only">Punto 3.6 — Estructura y contenido de los estándares de acreditación vigentes: Manual APA para laboratorios de anatomía patológica y citología</h2>
+
+<div class="nav">
+  <button class="nbtn active" onclick="show('arquitectura')">Arquitectura del manual</button>
+  <button class="nbtn" onclick="show('ambitos')">Los 9 ámbitos</button>
+  <button class="nbtn" onclick="show('em')">Elementos medibles</button>
+  <button class="nbtn" onclick="show('pv')">Puntos de verificación</button>
+  <button class="nbtn" onclick="show('puntaje')">Cálculo de puntaje</button>
+  <button class="nbtn" onclick="show('circulares')">Compendio de circulares</button>
+  <button class="nbtn" onclick="show('lectura')">Cómo leer la pauta</button>
+</div>
+
+<!-- ARQUITECTURA -->
+<div class="panel active" id="panel-arquitectura">
+<svg width="100%" viewBox="0 0 680 420" role="img">
+  <title>Arquitectura del Manual APA: jerarquía Ámbito → Componente → Característica → Elementos Medibles → Puntos de Verificación</title>
+  <desc>Diagrama en cascada mostrando la jerarquía del Manual APA desde el nivel de política pública hasta los verificadores concretos</desc>
+
+  <!-- nivel 1: Ámbito -->
+  <rect x="220" y="14" width="240" height="48" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+  <text x="340" y="35" text-anchor="middle" font-size="14" fill="#3C3489" font-weight="500">ÁMBITO</text>
+  <text x="340" y="53" text-anchor="middle" font-size="11" fill="#534AB7">Política pública sanitaria · Intención del estándar</text>
+  <text x="340" y="70" text-anchor="middle" font-size="10" fill="var(--color-text-tertiary)">Ej: "Gestión de Procesos" (GP)</text>
+
+  <!-- flecha -->
+  <line x1="340" y1="82" x2="340" y2="100" stroke="var(--color-border-secondary)" stroke-width="1.5" marker-end="url(#d-arr)"/>
+  <defs>
+    <marker id="d-arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="var(--color-border-secondary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <!-- nivel 2: Componente -->
+  <rect x="180" y="100" width="320" height="48" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+  <text x="340" y="121" text-anchor="middle" font-size="14" fill="#0C447C" font-weight="500">COMPONENTE</text>
+  <text x="340" y="139" text-anchor="middle" font-size="11" fill="#185FA5">1er nivel de desagregación · Aspecto operacional del ámbito</text>
+  <text x="340" y="155" text-anchor="middle" font-size="10" fill="var(--color-text-tertiary)">Ej: "El prestador cuenta con un sistema de evaluación de sus procesos" (GP-1)</text>
+
+  <line x1="340" y1="168" x2="340" y2="186" stroke="var(--color-border-secondary)" stroke-width="1.5" marker-end="url(#d-arr)"/>
+
+  <!-- nivel 3: Característica -->
+  <rect x="130" y="186" width="420" height="48" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+  <text x="340" y="207" text-anchor="middle" font-size="14" fill="#085041" font-weight="500">CARACTERÍSTICA</text>
+  <text x="340" y="225" text-anchor="middle" font-size="11" fill="#0F6E56">Requerimiento específico de gestión sanitaria evaluado · Tiene código y umbral</text>
+  <text x="340" y="241" text-anchor="middle" font-size="10" fill="var(--color-text-tertiary)">Ej: GP 1.2 "El prestador aplica procedimientos explícitos y evalúa los procesos de la etapa preanalítica" · Umbral ≥80%</text>
+
+  <line x1="340" y1="254" x2="340" y2="272" stroke="var(--color-border-secondary)" stroke-width="1.5" marker-end="url(#d-arr)"/>
+
+  <!-- nivel 4: EM -->
+  <rect x="60" y="272" width="560" height="60" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.5"/>
+  <text x="340" y="292" text-anchor="middle" font-size="14" fill="#633806" font-weight="500">ELEMENTOS MEDIBLES (EM)</text>
+  <text x="340" y="310" text-anchor="middle" font-size="11" fill="#BA7517">Requisitos específicos verificados · Resultado dicotómico (Cumple / No cumple) por punto de verificación</text>
+  <text x="340" y="324" text-anchor="middle" font-size="10" fill="var(--color-text-tertiary)">Ej: "Se describe en documento institucional… criterios de rechazo" · "Se ha definido indicador y umbral" · "Existe constancia de evaluación periódica"</text>
+
+  <line x1="340" y1="332" x2="340" y2="350" stroke="var(--color-border-secondary)" stroke-width="1.5" marker-end="url(#d-arr)"/>
+
+  <!-- nivel 5: PV -->
+  <rect x="14" y="350" width="652" height="54" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="0.5"/>
+  <text x="340" y="369" text-anchor="middle" font-size="13" fill="#711B0B" font-weight="500">PUNTOS DE VERIFICACIÓN (PV)</text>
+  <text x="340" y="387" text-anchor="middle" font-size="11" fill="#993C1D">Lugares físicos donde el evaluador constata el EM · Dicotómico por punto · Acumula puntaje</text>
+  <text x="340" y="400" text-anchor="middle" font-size="10" fill="var(--color-text-tertiary)">Dirección · Recepción · Macroscopía · Lab. Técnica · Microscopía · Secretaría</text>
+</svg>
+
+  <div class="g2" style="margin-top:8px">
+    <div class="card">
+      <div class="lbl">La lógica del sistema en una frase</div>
+      <p>El ámbito define <span class="hl">qué</span> se quiere lograr (política pública). El componente dice <span class="hl">en qué aspecto</span>. La característica dice <span class="hl">qué debe existir o hacerse</span>. Los elementos medibles dicen <span class="hl">cómo se verifica</span>. Los puntos de verificación dicen <span class="hl">dónde</span> se verifica. El evaluador hace la ruta: ámbito → característica → EM → PV.</p>
+    </div>
+    <div class="card">
+      <div class="lbl">El Manual APA en números</div>
+      <ul>
+        <li><span class="hl">9 ámbitos</span> aplicables a LAP y Citología</li>
+        <li><span class="hl">26 características</span> en total</li>
+        <li><span class="hl">83 verificadores</span> (elementos medibles)</li>
+        <li><span class="hl">120 puntos</span> posibles en total</li>
+        <li>Resultado dicotómico por EM por PV: cumple o no cumple</li>
+        <li>El puntaje final es (puntos cumplidos / puntos posibles) × 100</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ÁMBITOS -->
+<div class="panel" id="panel-ambitos">
+  <div class="hdr">
+    <div class="hdr-icon" style="background:#EEEDFE">🗂️</div>
+    <div>
+      <div class="hdr-title">Los 9 ámbitos del Manual APA — tabla completa</div>
+      <div class="hdr-sub">Cada ámbito con sus características, verificadores, puntos totales y umbral de cumplimiento · Fuente: Estándar de Acreditación LAP · TM Andrés Corbacho Moya</div>
+    </div>
+  </div>
+
+  <div style="overflow-x:auto;margin-bottom:12px">
+  <table class="amb-table">
+    <thead>
+      <tr>
+        <th>Ámbito</th><th>Código</th><th>Característica</th><th>Verif.</th><th>PV</th><th>Puntos</th><th>Umbral</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background:var(--color-background-secondary)">
+        <td colspan="7" style="font-size:11px;font-weight:500;color:var(--color-text-secondary);padding:6px 10px">DP — RESPETO A LA DIGNIDAD DEL PACIENTE</td>
+      </tr>
+      <tr><td>Dignidad del Paciente</td><td class="codigo">DP 1.1</td><td>Trato digno</td><td>1</td><td>1</td><td class="pts">1</td><td class="u100">100%</td></tr>
+      <tr><td></td><td class="codigo">DP 1.2</td><td>Gestión de reclamos</td><td>3</td><td>2</td><td class="pts">3</td><td class="u100">100%</td></tr>
+      <tr><td></td><td class="codigo">DP 2.1</td><td>Consentimiento informado</td><td>2</td><td>1</td><td class="pts">2</td><td class="u100">100%</td></tr>
+      <tr style="background:var(--color-background-secondary)">
+        <td colspan="7" style="font-size:11px;font-weight:500;color:var(--color-text-secondary);padding:6px 10px">CAL — GESTIÓN DE LA CALIDAD</td>
+      </tr>
+      <tr><td>Gestión de la Calidad</td><td class="codigo">CAL 1.1</td><td>Política y programa de calidad</td><td>4</td><td>1</td><td class="pts">4</td><td class="u100">100%</td></tr>
+      <tr style="background:var(--color-background-secondary)">
+        <td colspan="7" style="font-size:11px;font-weight:500;color:var(--color-text-secondary);padding:6px 10px">GP — GESTIÓN DE PROCESOS</td>
+      </tr>
+      <tr><td>Gestión de Procesos</td><td class="codigo">GP 1.1</td><td>Trazabilidad biopsias y citologías</td><td>3</td><td>6</td><td class="pts">16</td><td class="uvar">≥75%</td></tr>
+      <tr><td></td><td class="codigo">GP 1.2</td><td>Etapa preanalítica</td><td>3</td><td>3</td><td class="pts">5</td><td class="uvar">≥80%</td></tr>
+      <tr><td></td><td class="codigo">GP 1.3</td><td>Etapas analítica y postanalítica</td><td>3</td><td>4</td><td class="pts">6</td><td class="uvar">≥80%</td></tr>
+      <tr><td></td><td class="codigo">GP 1.4</td><td>Control de calidad externo / PEEC</td><td>4</td><td>1</td><td class="pts">4</td><td class="uvar">≥75%</td></tr>
+      <tr><td></td><td class="codigo">GP 1.5</td><td>Bioseguridad en todas las etapas</td><td>3</td><td>4</td><td class="pts">11</td><td class="uvar">≥80%</td></tr>
+      <tr><td></td><td class="codigo">GP 2.1</td><td>Prevención de eventos adversos</td><td>3</td><td>5</td><td class="pts">7</td><td class="uvar">≥80%</td></tr>
+      <tr><td></td><td class="codigo">GP 2.2</td><td>Vigilancia de eventos adversos</td><td>3</td><td>1</td><td class="pts">3</td><td class="uvar">≥66%</td></tr>
+      <tr style="background:var(--color-background-secondary)">
+        <td colspan="7" style="font-size:11px;font-weight:500;color:var(--color-text-secondary);padding:6px 10px">AOC — ACCESO, OPORTUNIDAD Y CONTINUIDAD · RH — RECURSOS HUMANOS · REG — REGISTROS</td>
+      </tr>
+      <tr><td>AOC</td><td class="codigo">AOC 1.3</td><td>Notificación resultados críticos</td><td>4</td><td>1</td><td class="pts">4</td><td class="uvar">≥75%</td></tr>
+      <tr><td>RH</td><td class="codigo">RH 1.1</td><td>Credenciales del personal</td><td>11</td><td>1</td><td class="pts">11</td><td class="uvar">≥80%</td></tr>
+      <tr><td></td><td class="codigo">RH 1.2</td><td>Supervisión del personal</td><td>3</td><td>1</td><td class="pts">3</td><td class="u100">100%</td></tr>
+      <tr><td></td><td class="codigo">RH 2.1</td><td>Inducción del personal</td><td>2</td><td>1</td><td class="pts">2</td><td class="u100">100%</td></tr>
+      <tr><td></td><td class="codigo">RH 3.1</td><td>Competencias del personal</td><td>3</td><td>1</td><td class="pts">3</td><td class="u100">100%</td></tr>
+      <tr><td></td><td class="codigo">RH 3.2</td><td>Accidentes biológicos</td><td>4</td><td>5</td><td class="pts">11</td><td class="uvar">≥75%</td></tr>
+      <tr><td>REG</td><td class="codigo">REG 1.1</td><td>Fichas / registros clínicos</td><td>2</td><td>1</td><td class="pts">2</td><td class="u100">100%</td></tr>
+      <tr><td></td><td class="codigo">REG 1.2</td><td>Confidencialidad registros</td><td>2</td><td>2</td><td class="pts">2</td><td class="u100">100%</td></tr>
+      <tr style="background:var(--color-background-secondary)">
+        <td colspan="7" style="font-size:11px;font-weight:500;color:var(--color-text-secondary);padding:6px 10px">EQ — EQUIPAMIENTO · INS — INSTALACIONES · APA — SERVICIO DE APOYO</td>
+      </tr>
+      <tr><td>EQ</td><td class="codigo">EQ 1.1</td><td>Registro y mantención de equipos</td><td>2</td><td>1</td><td class="pts">2</td><td class="u100">100%</td></tr>
+      <tr><td></td><td class="codigo">EQ 1.2</td><td>Equipos con alertas de seguridad</td><td>2</td><td>1</td><td class="pts">2</td><td class="u50">50%</td></tr>
+      <tr><td></td><td class="codigo">EQ 2.1</td><td>Mantención preventiva de equipos</td><td>3</td><td>1</td><td class="pts">3</td><td class="u100">100%</td></tr>
+      <tr><td>INS</td><td class="codigo">INS 1.1</td><td>Seguridad de instalaciones</td><td>3</td><td>2</td><td class="pts">3</td><td class="u100">100%</td></tr>
+      <tr><td></td><td class="codigo">INS 2.1</td><td>Plan de emergencia y evacuación</td><td>4</td><td>2</td><td class="pts">4</td><td class="uvar">≥75%</td></tr>
+      <tr><td></td><td class="codigo">INS 2.2</td><td>Señalética de evacuación</td><td>2</td><td>2</td><td class="pts">2</td><td class="u100">100%</td></tr>
+      <tr><td></td><td class="codigo">INS 3.1</td><td>Mantención preventiva instalaciones</td><td>3</td><td>1</td><td class="pts">3</td><td class="u100">100%</td></tr>
+      <tr><td>APA</td><td class="codigo">APA 1.1</td><td>Compra de prestaciones a terceros</td><td>1</td><td>1</td><td class="pts">1</td><td class="u100">100%</td></tr>
+      <tr style="background:var(--color-background-secondary);font-weight:500">
+        <td colspan="5" style="padding:8px 10px;font-size:12px;color:var(--color-text-primary)">TOTAL</td>
+        <td class="pts" style="font-size:13px">120</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="lbl">Umbrales 100% — características obligatorias</div>
+      <p>DP 1.1, DP 1.2, DP 2.1, CAL 1.1, RH 1.2, RH 2.1, RH 3.1, REG 1.1, REG 1.2, EQ 1.1, EQ 2.1, INS 1.1, INS 2.2, INS 3.1, APA 1.1. <span class="hl">Un solo elemento medible incumplido en cualquiera de estas características = 0% en esa característica = incumplimiento de la acreditación.</span></p>
+    </div>
+    <div class="card">
+      <div class="lbl">Umbrales variables — porcentaje mínimo de puntos</div>
+      <p>GP 1.1 (≥75%), GP 1.2 (≥80%), GP 1.3 (≥80%), GP 1.4 (≥75%), GP 1.5 (≥80%), GP 2.1 (≥80%), GP 2.2 (≥66%), AOC 1.3 (≥75%), RH 1.1 (≥80%), RH 3.2 (≥75%), EQ 1.2 (≥50%), INS 2.1 (≥75%). <span class="hl">Pueden tener algunos EM incumplidos y aun así cumplir la característica.</span></p>
+    </div>
+  </div>
+</div>
+
+<!-- ELEMENTOS MEDIBLES -->
+<div class="panel" id="panel-em">
+  <div class="hdr">
+    <div class="hdr-icon" style="background:#FAEEDA">✅</div>
+    <div>
+      <div class="hdr-title">Los 5 tipos de elementos medibles — la "fórmula estándar"</div>
+      <div class="hdr-sub">El Manual APA estructura sus EM de forma casi siempre igual · Reconocer el patrón permite saber exactamente qué preparar para cada característica</div>
+    </div>
+  </div>
+
+  <div class="em-grid">
+    <div class="em-row">
+      <div class="em-num" style="background:#EEEDFE;color:#534AB7">1</div>
+      <div class="em-content">
+        <div class="em-formula">Se ha designado el responsable de… [tema de la característica]</div>
+        <div class="em-detail">Verifica que exista una designación formal de la persona a cargo. Debe ser formalizada por la dirección. Se constata en Dirección o Gerencia. Ej: "Se ha designado el responsable del programa de calidad" → CAL 1.1.</div>
+      </div>
+    </div>
+    <div class="em-row">
+      <div class="em-num" style="background:#E6F1FB;color:#185FA5">2</div>
+      <div class="em-content">
+        <div class="em-formula">Se describe en un documento de carácter institucional… [atributos específicos] y se han definido los responsables de su aplicación</div>
+        <div class="em-detail">El EM más exigente y el más frecuente. Verifica: (a) que el documento existe, (b) que tiene carácter institucional (aprobado por la máxima autoridad), (c) que contiene todos los atributos enumerados en el EM, (d) que está disponible en los puntos de verificación correspondientes, (e) que los responsables están definidos. Si falta un atributo, el EM no cumple.</div>
+      </div>
+    </div>
+    <div class="em-row">
+      <div class="em-num" style="background:#E1F5EE;color:#0F6E56">3</div>
+      <div class="em-content">
+        <div class="em-formula">Se ha definido indicador y umbral de cumplimiento</div>
+        <div class="em-detail">Verifica que exista un indicador pertinente a la característica con fórmula matemática y umbral definidos. El evaluador verifica: título, fórmula, umbral y pertinencia. Sin fórmula o sin umbral = no cumple. Para GP 1.3: se piden 2 indicadores, al menos 1 de QC interno.</div>
+      </div>
+    </div>
+    <div class="em-row">
+      <div class="em-num" style="background:#FAEEDA;color:#BA7517">4</div>
+      <div class="em-content">
+        <div class="em-formula">Existe constancia de que se ha realizado la evaluación periódica</div>
+        <div class="em-detail">Verifica que hay datos del indicador en el período retrospectivo requerido (6 meses / 3 años), con la periodicidad definida, disponibles en los puntos de verificación. No basta tener el indicador — hay que tener los resultados históricos. El evaluador puede verificar las fuentes primarias.</div>
+      </div>
+    </div>
+    <div class="em-row">
+      <div class="em-num" style="background:#FAECE7;color:#993C1D">5</div>
+      <div class="em-content">
+        <div class="em-formula">Se constata el cumplimiento de… [lo que se practica en terreno]</div>
+        <div class="em-detail">Verificación directa en terreno de una práctica concreta. No basta con el documento — el evaluador observa, entrevista al personal o verifica registros en tiempo real. Ej: "Se constata la trazabilidad de las biopsias" → el evaluador toma casos y sigue su recorrido en el sistema.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="iso-box">
+    <div class="il">📌 El patrón EM 1+2+3+4 es la fórmula estándar de la mayoría de características</div>
+    <p>Cuando una característica sigue el patrón completo, implica preparar: (1) designación formal del responsable + (2) documento institucional con todos los atributos listados + (3) ficha de indicador con fórmula y umbral + (4) registro histórico de evaluaciones periódicas. Las características con umbral 100% generalmente incluyen solo los tipos 1 y 2. Reconocer el patrón te permite chequear sistemáticamente sin leer el manual línea a línea.</p>
+  </div>
+</div>
+
+<!-- PUNTOS DE VERIFICACIÓN -->
+<div class="panel" id="panel-pv">
+  <div class="hdr">
+    <div class="hdr-icon" style="background:#FAECE7">📍</div>
+    <div>
+      <div class="hdr-title">Puntos de verificación — dónde busca el evaluador</div>
+      <div class="hdr-sub">El evaluador recorre físicamente cada punto de verificación · El mismo EM puede ser cumplido en un PV y no cumplido en otro · El puntaje se acumula PV por PV</div>
+    </div>
+  </div>
+
+  <p class="slbl">Puntos de verificación del Manual APA para LAP</p>
+  <div class="pv-chips">
+    <span class="pv-chip active">Dirección o Gerencia del Prestador</span>
+    <span class="pv-chip active">Recepción de Muestras</span>
+    <span class="pv-chip active">Macroscopía</span>
+    <span class="pv-chip active">Laboratorio de Técnica</span>
+    <span class="pv-chip active">Microscopía</span>
+    <span class="pv-chip active">Secretaría</span>
+    <span class="pv-chip active">Bodega de Reactivos</span>
+    <span class="pv-chip active">General (instalaciones)</span>
+  </div>
+
+  <div class="cotejo">
+    <div class="cotejo-hdr">
+      <div class="cotejo-title">Ejemplo: Pauta de Cotejo GP 1.1 — Trazabilidad de biopsias y citologías</div>
+      <div class="cotejo-sub">Umbral ≥75% · 3 verificadores · 6 puntos de verificación · 16 puntos posibles</div>
+    </div>
+    <div style="overflow-x:auto">
+    <table class="cotejo-table">
+      <thead>
+        <tr>
+          <th style="text-align:left;min-width:240px">Elemento Medible</th>
+          <th>Dirección</th>
+          <th>Recepción</th>
+          <th>Macros.</th>
+          <th>Lab. Técnica</th>
+          <th>Micros.</th>
+          <th>Secretaría</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="em">Se describe en documento de carácter institucional los procedimientos de recepción, registro y entrega que aseguren la trazabilidad</td>
+          <td class="cumple">✓</td>
+          <td class="cumple">✓</td>
+          <td class="cumple">✓</td>
+          <td class="cumple">✓</td>
+          <td class="cumple">✓</td>
+          <td class="cumple">✓</td>
+        </tr>
+        <tr>
+          <td class="em">Se han definido los responsables de su aplicación</td>
+          <td class="cumple">✓</td>
+          <td class="cumple">✓</td>
+          <td class="nocumple">✗</td>
+          <td class="cumple">✓</td>
+          <td class="cumple">✓</td>
+          <td class="nap">N/A</td>
+        </tr>
+        <tr>
+          <td class="em">Se constata la trazabilidad de las biopsias</td>
+          <td class="nap">N/A</td>
+          <td class="cumple">✓</td>
+          <td class="cumple">✓</td>
+          <td class="cumple">✓</td>
+          <td class="cumple">✓</td>
+          <td class="nap">N/A</td>
+        </tr>
+        <tr>
+          <td class="em">Se constata la trazabilidad de las citologías</td>
+          <td class="nap">N/A</td>
+          <td class="cumple">✓</td>
+          <td class="nap">N/A</td>
+          <td class="nap">N/A</td>
+          <td class="cumple">✓</td>
+          <td class="nap">N/A</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="lbl">Cómo se acumulan los puntos</div>
+      <p>Cada celda de la pauta (EM × PV) es un punto posible. Si el EM cumple en ese PV → 1 punto. Si no cumple → 0 puntos. Las celdas en blanco (aplicables) son puntos posibles. Las celdas "N/A" no suman ni restan. El puntaje de la característica = (puntos cumplidos / puntos posibles) × 100.</p>
+    </div>
+    <div class="card">
+      <div class="lbl">Por qué el mismo documento debe estar en múltiples PV</div>
+      <p>El Manual es explícito: si la característica aplica a varios PV, el documento debe estar disponible en todos ellos — no solo en Dirección. Un POE de recepción de muestras que solo está en la Dirección y no en el área de Recepción incumple el EM en el PV de Recepción, aunque el documento sea excelente.</p>
+    </div>
+  </div>
+</div>
+
+<!-- PUNTAJE -->
+<div class="panel" id="panel-puntaje">
+  <div class="hdr">
+    <div class="hdr-icon" style="background:#E1F5EE">🔢</div>
+    <div>
+      <div class="hdr-title">Cómo se calcula el puntaje de cumplimiento</div>
+      <div class="hdr-sub">Fórmula del porcentaje de cumplimiento · Diferencia entre umbral de la característica y acreditación global · Cómo leer el resultado final</div>
+    </div>
+  </div>
+
+  <div class="calc-grid">
+    <div class="calc-card">
+      <div class="calc-num" style="color:#185FA5">120</div>
+      <div class="calc-lbl">Puntos totales posibles en el Manual APA para LAP<br>(83 verificadores × N puntos de verificación)</div>
+    </div>
+    <div class="calc-card">
+      <div class="calc-num" style="color:#0F6E56">83</div>
+      <div class="calc-lbl">Total de verificadores (elementos medibles)<br>en el estándar AP completo</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:10px">
+    <div class="lbl">Fórmula de cumplimiento de una característica</div>
+    <p style="font-family:var(--font-mono);font-size:13px;background:var(--color-background-secondary);padding:10px;border-radius:var(--border-radius-md);margin-top:6px">% cumplimiento = (Puntos cumplidos / Puntos posibles aplicables) × 100</p>
+    <p style="margin-top:8px">El resultado se compara con el <span class="hl">umbral de la característica</span>. Si el resultado ≥ umbral → característica CUMPLE. Si &lt; umbral → NO CUMPLE. Para las de umbral 100%, cualquier punto incumplido → NO CUMPLE.</p>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="lbl">Criterio de acreditación global</div>
+      <p>El laboratorio es acreditado si <span class="hl">todas las características cumplen su umbral individual</span>. No hay un promedio global — es por característica. Basta con que una característica no cumpla su umbral para que haya incumplimiento, aunque el puntaje total sea alto. Las características de umbral 100% son "todo o nada".</p>
+    </div>
+    <div class="card">
+      <div class="lbl">Lo que no baja el puntaje: las N/A</div>
+      <p>Cuando un EM no aplica a un PV (porque el laboratorio no tiene ese servicio o proceso), el evaluador marca "N/A" en esa celda. Esa celda no es punto posible, por lo que no perjudica el puntaje. El laboratorio debe <span class="hl">justificar fundadamente</span> cada N/A que declare — las N/A injustificadas se marcan como "No cumple".</p>
+    </div>
+  </div>
+
+  <div class="warn-box">
+    <div class="wl">⚠️ El error estratégico más costoso: ignorar las características de umbral 100%</div>
+    <p>Muchos laboratorios concentran su preparación en el Ámbito GP (el más técnico y relacionado con AP) y descuidan características de umbral 100% como EQ 1.1 (registro de equipos), EQ 2.1 (mantención preventiva), INS 3.1 (mantención de instalaciones) o REG 1.2 (confidencialidad de registros). Un incumplimiento en cualquiera de estas es automáticamente un incumplimiento de la característica — aunque el laboratorio tenga un sistema de calidad excelente en GP. La preparación debe ser sistemática, ámbito por ámbito.</p>
+  </div>
+</div>
+
+<!-- CIRCULARES -->
+<div class="panel" id="panel-circulares">
+  <div class="hdr">
+    <div class="hdr-icon" style="background:#FBEAF0">📜</div>
+    <div>
+      <div class="hdr-title">El Compendio de Circulares — la capa de interpretación</div>
+      <div class="hdr-sub">Versión N°6 aprobada por Resolución IP/N°7601 de diciembre 2024 · Instrucciones vinculantes para las Entidades Acreditadoras · Parte integrante del sistema</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:10px">
+    <div class="lbl">¿Qué es el Compendio de Circulares y por qué importa?</div>
+    <p>El Manual APA es el texto base, pero su interpretación en terreno está regulada por el Compendio de Circulares de la Superintendencia de Salud. Las circulares son <span class="hl">instrucciones vinculantes para las Entidades Acreditadoras</span> que aclaran cómo constatar características ambiguas, cómo aplicar criterios en situaciones no previstas en el manual, y cómo resolver discrepancias interpretativas. El evaluador está obligado a seguir las circulares — el laboratorio también debe conocerlas.</p>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="lbl">Circulares relevantes para LAP — ejemplos concretos</div>
+      <ul>
+        <li><span class="hl">N°20:</span> Define qué es "documento de carácter institucional" — requiere aprobación explícita de la máxima autoridad del prestador</li>
+        <li><span class="hl">N°263:</span> GP 1.1 — aclara que la trazabilidad debe abarcarse en todas las fases: preanalítica, analítica y postanalítica (no solo en recepción)</li>
+        <li><span class="hl">N°264:</span> RH 3.2 — aclara que el documento debe describir procedimiento de manejo de accidentes por exposición a riesgos biológicos Y sustancias peligrosas (formaldehído, xilol)</li>
+        <li>Actualizaciones sobre retrospectividad de indicadores y criterios de evaluación periódica</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="lbl">Cómo usarlo en la preparación para acreditación</div>
+      <ul>
+        <li>Descargar la versión vigente del Compendio desde el sitio de la Superintendencia de Salud</li>
+        <li>Para cada característica relevante de tu laboratorio, buscar si existe circular asociada</li>
+        <li>Las circulares modifican la interpretación del EM — pueden ampliar o precisar lo exigido</li>
+        <li>El evaluador verifica según el Compendio vigente a la fecha de la evaluación</li>
+        <li>Versión N°6 es la vigente al cierre del curso (dic 2024)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="ap-box">
+    <div class="al">📌 Circular N°20 — la más importante para el sistema documental</div>
+    <p>Define que "documento de carácter institucional" es aquel que cuenta con <span class="hl">aprobación explícita de la máxima autoridad directiva del prestador</span>. Esto significa que un POE firmado solo por el Encargado de Calidad o el jefe de sección NO es documento de carácter institucional. Debe tener la firma del Director Técnico del laboratorio (o director del establecimiento). Esta circular afecta directamente a todos los EM del tipo 2 ("se describe en documento de carácter institucional…").</p>
+  </div>
+</div>
+
+<!-- CÓMO LEER LA PAUTA -->
+<div class="panel" id="panel-lectura">
+  <div class="hdr">
+    <div class="hdr-icon" style="background:#E6F1FB">🔭</div>
+    <div>
+      <div class="hdr-title">Cómo leer la Pauta de Cotejo — metodología práctica</div>
+      <div class="hdr-sub">5 pasos para trabajar sistemáticamente el Manual APA en la autoevaluación · Del ámbito al documento concreto que debes preparar</div>
+    </div>
+  </div>
+
+  <div class="em-grid">
+    <div class="em-row">
+      <div class="em-num" style="background:#534AB7;color:white">1</div>
+      <div class="em-content">
+        <div class="em-formula">Identifica el ámbito y la característica</div>
+        <div class="em-detail">Lee el encabezado: código (GP 1.2), nombre de la característica, umbral de cumplimiento y puntos de verificación donde aplica. Anota si es umbral 100% (cero tolerancia) o variable. Esto define la prioridad: las 100% van primero.</div>
+      </div>
+    </div>
+    <div class="em-row">
+      <div class="em-num" style="background:#185FA5;color:white">2</div>
+      <div class="em-content">
+        <div class="em-formula">Lee cada EM e identifica su tipo (1 al 5)</div>
+        <div class="em-detail">¿Es una designación (tipo 1)? → Verifica que la persona esté formalmente designada. ¿Es documento (tipo 2)? → Verifica que el documento existe, está aprobado institucionalmente y contiene TODOS los atributos listados. ¿Es indicador (tipo 3)? → Verifica que tienes ficha de indicador con fórmula y umbral. ¿Es evaluación periódica (tipo 4)? → Verifica que tienes registros históricos.</div>
+      </div>
+    </div>
+    <div class="em-row">
+      <div class="em-num" style="background:#0F6E56;color:white">3</div>
+      <div class="em-content">
+        <div class="em-formula">Mapea los atributos del documento exigido</div>
+        <div class="em-detail">Para los EM tipo 2, el manual lista los atributos que debe contener el documento. Créate un checklist: ¿el POE de recepción incluye (a) datos de la solicitud, (b) criterios de obtención, (c) conservación y rotulación, (d) transporte triple embalaje, (e) criterios de rechazo? Si falta uno, el EM no cumple aunque el documento exista.</div>
+      </div>
+    </div>
+    <div class="em-row">
+      <div class="em-num" style="background:#BA7517;color:white">4</div>
+      <div class="em-content">
+        <div class="em-formula">Verifica disponibilidad en los puntos de verificación</div>
+        <div class="em-detail">Recorre físicamente los PV que indica la pauta. El documento debe estar accesible (papel o digital) en cada PV marcado. Si GP 1.2 exige el documento en Dirección + Recepción + Secretaría, debe estar en los tres. Hazlo como un ejercicio de simulación antes de la visita del evaluador.</div>
+      </div>
+    </div>
+    <div class="em-row">
+      <div class="em-num" style="background:#993556;color:white">5</div>
+      <div class="em-content">
+        <div class="em-formula">Calcula tu porcentaje de cumplimiento estimado</div>
+        <div class="em-detail">Construye tu propia pauta de cotejo de autoevaluación: marca cumple/no cumple en cada celda, suma los puntos cumplidos, divídelos por los posibles y compara con el umbral. Si estás bajo el umbral, aplica la metodología del análisis de causas (3.5) para corregir antes de la visita. Actualiza la autoevaluación mensualmente.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ap-box">
+    <div class="al">🎯 La autoevaluación como herramienta de preparación — el Informe de Autoevaluación</div>
+    <p>El proceso de acreditación exige que el laboratorio presente un <span class="hl">Informe de Autoevaluación</span> antes de la visita en terreno. Este informe sigue la estructura del Manual APA ámbito por ámbito, declarando el porcentaje de cumplimiento de cada característica, la metodología de evaluación utilizada y las medidas de aseguramiento o mejoramiento implementadas. Es el documento que muestra al evaluador que el laboratorio se conoce a sí mismo. Dominarlo implica haber recorrido la Pauta de Cotejo completa, característica por característica, con los pasos que acabamos de ver.</p>
+  </div>
+</div>
+
+</div>
+<script>
+function show(id){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nbtn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  const m={'arquitectura':0,'ambitos':1,'em':2,'pv':3,'puntaje':4,'circulares':5,'lectura':6};
+  document.querySelectorAll('.nbtn')[m[id]].classList.add('active');
+}
+</script>
